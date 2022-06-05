@@ -1,14 +1,15 @@
-package com.example.onlineshop.ui
+package com.example.onlineshop.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     lateinit var binding:FragmentHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
