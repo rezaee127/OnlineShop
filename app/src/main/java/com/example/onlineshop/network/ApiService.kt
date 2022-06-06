@@ -1,13 +1,14 @@
 package com.example.onlineshop.network
 
-import com.example.onlineshop.model.Products
+
+import com.example.onlineshop.model.ProductsItem
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 
 
-private const val CONSUMER_KEY="ck_6b55bb0ff3ea0b7bf4c0aa879af50061964ce38f"
-private const val CONSUMER_SECRET="cs_9b09e5125acffdd27bbe72843ced49db5f8bffb4"
+private const val CONSUMER_KEY="ck_35f6bcc458eed45f8af8716c18772621ad139e13"
+private const val CONSUMER_SECRET="cs_710d145f6e04fc53ad917475459e14bcda2c9630"
 const val BASE_URL = "https://woocommerce.maktabsharif.ir/wp-json/wc/v3/"
 
 
@@ -17,10 +18,31 @@ const val BASE_URL = "https://woocommerce.maktabsharif.ir/wp-json/wc/v3/"
 interface ApiService {
 
     @GET("products")
-    suspend fun getProducts(
+    suspend fun getProductsOrderByDate(
+        @Query("per_page")perPage:Int=20,
+        @Query("orderby")order:String="date",
         @Query("consumer_key")consumerKey:String= CONSUMER_KEY,
         @Query("consumer_secret")consumerSecret:String= CONSUMER_SECRET
-    ): Products
+    ): List<ProductsItem>
+
+
+    @GET("products")
+    suspend fun getProductsOrderByPopularity(
+        @Query("per_page")perPage:Int=20,
+        @Query("orderby")order:String="popularity",
+        @Query("consumer_key")consumerKey:String= CONSUMER_KEY,
+        @Query("consumer_secret")consumerSecret:String= CONSUMER_SECRET
+    ): List<ProductsItem>
+
+
+    @GET("products")
+    suspend fun getProductsOrderByRating(
+        @Query("per_page")perPage:Int=20,
+        @Query("orderby")order:String="rating",
+        @Query("consumer_key")consumerKey:String= CONSUMER_KEY,
+        @Query("consumer_secret")consumerSecret:String= CONSUMER_SECRET
+    ): List<ProductsItem>
+
 
 //    @GET("movie/popular")
 //    suspend fun getPopularList(@Query("api_key")api:String=API_KEY): Popular
