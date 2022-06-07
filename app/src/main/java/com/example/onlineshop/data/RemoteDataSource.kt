@@ -1,5 +1,6 @@
 package com.example.onlineshop.data
 
+import com.example.onlineshop.model.CategoriesItem
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.network.ApiService
 import javax.inject.Inject
@@ -22,4 +23,9 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
     suspend fun getProductById(id:Int): ProductsItem{
         return apiService.getProductById(id)
     }
+
+    suspend fun getCategories(): List<CategoriesItem>{
+        return  apiService.getCategories()
+    }
+
 }

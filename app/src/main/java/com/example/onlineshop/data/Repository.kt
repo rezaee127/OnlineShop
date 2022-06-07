@@ -1,6 +1,7 @@
 package com.example.onlineshop.data
 
 
+import com.example.onlineshop.model.CategoriesItem
 import com.example.onlineshop.model.ProductsItem
 import javax.inject.Inject
 
@@ -21,4 +22,9 @@ class Repository @Inject constructor(/*private val localDataSource: LocalDataSou
     suspend fun getProductById(id:Int): ProductsItem{
         return remoteDataSource.getProductById(id)
     }
+
+    suspend fun getCategories(): List<CategoriesItem>{
+        return  remoteDataSource.getCategories()
+    }
+
 }
