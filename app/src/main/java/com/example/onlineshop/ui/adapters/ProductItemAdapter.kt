@@ -14,7 +14,7 @@ import com.example.onlineshop.R
 import com.example.onlineshop.model.ProductsItem
 
 class ProductsItemAdapter(var onClickItem: (Int) -> Unit) :
-    ListAdapter<ProductsItem, ProductsItemAdapter.ViewHolder>(ComingSoonMovieDiffCallback) {
+    ListAdapter<ProductsItem, ProductsItemAdapter.ViewHolder>(ProductsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
         val productRow = view.findViewById<View>(R.id.product_row_item)
@@ -58,7 +58,7 @@ class ProductsItemAdapter(var onClickItem: (Int) -> Unit) :
     }
 
 
-    object ComingSoonMovieDiffCallback : DiffUtil.ItemCallback<ProductsItem>() {
+    object ProductsItemDiffCallback : DiffUtil.ItemCallback<ProductsItem>() {
         override fun areItemsTheSame(oldItem: ProductsItem, newItem: ProductsItem): Boolean {
             return oldItem == newItem
         }
