@@ -26,5 +26,18 @@
         android:id="@+id/categoriesFragment"
         android:name="com.example.onlineshop.ui.categories.CategoriesFragment"
         android:label="fragment_categories"
-        tools:layout="@layout/fragment_categories" />
+        tools:layout="@layout/fragment_categories" >
+        <action
+            android:id="@+id/action_categoriesFragment_to_categoryProductListFragment"
+            app:destination="@id/categoryProductListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryProductListFragment"
+        android:name="com.example.onlineshop.ui.categoryProductList.CategoryProductListFragment"
+        android:label="fragment_category_product_list"
+        tools:layout="@layout/fragment_category_product_list" >
+        <action
+            android:id="@+id/action_categoryProductListFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 </navigation>

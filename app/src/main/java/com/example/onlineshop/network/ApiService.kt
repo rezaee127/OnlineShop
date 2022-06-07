@@ -63,5 +63,13 @@ interface ApiService {
     ): List<CategoriesItem>
 
 
+    @GET("products")
+    suspend fun getProductsListInEachCategory(
+        @Query("category")category:Int,
+        @Query("per_page")perPage:Int=30,
+        @Query("consumer_key")consumerKey:String= CONSUMER_KEY,
+        @Query("consumer_secret")consumerSecret:String= CONSUMER_SECRET
+    ):  List<ProductsItem>
+
 
 }

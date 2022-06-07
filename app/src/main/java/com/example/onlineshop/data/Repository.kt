@@ -27,4 +27,8 @@ class Repository @Inject constructor(/*private val localDataSource: LocalDataSou
         return  remoteDataSource.getCategories()
     }
 
+    suspend fun getProductsListInEachCategory(category:Int): List<ProductsItem>{
+        return remoteDataSource.getProductsListInEachCategory(category)
+    }
+
 }

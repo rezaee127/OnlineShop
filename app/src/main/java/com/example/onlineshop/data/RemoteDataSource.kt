@@ -28,4 +28,8 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
         return  apiService.getCategories()
     }
 
+    suspend fun getProductsListInEachCategory(category:Int): List<ProductsItem>{
+        return apiService.getProductsListInEachCategory(category)
+    }
+
 }

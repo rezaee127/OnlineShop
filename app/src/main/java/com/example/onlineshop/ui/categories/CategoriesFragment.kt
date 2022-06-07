@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCategoriesBinding
 import com.example.onlineshop.ui.adapters.CategoriesItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,11 +41,16 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        val adapter=CategoriesItemAdapter{}
+        val adapter=CategoriesItemAdapter{ id -> goToCategoryProductListFragment(id) }
         binding.rvCategories.adapter=adapter
         vModel.listOfCategories.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
+    }
 
+
+    fun goToCategoryProductListFragment(id:Int){
+        val bundle= bundleOf("id" to id)
+        findNavController().navigate(R.id.action_categoriesFragment_to_categoryProductListFragment,bundle)
     }
 }
