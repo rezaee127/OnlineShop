@@ -35,7 +35,9 @@
         <TextView
             android:id="@+id/tv_product_name"
             android:layout_width="100dp"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:lineSpacingMultiplier="1.1"
             android:textSize="12dp"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="@+id/cv"
