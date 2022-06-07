@@ -1,11 +1,12 @@
 package com.example.onlineshop.ui.home
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import com.example.onlineshop.ui.adapters.ProductsItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,11 +15,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     lateinit var binding:FragmentHomeBinding
-    val vModel:HomeFragmentViewModel by viewModels()
+    val vModel:HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initAdapters() {
-        val adapter1=ProductsItemAdapter(){}
+        val adapter1=ProductsItemAdapter{ id -> goToDetailFragment(id) }
         binding.rvLastProduct.adapter=adapter1
 
         vModel.listOfProductsOrderByDate.observe(viewLifecycleOwner){
@@ -46,14 +46,14 @@ class HomeFragment : Fragment() {
 
         }
 
-        val adapter2=ProductsItemAdapter(){}
+        val adapter2=ProductsItemAdapter{ id -> goToDetailFragment(id) }
         binding.rvMostPopular.adapter=adapter2
 
         vModel.listOfProductsOrderByPopularity.observe(viewLifecycleOwner){
             adapter2.submitList(it)
         }
 
-        val adapter3=ProductsItemAdapter(){}
+        val adapter3=ProductsItemAdapter{ id -> goToDetailFragment(id) }
         binding.rvMaxRate.adapter=adapter3
 
         vModel.listOfProductsOrderByRating.observe(viewLifecycleOwner){
@@ -63,4 +63,41 @@ class HomeFragment : Fragment() {
 
     }
 
+    fun goToDetailFragment(id:Int){
+        val bundle= bundleOf("id" to id)
+        findNavController().navigate(R.id.action_homeFragment_to_detailFragment,bundle)
+    }
+
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.action_bar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.category_menu_item -> {
+                findNavController().navigate(R.id.action_homeFragment_to_categoriesFragment)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }
+
+
+//
+//fun Fragment.goToDetailFragment(id:Int, action:Int,vModel:MovieListViewModel){
+//
+//    vModel.getMovieDetail(id).observe(viewLifecycleOwner) {
+//        if(it!=null){
+//            val bundle= bundleOf("id" to id)
+//            findNavController().navigate(action,bundle)
+//        }else
+//            Toast.makeText(requireContext(),"There are no details for this movie", Toast.LENGTH_SHORT).show()
+//    }
+//}

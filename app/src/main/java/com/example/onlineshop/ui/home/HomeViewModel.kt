@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.onlineshop.data.Repository
-import com.example.onlineshop.model.Products
 import com.example.onlineshop.model.ProductsItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +14,7 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeFragmentViewModel @Inject constructor(private val repository: Repository,var app: Application): ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: Repository, var app: Application): ViewModel() {
     var listOfProductsOrderByDate= MutableLiveData<List<ProductsItem>>()
     var listOfProductsOrderByPopularity= MutableLiveData<List<ProductsItem>>()
     var listOfProductsOrderByRating= MutableLiveData<List<ProductsItem>>()
@@ -44,7 +43,7 @@ class HomeFragmentViewModel @Inject constructor(private val repository: Reposito
                 listOfProductsOrderByPopularity.value=repository.getProductsOrderByPopularity()
             }
             catch(e:Exception){
-                Toast.makeText(app.applicationContext,e.message,Toast.LENGTH_SHORT).show()
+                Toast.makeText(app.applicationContext,e.message,Toast.LENGTH_LONG).show()
             }
         }
         return listOfProductsOrderByPopularity
