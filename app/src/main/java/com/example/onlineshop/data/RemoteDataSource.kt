@@ -17,4 +17,9 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
     suspend fun getProductsOrderByRating(): List<ProductsItem>{
         return apiService.getProductsOrderByRating()
     }
+
+
+    suspend fun getProductById(id:Int): ProductsItem{
+        return apiService.getProductById(id)
+    }
 }

@@ -3,6 +3,7 @@ package com.example.onlineshop.network
 
 import com.example.onlineshop.model.ProductsItem
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -42,6 +43,15 @@ interface ApiService {
         @Query("consumer_key")consumerKey:String= CONSUMER_KEY,
         @Query("consumer_secret")consumerSecret:String= CONSUMER_SECRET
     ): List<ProductsItem>
+
+
+
+    @GET("products/{id}")
+    suspend fun getProductById(
+        @Path("id")id:Int,
+        @Query("consumer_key")consumerKey:String= CONSUMER_KEY,
+        @Query("consumer_secret")consumerSecret:String= CONSUMER_SECRET
+    ): ProductsItem
 
 
 //    @GET("movie/popular")

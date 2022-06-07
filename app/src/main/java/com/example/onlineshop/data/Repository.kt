@@ -17,4 +17,8 @@ class Repository @Inject constructor(/*private val localDataSource: LocalDataSou
     suspend fun getProductsOrderByRating(): List<ProductsItem> {
         return remoteDataSource.getProductsOrderByRating()
     }
+
+    suspend fun getProductById(id:Int): ProductsItem{
+        return remoteDataSource.getProductById(id)
+    }
 }
