@@ -22,7 +22,7 @@ class ImageAdapter(): ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallb
             Glide.with(context)
                 .load(image.src)
                 .placeholder(R.drawable.loading)
-                .error(R.drawable.ic_baseline_error_24)
+                .error(R.drawable.ic_baseline_error_outline_24)
                 .fitCenter()
                 //.circleCrop()
                 .into(ivMovie)

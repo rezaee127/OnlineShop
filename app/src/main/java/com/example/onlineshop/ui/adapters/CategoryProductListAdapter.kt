@@ -18,10 +18,10 @@ class CategoryProductListAdapter(var onClickItem: (Int) -> Unit) :
     ListAdapter<ProductsItem, CategoryProductListAdapter.ViewHolder>(ProductsItemAdapter.ProductsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
-        val productsItemRow = view.findViewById<View>(R.id.categories_row_item)
-        val ivProductsItem = view.findViewById<ImageView>(R.id.iv_categories_image)
-        val tvProductsItemName = view.findViewById<TextView>(R.id.tv_categories_name)
-        val tvProductsPrice = view.findViewById<TextView>(R.id.tv_categories_count)
+        val productsItemRow = view.findViewById<View>(R.id.category_list_row_item)
+        val ivProductsItem = view.findViewById<ImageView>(R.id.iv_category_image)
+        val tvProductsItemName = view.findViewById<TextView>(R.id.tv_category_name)
+        val tvProductsPrice = view.findViewById<TextView>(R.id.tv_category_count)
 
 
 
@@ -32,12 +32,10 @@ class CategoryProductListAdapter(var onClickItem: (Int) -> Unit) :
                 onClickItem(productsItem.id)
             }
 
-            ivProductsItem.setBackgroundResource(R.drawable.avatar_1)
             Glide.with(context)
                 .load(productsItem.images[0].src)
                 .placeholder(R.drawable.loading)
-                .error(R.drawable.ic_baseline_error_24)
-                //.override(100, 80)
+                .error(R.drawable.ic_baseline_error_outline_24)
                 .fitCenter()
                 //.circleCrop()
                 .into(ivProductsItem)
@@ -48,7 +46,7 @@ class CategoryProductListAdapter(var onClickItem: (Int) -> Unit) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
 
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.categories_row_item, viewGroup, false)
+            .inflate(R.layout.category_list_row_item, viewGroup, false)
 
         return ViewHolder(view, viewGroup.context)
     }
