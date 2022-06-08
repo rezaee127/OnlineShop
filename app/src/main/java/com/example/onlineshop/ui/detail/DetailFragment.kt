@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.onlineshop.databinding.FragmentDetailBinding
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.adapters.ImageAdapter
+import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -39,10 +40,22 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkConnectivity()
         if(savedInstanceState == null){
             pagerSnapHelper = PagerSnapHelper()
         }
+
         initView()
+    }
+
+    private fun checkConnectivity() {
+        vModel.status.observe(viewLifecycleOwner){
+            if(it == ApiStatus.ERROR){
+                binding.ivError.visibility=View.VISIBLE
+                binding.svDetail.visibility=View.GONE
+                binding.clDetail.visibility=View.GONE
+            }
+        }
     }
 
     private fun initView() {

@@ -1,6 +1,7 @@
 package com.example.onlineshop.ui.home
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,11 +14,14 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
+enum class ApiStatus { LOADING, DONE, ERROR }
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: Repository, var app: Application): ViewModel() {
     var listOfProductsOrderByDate= MutableLiveData<List<ProductsItem>>()
     var listOfProductsOrderByPopularity= MutableLiveData<List<ProductsItem>>()
     var listOfProductsOrderByRating= MutableLiveData<List<ProductsItem>>()
+    var status=MutableLiveData(ApiStatus.LOADING)
 
     init {
         getProductsOrderByDate()
@@ -26,12 +30,15 @@ class HomeViewModel @Inject constructor(private val repository: Repository, var 
     }
 
     private fun getProductsOrderByDate(): LiveData<List<ProductsItem>> {
+
         viewModelScope.launch {
             try{
                 listOfProductsOrderByDate.value=repository.getProductsOrderByDate()
+                status.value = ApiStatus.DONE
             }
             catch(e:Exception){
-                Toast.makeText(app.applicationContext,e.message,Toast.LENGTH_SHORT).show()
+                Toast.makeText(app.applicationContext,"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
+                status.value = ApiStatus.ERROR
             }
         }
         return listOfProductsOrderByDate
@@ -43,7 +50,6 @@ class HomeViewModel @Inject constructor(private val repository: Repository, var 
                 listOfProductsOrderByPopularity.value=repository.getProductsOrderByPopularity()
             }
             catch(e:Exception){
-                Toast.makeText(app.applicationContext,e.message,Toast.LENGTH_LONG).show()
             }
         }
         return listOfProductsOrderByPopularity
@@ -55,7 +61,6 @@ class HomeViewModel @Inject constructor(private val repository: Repository, var 
                 listOfProductsOrderByRating.value=repository.getProductsOrderByRating()
             }
             catch(e:Exception){
-                Toast.makeText(app.applicationContext,e.message,Toast.LENGTH_SHORT).show()
             }
         }
         return listOfProductsOrderByRating

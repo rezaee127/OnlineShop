@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCategoryProductListBinding
 import com.example.onlineshop.ui.adapters.CategoryProductListAdapter
+import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,9 +35,19 @@ class CategoryProductListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        if(savedInstanceState != null){}
+        checkConnectivity()
         initView()
     }
+
+    private fun checkConnectivity() {
+        vModel.status.observe(viewLifecycleOwner){
+            if(it == ApiStatus.ERROR){
+                binding.ivError.visibility=View.VISIBLE
+            }
+        }
+    }
+
 
     private fun initView() {
         val id=requireArguments().getInt("id")
@@ -44,6 +55,7 @@ class CategoryProductListFragment : Fragment() {
 
         initAdapter()
     }
+
 
     private fun initAdapter() {
         val adapter= CategoryProductListAdapter{ id -> goToDetailFragment(id)}

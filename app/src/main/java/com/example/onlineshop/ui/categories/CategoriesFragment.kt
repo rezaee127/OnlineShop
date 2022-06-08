@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCategoriesBinding
 import com.example.onlineshop.ui.adapters.CategoriesItemAdapter
+import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -36,8 +38,18 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(savedInstanceState != null){}
 
+        checkConnectivity()
         initAdapter()
+    }
+
+    private fun checkConnectivity() {
+        vModel.status.observe(viewLifecycleOwner){
+            if(it == ApiStatus.ERROR){
+                binding.ivError.visibility=View.VISIBLE
+            }
+        }
     }
 
     private fun initAdapter() {

@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-    lateinit var binding:FragmentHomeBinding
+    lateinit var binding: FragmentHomeBinding
     val vModel:HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +33,19 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        checkConnectivity()
         initAdapters()
+    }
+
+    private fun checkConnectivity() {
+        vModel.status.observe(viewLifecycleOwner){
+            if(it ==ApiStatus.ERROR){
+                binding.ivError.visibility=View.VISIBLE
+                binding.svHomeFragment.visibility=View.GONE
+            }else{
+                binding.svHomeFragment.visibility=View.VISIBLE
+            }
+        }
     }
 
     private fun initAdapters() {
@@ -88,16 +99,3 @@ class HomeFragment : Fragment() {
     }
 
 }
-
-
-//
-//fun Fragment.goToDetailFragment(id:Int, action:Int,vModel:MovieListViewModel){
-//
-//    vModel.getMovieDetail(id).observe(viewLifecycleOwner) {
-//        if(it!=null){
-//            val bundle= bundleOf("id" to id)
-//            findNavController().navigate(action,bundle)
-//        }else
-//            Toast.makeText(requireContext(),"There are no details for this movie", Toast.LENGTH_SHORT).show()
-//    }
-//}
