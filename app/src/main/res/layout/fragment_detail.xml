@@ -34,7 +34,7 @@
                 app:strokeColor="@color/stroke_color"
                 app:strokeWidth="1dp">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
@@ -44,25 +44,40 @@
                         android:id="@+id/rv_gallery"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
                         android:divider="@null"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:reverseLayout="true"
                         app:cardElevation="0dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:reverseLayout="true"
                         app:strokeColor="@color/stroke_color"
-                        app:strokeWidth="1dp"/>
+                        app:strokeWidth="1dp" />
 
                     <TextView
                         android:id="@+id/tv_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineSpacingMultiplier="1.1"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="12dp"
                         android:textAlignment="center"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginHorizontal="24dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rv_gallery" />
+
+                    <me.relex.circleindicator.CircleIndicator2
+                        android:id="@+id/indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        app:ci_gravity="center"
+                        app:ci_drawable="@drawable/ic_baseline_circle_24"
+                        android:layoutDirection="rtl"
+                        app:layout_constraintBottom_toBottomOf="@id/rv_gallery"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -119,7 +134,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="140dp"
                 android:layout_marginTop="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp"
