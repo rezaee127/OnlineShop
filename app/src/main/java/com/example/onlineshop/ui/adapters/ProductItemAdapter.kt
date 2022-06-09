@@ -30,14 +30,18 @@ class ProductsItemAdapter(var onClickItem: (Int) -> Unit) :
                 onClickItem(productsItem.id)
             }
 
+            try {
+                Glide.with(context)
+                    .load(productsItem.images[0].src)
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.ic_baseline_error_outline_24)
+                    .fitCenter()
+                    //.circleCrop()
+                    .into(ivProduct)
+            } catch (e: Exception) {
+                ivProduct.setBackgroundResource(R.drawable.ic_baseline_circle)
+            }
 
-            Glide.with(context)
-                .load(productsItem.images[0].src)
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.ic_baseline_error_outline_24)
-                .fitCenter()
-                //.circleCrop()
-                .into(ivProduct)
         }
     }
 

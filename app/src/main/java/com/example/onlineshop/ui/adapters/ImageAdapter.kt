@@ -12,20 +12,23 @@ import com.bumptech.glide.Glide
 import com.example.onlineshop.R
 import com.example.onlineshop.model.Image
 
-class ImageAdapter(): ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallback) {
+class ImageAdapter() : ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
         val ivMovie = view.findViewById<ImageView>(R.id.iv_detail)
 
         fun bind(image: Image) {
-
-            Glide.with(context)
-                .load(image.src)
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.ic_baseline_error_outline_24)
-                .fitCenter()
-                //.circleCrop()
-                .into(ivMovie)
+            try {
+                Glide.with(context)
+                    .load(image.src)
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.ic_baseline_error_outline_24)
+                    .fitCenter()
+                    //.circleCrop()
+                    .into(ivMovie)
+            } catch (e: Exception) {
+                ivMovie.setBackgroundResource(R.drawable.ic_baseline_circle)
+            }
         }
     }
 
@@ -35,7 +38,7 @@ class ImageAdapter(): ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallb
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.image_row_item, viewGroup, false)
 
-        return ViewHolder(view,viewGroup.context)
+        return ViewHolder(view, viewGroup.context)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {

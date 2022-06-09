@@ -24,7 +24,6 @@ class CategoriesItemAdapter(var onClickItem: (Int) -> Unit) :
         val tvCategoriesCount = view.findViewById<TextView>(R.id.tv_categories_count)
 
 
-
         fun bind(categoriesItem: CategoriesItem, onClickItem: (Int) -> Unit) {
             tvCategoriesItemName.text = categoriesItem.name
             tvCategoriesCount.text = "${categoriesItem.count} کالا"
@@ -32,14 +31,18 @@ class CategoriesItemAdapter(var onClickItem: (Int) -> Unit) :
                 onClickItem(categoriesItem.id)
             }
 
+            try {
+                Glide.with(context)
+                    .load(categoriesItem.image.src)
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.ic_baseline_error_outline_24)
+                    .fitCenter()
+                    //.circleCrop()
+                    .into(ivCategoriesItem)
 
-            Glide.with(context)
-                .load(categoriesItem.image.src)
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.ic_baseline_error_outline_24)
-                .fitCenter()
-                //.circleCrop()
-                .into(ivCategoriesItem)
+            } catch (e: Exception) {
+                ivCategoriesItem.setBackgroundResource(R.drawable.ic_baseline_circle)
+            }
         }
     }
 

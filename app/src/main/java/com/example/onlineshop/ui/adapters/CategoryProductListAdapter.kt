@@ -31,7 +31,7 @@ class CategoryProductListAdapter(var onClickItem: (Int) -> Unit) :
             productsItemRow.setOnClickListener {
                 onClickItem(productsItem.id)
             }
-
+            try{
             Glide.with(context)
                 .load(productsItem.images[0].src)
                 .placeholder(R.drawable.loading)
@@ -39,6 +39,9 @@ class CategoryProductListAdapter(var onClickItem: (Int) -> Unit) :
                 .fitCenter()
                 //.circleCrop()
                 .into(ivProductsItem)
+            } catch (e: Exception) {
+                ivProductsItem.setBackgroundResource(R.drawable.ic_baseline_circle)
+            }
         }
     }
 
