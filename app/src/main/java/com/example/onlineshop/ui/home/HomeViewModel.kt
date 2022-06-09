@@ -1,8 +1,6 @@
 package com.example.onlineshop.ui.home
 
-import android.app.Application
-import android.util.Log
-import android.widget.Toast
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,11 +15,11 @@ import javax.inject.Inject
 enum class ApiStatus { LOADING, DONE, ERROR }
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repository: Repository, var app: Application): ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: Repository): ViewModel() {
     var listOfProductsOrderByDate= MutableLiveData<List<ProductsItem>>()
     var listOfProductsOrderByPopularity= MutableLiveData<List<ProductsItem>>()
     var listOfProductsOrderByRating= MutableLiveData<List<ProductsItem>>()
-    var status=MutableLiveData(ApiStatus.LOADING)
+    var status=MutableLiveData<ApiStatus>()
 
     init {
         getProductsOrderByDate()
@@ -29,22 +27,22 @@ class HomeViewModel @Inject constructor(private val repository: Repository, var 
         getProductsOrderByRating()
     }
 
-    private fun getProductsOrderByDate(): LiveData<List<ProductsItem>> {
+    fun getProductsOrderByDate(): LiveData<List<ProductsItem>> {
 
         viewModelScope.launch {
+            status.value=ApiStatus.LOADING
             try{
                 listOfProductsOrderByDate.value=repository.getProductsOrderByDate()
                 status.value = ApiStatus.DONE
             }
             catch(e:Exception){
-                Toast.makeText(app.applicationContext,"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
                 status.value = ApiStatus.ERROR
             }
         }
         return listOfProductsOrderByDate
     }
 
-    private fun getProductsOrderByPopularity(): LiveData<List<ProductsItem>> {
+    fun getProductsOrderByPopularity(): LiveData<List<ProductsItem>> {
         viewModelScope.launch {
             try{
                 listOfProductsOrderByPopularity.value=repository.getProductsOrderByPopularity()
@@ -55,7 +53,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository, var 
         return listOfProductsOrderByPopularity
     }
 
-    private fun getProductsOrderByRating(): LiveData<List<ProductsItem>> {
+    fun getProductsOrderByRating(): LiveData<List<ProductsItem>> {
         viewModelScope.launch {
             try{
                 listOfProductsOrderByRating.value=repository.getProductsOrderByRating()

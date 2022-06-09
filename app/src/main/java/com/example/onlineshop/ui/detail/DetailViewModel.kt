@@ -1,7 +1,6 @@
 package com.example.onlineshop.ui.detail
 
-import android.app.Application
-import android.widget.Toast
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,18 +14,18 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val repository: Repository, var app: Application) : ViewModel() {
-    var status=MutableLiveData(ApiStatus.LOADING)
+class DetailViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+    var status=MutableLiveData<ApiStatus>()
     var product= MutableLiveData<ProductsItem>()
 
     fun getProductById(id:Int): LiveData<ProductsItem> {
         viewModelScope.launch {
+            status.value=ApiStatus.LOADING
             try{
                 product.value=repository.getProductById(id)
                 status.value = ApiStatus.DONE
             }
             catch(e: Exception){
-                Toast.makeText(app.applicationContext,"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
                 status.value = ApiStatus.ERROR
             }
         }

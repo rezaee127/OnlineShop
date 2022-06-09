@@ -2,6 +2,7 @@ package com.example.onlineshop.ui.home
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
@@ -34,12 +35,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkConnectivity()
+        vModel.getProductsOrderByDate()
+        vModel.getProductsOrderByRating()
+        vModel.getProductsOrderByPopularity()
         initAdapters()
     }
 
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
             if(it ==ApiStatus.ERROR){
+                Toast.makeText(requireContext(),"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
                 binding.ivError.visibility=View.VISIBLE
                 binding.svHomeFragment.visibility=View.GONE
             }else{

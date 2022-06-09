@@ -22,18 +22,6 @@ import javax.inject.Singleton
 @Module
 class Module {
 
-//    @Singleton
-//    @Provides
-//    fun provideDataBase(@ApplicationContext context: Context):AppDatabase{
-//        return Room.databaseBuilder(
-//            context.applicationContext,
-//            AppDatabase::class.java, DATABASE_NAME
-//        )
-//            //.allowMainThreadQueries()
-//            .fallbackToDestructiveMigration()
-//            .build()
-//    }
-
     @Singleton
     @Provides
     fun provideLogger():HttpLoggingInterceptor{
@@ -77,4 +65,23 @@ class Module {
         return retrofit.create(ApiService::class.java)
     }
 
+
+
+
+
+
+
+
+
+    //    @Singleton
+//    @Provides
+//    fun provideDataBase(@ApplicationContext context: Context):AppDatabase{
+//        return Room.databaseBuilder(
+//            context.applicationContext,
+//            AppDatabase::class.java, DATABASE_NAME
+//        )
+//            //.allowMainThreadQueries()
+//            .fallbackToDestructiveMigration()
+//            .build()
+//    }
 }

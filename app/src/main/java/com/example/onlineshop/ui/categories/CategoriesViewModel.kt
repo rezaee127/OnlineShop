@@ -1,7 +1,6 @@
 package com.example.onlineshop.ui.categories
 
-import android.app.Application
-import android.widget.Toast
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,8 +14,8 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class CategoriesViewModel @Inject constructor(private val repository: Repository, var app: Application): ViewModel() {
-    var status=MutableLiveData(ApiStatus.LOADING)
+class CategoriesViewModel @Inject constructor(private val repository: Repository): ViewModel() {
+    var status=MutableLiveData<ApiStatus>()
     var listOfCategories=MutableLiveData<List<CategoriesItem>>()
 
     init {
@@ -25,12 +24,12 @@ class CategoriesViewModel @Inject constructor(private val repository: Repository
 
     fun getCategories(): LiveData<List<CategoriesItem>>{
         viewModelScope.launch {
+            status.value=ApiStatus.LOADING
             try {
                 listOfCategories.value=repository.getCategories()
                 status.value = ApiStatus.DONE
             }
             catch(e:Exception){
-                Toast.makeText(app.applicationContext,"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
                 status.value = ApiStatus.ERROR
             }
         }

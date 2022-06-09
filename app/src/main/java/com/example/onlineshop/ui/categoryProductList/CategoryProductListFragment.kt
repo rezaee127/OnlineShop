@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -44,6 +45,7 @@ class CategoryProductListFragment : Fragment() {
         vModel.status.observe(viewLifecycleOwner){
             if(it == ApiStatus.ERROR){
                 binding.ivError.visibility=View.VISIBLE
+                Toast.makeText(requireContext(),"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
             }
         }
     }
