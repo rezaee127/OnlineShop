@@ -2,8 +2,8 @@ package com.example.onlineshop.di
 
 
 
-import com.example.onlineshop.network.ApiService
-import com.example.onlineshop.network.BASE_URL
+import com.example.onlineshop.data.network.ApiService
+import com.example.onlineshop.data.network.BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

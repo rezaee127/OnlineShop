@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.onlineshop.R
-import com.example.onlineshop.model.Image
+import com.example.onlineshop.data.model.Image
 
 class ImageAdapter() : ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallback) {
 
@@ -22,12 +22,12 @@ class ImageAdapter() : ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCall
                 Glide.with(context)
                     .load(image.src)
                     .placeholder(R.drawable.loading)
-                    .error(R.drawable.ic_baseline_error_outline_24)
+                    .error(R.drawable.error)
                     .fitCenter()
                     //.circleCrop()
                     .into(ivMovie)
             } catch (e: Exception) {
-                ivMovie.setBackgroundResource(R.drawable.ic_baseline_circle)
+                ivMovie.setBackgroundResource(R.drawable.error)
             }
         }
     }

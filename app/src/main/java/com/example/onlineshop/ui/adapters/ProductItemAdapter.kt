@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.onlineshop.R
-import com.example.onlineshop.model.ProductsItem
+import com.example.onlineshop.data.model.ProductsItem
 
 class ProductsItemAdapter(var onClickItem: (Int) -> Unit) :
     ListAdapter<ProductsItem, ProductsItemAdapter.ViewHolder>(ProductsItemDiffCallback) {
@@ -34,12 +34,12 @@ class ProductsItemAdapter(var onClickItem: (Int) -> Unit) :
                 Glide.with(context)
                     .load(productsItem.images[0].src)
                     .placeholder(R.drawable.loading)
-                    .error(R.drawable.ic_baseline_error_outline_24)
+                    .error(R.drawable.error)
                     .fitCenter()
                     //.circleCrop()
                     .into(ivProduct)
             } catch (e: Exception) {
-                ivProduct.setBackgroundResource(R.drawable.ic_baseline_circle)
+                ivProduct.setBackgroundResource(R.drawable.error)
             }
 
         }
