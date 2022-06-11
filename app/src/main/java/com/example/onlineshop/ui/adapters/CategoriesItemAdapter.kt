@@ -35,13 +35,13 @@ class CategoriesItemAdapter(var onClickItem: (Int) -> Unit) :
                 Glide.with(context)
                     .load(categoriesItem.image.src)
                     .placeholder(R.drawable.loading)
-                    .error(R.drawable.ic_baseline_error_outline_24)
+                    .error(R.drawable.error)
                     .fitCenter()
                     //.circleCrop()
                     .into(ivCategoriesItem)
 
             } catch (e: Exception) {
-                ivCategoriesItem.setBackgroundResource(R.drawable.ic_baseline_circle)
+                ivCategoriesItem.setBackgroundResource(R.drawable.error)
             }
         }
     }

@@ -1,8 +1,8 @@
 package com.example.onlineshop.data.network
 
 
-import com.example.onlineshop.data.model.CategoriesItem
-import com.example.onlineshop.data.model.ProductsItem
+import com.example.onlineshop.model.CategoriesItem
+import com.example.onlineshop.model.ProductsItem
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

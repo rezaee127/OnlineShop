@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.onlineshop.R
-import com.example.onlineshop.data.model.Image
+import com.example.onlineshop.model.Image
 
 class ImageAdapter() : ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallback) {
 

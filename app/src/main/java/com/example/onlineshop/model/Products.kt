@@ -1,4 +1,4 @@
-package com.example.onlineshop.data.model
+package com.example.onlineshop.model
 
 
 class Products : ArrayList<ProductsItem>()

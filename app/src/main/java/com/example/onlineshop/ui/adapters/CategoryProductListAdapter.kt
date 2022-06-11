@@ -35,12 +35,12 @@ class CategoryProductListAdapter(var onClickItem: (Int) -> Unit) :
             Glide.with(context)
                 .load(productsItem.images[0].src)
                 .placeholder(R.drawable.loading)
-                .error(R.drawable.ic_baseline_error_outline_24)
+                .error(R.drawable.error)
                 .fitCenter()
                 //.circleCrop()
                 .into(ivProductsItem)
             } catch (e: Exception) {
-                ivProductsItem.setBackgroundResource(R.drawable.ic_baseline_circle)
+                ivProductsItem.setBackgroundResource(R.drawable.error)
             }
         }
     }

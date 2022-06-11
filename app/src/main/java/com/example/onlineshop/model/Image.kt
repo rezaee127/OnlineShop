@@ -1,4 +1,4 @@
-package com.example.onlineshop.data.model
+package com.example.onlineshop.model
 
 
 import com.squareup.moshi.Json
