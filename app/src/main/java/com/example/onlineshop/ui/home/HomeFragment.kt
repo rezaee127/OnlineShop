@@ -54,26 +54,26 @@ class HomeFragment : Fragment() {
     }
 
     private fun initAdapters() {
-        val adapter1=ProductsItemAdapter{ id -> goToDetailFragment(id) }
-        binding.rvLastProduct.adapter=adapter1
+        val adapterForTheProductsOrderByDate=ProductsItemAdapter{ id -> goToDetailFragment(id) }
+        binding.rvLastProduct.adapter=adapterForTheProductsOrderByDate
 
         vModel.listOfProductsOrderByDate.observe(viewLifecycleOwner){
-            adapter1.submitList(it)
+            adapterForTheProductsOrderByDate.submitList(it)
 
         }
 
-        val adapter2=ProductsItemAdapter{ id -> goToDetailFragment(id) }
-        binding.rvMostPopular.adapter=adapter2
+        val adapterForTheProductsOrderByPopularity=ProductsItemAdapter{ id -> goToDetailFragment(id) }
+        binding.rvMostPopular.adapter=adapterForTheProductsOrderByPopularity
 
         vModel.listOfProductsOrderByPopularity.observe(viewLifecycleOwner){
-            adapter2.submitList(it)
+            adapterForTheProductsOrderByPopularity.submitList(it)
         }
 
-        val adapter3=ProductsItemAdapter{ id -> goToDetailFragment(id) }
-        binding.rvMaxRate.adapter=adapter3
+        val adapterForTheProductsOrderByRating=ProductsItemAdapter{ id -> goToDetailFragment(id) }
+        binding.rvMaxRate.adapter=adapterForTheProductsOrderByRating
 
         vModel.listOfProductsOrderByRating.observe(viewLifecycleOwner){
-            adapter3.submitList(it)
+            adapterForTheProductsOrderByRating.submitList(it)
         }
 
 
