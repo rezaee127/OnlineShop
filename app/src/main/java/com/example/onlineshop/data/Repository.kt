@@ -3,6 +3,8 @@ package com.example.onlineshop.data
 
 import com.example.onlineshop.model.CategoriesItem
 import com.example.onlineshop.model.ProductsItem
+import com.example.onlineshop.model.Reviews
+import com.example.onlineshop.model.ReviewsItem
 import javax.inject.Inject
 
 class Repository @Inject constructor(/*private val localDataSource: LocalDataSource,*/ private val remoteDataSource: RemoteDataSource) {
@@ -30,5 +32,10 @@ class Repository @Inject constructor(/*private val localDataSource: LocalDataSou
     suspend fun getProductsListInEachCategory(category:Int): List<ProductsItem>{
         return remoteDataSource.getProductsListInEachCategory(category)
     }
+
+    suspend fun getReviews(productId: Int): List<ReviewsItem> {
+        return remoteDataSource.getReviews(productId)
+    }
+
 
 }
