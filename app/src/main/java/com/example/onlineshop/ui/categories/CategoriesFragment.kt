@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCategoriesBinding
 import com.example.onlineshop.ui.adapters.CategoriesItemAdapter
@@ -39,17 +38,31 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(savedInstanceState != null){}
+        //if(savedInstanceState != null){}
 
         checkConnectivity()
+        refresh()
         initAdapter()
+    }
+
+    private fun refresh() {
+        binding.btnRefresh.setOnClickListener {
+            vModel.getCategories()
+        }
     }
 
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
             if(it == ApiStatus.ERROR){
-                binding.ivError.visibility=View.VISIBLE
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
+                binding.btnError.visibility=View.VISIBLE
+                binding.btnRefresh.visibility=View.VISIBLE
+                binding.rvCategories.visibility=View.GONE
+                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+            }else{
+                binding.btnError.visibility=View.GONE
+                binding.btnRefresh.visibility=View.GONE
+                binding.rvCategories.visibility=View.VISIBLE
+
             }
         }
     }

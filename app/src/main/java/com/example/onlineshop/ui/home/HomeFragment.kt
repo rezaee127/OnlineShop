@@ -35,20 +35,34 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkConnectivity()
+        refresh()
+        initViewModelFunctions()
+        initAdapters()
+    }
+
+    private fun refresh() {
+        binding.btnRefresh.setOnClickListener {
+            initViewModelFunctions()
+        }
+    }
+
+    private fun initViewModelFunctions() {
         vModel.getProductsOrderByDate()
         vModel.getProductsOrderByRating()
         vModel.getProductsOrderByPopularity()
-        initAdapters()
     }
 
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
             if(it ==ApiStatus.ERROR){
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
-                binding.ivError.visibility=View.VISIBLE
+                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+                binding.btnError.visibility=View.VISIBLE
+                binding.btnRefresh.visibility=View.VISIBLE
                 binding.svHomeFragment.visibility=View.GONE
             }else{
                 binding.svHomeFragment.visibility=View.VISIBLE
+                binding.btnError.visibility=View.GONE
+                binding.btnRefresh.visibility=View.GONE
             }
         }
     }

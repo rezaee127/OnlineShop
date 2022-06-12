@@ -10,10 +10,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentDetailBinding
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.adapters.ImageAdapter
 import com.example.onlineshop.ui.home.ApiStatus
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -25,7 +27,6 @@ class DetailFragment : Fragment() {
     val vModel:DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -41,34 +42,46 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkConnectivity()
         if(savedInstanceState == null){
             pagerSnapHelper = PagerSnapHelper()
         }
+        val id=requireArguments().getInt("id")
+        checkConnectivity()
 
-        initView()
+        refresh(id)
+        initView(id)
+    }
+
+    private fun refresh(id: Int) {
+        binding.btnRefresh.setOnClickListener {
+            vModel.getProductById(id)
+        }
     }
 
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
             if(it == ApiStatus.ERROR){
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
-                binding.ivError.visibility=View.VISIBLE
+                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+                binding.clErrorInDetail.visibility=View.VISIBLE
                 binding.svDetail.visibility=View.GONE
                 binding.clDetail.visibility=View.GONE
+            }else{
+                binding.clErrorInDetail.visibility=View.GONE
+                binding.svDetail.visibility=View.VISIBLE
+                binding.clDetail.visibility=View.VISIBLE
             }
         }
     }
 
-    private fun initView() {
-        val id=requireArguments().getInt("id")
-
+    private fun initView(id:Int) {
         vModel.getProductById(id)
 
         vModel.product.observe(viewLifecycleOwner){
             setView(it)
         }
+
     }
+
 
 
     @SuppressLint("SetTextI18n")

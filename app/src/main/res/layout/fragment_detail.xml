@@ -207,12 +207,44 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/iv_error"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_error_in_detail"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:src="@drawable/disconnect"
-        android:layout_gravity="center" />
+        android:layout_gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_error"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="خطا در برقراری ارتباط با اینترنت"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/btn_refresh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_refresh"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="تلاش مجدد"
+            app:cornerRadius="500dp"
+            app:icon="@drawable/ic_baseline_refresh_24"
+            app:iconGravity="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btn_error"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/btn_error"
+            app:layout_constraintTop_toBottomOf="@+id/btn_error" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

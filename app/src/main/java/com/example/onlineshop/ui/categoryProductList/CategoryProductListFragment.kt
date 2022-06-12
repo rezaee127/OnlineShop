@@ -21,7 +21,6 @@ class CategoryProductListFragment : Fragment() {
     val vModel:CategoryProductListViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -36,25 +35,37 @@ class CategoryProductListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(savedInstanceState != null){}
+        //if(savedInstanceState != null){}
+        val id=requireArguments().getInt("id")
         checkConnectivity()
-        initView()
+        refresh(id)
+        initView(id)
+    }
+
+    private fun refresh(id: Int) {
+        binding.btnRefresh.setOnClickListener {
+            vModel.getProductsListInEachCategory(id)
+        }
     }
 
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
             if(it == ApiStatus.ERROR){
-                binding.ivError.visibility=View.VISIBLE
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط\n لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show()
+                binding.btnError.visibility=View.VISIBLE
+                binding.btnRefresh.visibility=View.VISIBLE
+                binding.rvCategoryListProduct.visibility=View.GONE
+                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+            }else{
+                binding.btnError.visibility=View.GONE
+                binding.btnRefresh.visibility=View.GONE
+                binding.rvCategoryListProduct.visibility=View.VISIBLE
             }
         }
     }
 
 
-    private fun initView() {
-        val id=requireArguments().getInt("id")
+    private fun initView(id: Int) {
         vModel.getProductsListInEachCategory(id)
-
         initAdapter()
     }
 
