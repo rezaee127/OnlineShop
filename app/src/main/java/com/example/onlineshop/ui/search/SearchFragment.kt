@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentSearchBinding
 import com.example.onlineshop.ui.adapters.CategoryProductListAdapter
 import com.example.onlineshop.ui.home.ApiStatus
@@ -39,7 +42,7 @@ class SearchFragment : Fragment() {
     private fun initViews() {
 
         binding.btnSearch.setOnClickListener {
-            setSearchParams()
+            search()
         }
         buttonReturnClicked()
     }
@@ -48,7 +51,7 @@ class SearchFragment : Fragment() {
 
 
 
-    private fun setSearchParams() {
+    private fun search() {
         var orderBy="date"
         var order="desc"
         when {
@@ -84,16 +87,16 @@ class SearchFragment : Fragment() {
 
 
     private fun setAdapter() {
-        val adapter= CategoryProductListAdapter {}
+        val adapter= CategoryProductListAdapter {id -> goToDetailFragment(id)}
         binding.rvSearch.adapter=adapter
         vModel.listOfSearchedProduct.observe(viewLifecycleOwner){
-            if (!it.isNullOrEmpty()){
+            if (it.isNullOrEmpty()){
+                Toast.makeText(requireContext(),"کالایی با این مشخصات یافت نشد", Toast.LENGTH_SHORT).show()
+            }else{
                 adapter.submitList(it)
                 binding.crSearch.visibility=View.GONE
                 binding.rvSearch.visibility=View.VISIBLE
                 binding.btnReturn.visibility=View.VISIBLE
-            }else{
-                Toast.makeText(requireContext(),"کالایی با این نام یافت نشد", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -105,6 +108,11 @@ class SearchFragment : Fragment() {
             binding.rvSearch.visibility=View.GONE
             binding.btnReturn.visibility=View.GONE
         }
+    }
+
+    fun goToDetailFragment(id:Int){
+        val bundle= bundleOf("id" to id)
+        findNavController().navigate(R.id.action_searchFragment_to_detailFragment,bundle)
     }
 
 }
