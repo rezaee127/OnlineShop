@@ -14,7 +14,7 @@ import com.example.onlineshop.R
 import com.example.onlineshop.model.CategoriesItem
 
 
-class CategoriesItemAdapter(var onClickItem: (Int) -> Unit) :
+class CategoriesItemAdapter(var onClickItem: (Int,String) -> Unit) :
     ListAdapter<CategoriesItem, CategoriesItemAdapter.ViewHolder>(CategoriesItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
@@ -24,11 +24,11 @@ class CategoriesItemAdapter(var onClickItem: (Int) -> Unit) :
         val tvCategoriesCount = view.findViewById<TextView>(R.id.tv_categories_count)
 
 
-        fun bind(categoriesItem: CategoriesItem, onClickItem: (Int) -> Unit) {
+        fun bind(categoriesItem: CategoriesItem, onClickItem: (Int,String) -> Unit) {
             tvCategoriesItemName.text = categoriesItem.name
             tvCategoriesCount.text = "${categoriesItem.count} کالا"
             categoriesItemRow.setOnClickListener {
-                onClickItem(categoriesItem.id)
+                onClickItem(categoriesItem.id,categoriesItem.name)
             }
 
             try {

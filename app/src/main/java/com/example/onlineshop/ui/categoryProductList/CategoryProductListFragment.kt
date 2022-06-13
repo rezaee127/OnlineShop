@@ -37,6 +37,8 @@ class CategoryProductListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //if(savedInstanceState != null){}
         val id=requireArguments().getInt("id")
+        val name=requireArguments().getString("name")
+        requireActivity().title=name
         checkConnectivity()
         refresh(id)
         initView(id)

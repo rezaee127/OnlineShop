@@ -39,7 +39,11 @@ class CategoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //if(savedInstanceState != null){}
+        initViews()
+    }
 
+    private fun initViews() {
+        requireActivity().title="دسته بندی ها"
         checkConnectivity()
         refresh()
         initAdapter()
@@ -68,7 +72,7 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        val adapter=CategoriesItemAdapter{ id -> goToCategoryProductListFragment(id) }
+        val adapter=CategoriesItemAdapter{ id ,name -> goToCategoryProductListFragment(id,name) }
         binding.rvCategories.adapter=adapter
         vModel.listOfCategories.observe(viewLifecycleOwner){
             adapter.submitList(it)
@@ -76,8 +80,8 @@ class CategoriesFragment : Fragment() {
     }
 
 
-    fun goToCategoryProductListFragment(id:Int){
-        val bundle= bundleOf("id" to id)
+    fun goToCategoryProductListFragment(id:Int,name:String){
+        val bundle= bundleOf("id" to id,"name" to name)
         findNavController().navigate(R.id.action_categoriesFragment_to_categoryProductListFragment,bundle)
     }
 }

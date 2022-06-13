@@ -6,17 +6,16 @@
     tools:context=".ui.home.HomeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="52dp"
     android:orientation="vertical">
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:id="@+id/sv_home_fragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -40,7 +40,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun initViews() {
-
+        requireActivity().title="جستجو"
         binding.btnSearch.setOnClickListener {
             search()
         }
