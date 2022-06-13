@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNavigation.visibility = View.GONE
             else if(destination.id == R.id.homeFragment||
                 destination.id == R.id.categoriesFragment
-                ||  destination.id == R.id.searchFragment ) {
+                ||  destination.id == R.id.searchFragment
+                ||  destination.id == R.id.cartFragment) {
                 binding.bottomNavigation.visibility = View.VISIBLE
             }
             else {
