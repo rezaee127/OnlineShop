@@ -13,21 +13,21 @@ interface ApiService {
 
     @GET("products")
     suspend fun getProductsOrderByDate(
-        @Query("orderby") order: String = "date",
+        @Query("orderby") orderBy: String = "date",
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
 
 
     @GET("products")
     suspend fun getProductsOrderByPopularity(
-        @Query("orderby") order: String = "popularity",
+        @Query("orderby") orderBy: String = "popularity",
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
 
 
     @GET("products")
     suspend fun getProductsOrderByRating(
-        @Query("orderby") order: String = "rating",
+        @Query("orderby") orderBy: String = "rating",
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
 
@@ -57,5 +57,13 @@ interface ApiService {
         @Path("id") productId: Int,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ReviewsItem>
+
+    @GET("products")
+    suspend fun searchProducts(
+        @Query("search")searchKey:String,
+        @Query("orderby")orderBy: String,
+        @Query("order")order: String,
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+    ): List<ProductsItem>
 
 }

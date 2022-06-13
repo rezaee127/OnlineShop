@@ -5,13 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.onlineshop.R
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.example.onlineshop.databinding.FragmentSearchBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.onlineshop.ui.adapters.CategoryProductListAdapter
+import com.example.onlineshop.ui.home.ApiStatus
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
     lateinit var binding:FragmentSearchBinding
+    val vModel:SearchViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -28,6 +32,79 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initViews()
+    }
+
+    private fun initViews() {
+
+        binding.btnSearch.setOnClickListener {
+            setSearchParams()
+        }
+        buttonReturnClicked()
+    }
+
+
+
+
+
+    private fun setSearchParams() {
+        var orderBy="date"
+        var order="desc"
+        when {
+            binding.rbBestselling.isChecked -> {
+                orderBy="popularity"
+            }
+            binding.rbCheapest.isChecked -> {
+                orderBy="price"
+                order="asc"
+            }
+            binding.rbMostExpensive.isChecked -> {
+                orderBy="price"
+            }
+        }
+        if (binding.outlinedTextField.editText?.text.isNullOrBlank())
+            binding.outlinedTextField.editText?.error="یک کلمه وارد کنید"
+        else{
+            vModel.searchProducts(binding.outlinedTextField.editText?.text.toString(),orderBy,order)
+            checkConnectivity()
+        }
+    }
+
+
+    private fun checkConnectivity() {
+        vModel.status.observe(viewLifecycleOwner){
+            if(it == ApiStatus.ERROR){
+                Toast.makeText(requireContext(),"خطا در برقراری ارتباط با اینترنت", Toast.LENGTH_SHORT).show()
+            }else{
+                setAdapter()
+            }
+        }
+    }
+
+
+    private fun setAdapter() {
+        val adapter= CategoryProductListAdapter {}
+        binding.rvSearch.adapter=adapter
+        vModel.listOfSearchedProduct.observe(viewLifecycleOwner){
+            if (!it.isNullOrEmpty()){
+                adapter.submitList(it)
+                binding.crSearch.visibility=View.GONE
+                binding.rvSearch.visibility=View.VISIBLE
+                binding.btnReturn.visibility=View.VISIBLE
+            }else{
+                Toast.makeText(requireContext(),"کالایی با این نام یافت نشد", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+    private fun buttonReturnClicked() {
+        binding.btnReturn.setOnClickListener {
+            binding.crSearch.visibility=View.VISIBLE
+            binding.rvSearch.visibility=View.GONE
+            binding.btnReturn.visibility=View.GONE
+        }
     }
 
 }
