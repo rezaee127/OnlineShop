@@ -6,8 +6,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ProductsItem(
-//    @Json(name = "attributes")
-//    val attributes: List<Any>,
+    @Json(name = "attributes")
+    val attributes: List<AttributeItem>,
     @Json(name = "average_rating")
     val averageRating: String,
 //    @Json(name = "backordered")
@@ -108,8 +108,8 @@ data class ProductsItem(
 //    val shippingRequired: Boolean,
 //    @Json(name = "shipping_taxable")
 //    val shippingTaxable: Boolean,
-//    @Json(name = "short_description")
-//    val shortDescription: String,
+    @Json(name = "short_description")
+    val shortDescription: String,
 //    @Json(name = "sku")
 //    val sku: String,
 //    @Json(name = "slug")
