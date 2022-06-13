@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentDetailBinding
@@ -47,13 +49,13 @@ class DetailFragment : Fragment() {
             pagerSnapHelper = PagerSnapHelper()
         }
         val id=requireArguments().getInt("id")
-        checkConnectivity()
 
-        refresh(id)
+        checkConnectivity()
+        retry(id)
         initView(id)
     }
 
-    private fun refresh(id: Int) {
+    private fun retry(id: Int) {
         binding.btnRefresh.setOnClickListener {
             vModel.getProductById(id)
         }
@@ -79,6 +81,10 @@ class DetailFragment : Fragment() {
 
         vModel.product.observe(viewLifecycleOwner){
             setView(it)
+        }
+
+        binding.btnAddToCart.setOnClickListener {
+            goToCartFragment(id)
         }
 
     }
@@ -112,4 +118,8 @@ class DetailFragment : Fragment() {
     }
 
 
+    fun goToCartFragment(id:Int){
+        val bundle= bundleOf("id" to id)
+        findNavController().navigate(R.id.action_detailFragment_to_cartFragment,bundle)
+    }
 }

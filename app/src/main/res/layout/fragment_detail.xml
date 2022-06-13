@@ -189,13 +189,13 @@
             android:layout_height="wrap_content"
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_buy"
+            app:layout_constraintEnd_toStartOf="@+id/btn_add_to_cart"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btn_buy" />
+            app:layout_constraintTop_toTopOf="@+id/btn_add_to_cart" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_buy"
+            android:id="@+id/btn_add_to_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="افزودن به سبد خرید"
