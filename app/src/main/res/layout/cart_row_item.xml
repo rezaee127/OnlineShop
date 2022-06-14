@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/iv_cart_image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,23 +34,27 @@
 
         <TextView
             android:id="@+id/tv_cart_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="4dp"
-            android:textDirection="rtl"
-            android:text=""
+            android:textSize="13dp"
             android:textStyle="bold"
+            android:text=""
+            android:textDirection="rtl"
             app:layout_constraintEnd_toStartOf="@+id/iv_cart_image"
-            app:layout_constraintHorizontal_bias="0.919"
+            app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_cart_short_description"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="4dp"
+            android:textSize="12dp"
+            android:maxLines="2"
             android:text=""
             app:layout_constraintEnd_toStartOf="@+id/iv_cart_image"
             app:layout_constraintHorizontal_bias="0.055"
@@ -62,12 +66,13 @@
             android:id="@+id/tv_cart_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="12dp"
+            android:textSize="13dp"
             android:text=""
             app:layout_constraintBottom_toBottomOf="@+id/materialCardView"
             app:layout_constraintEnd_toStartOf="@+id/materialCardView"
             app:layout_constraintTop_toTopOf="@+id/materialCardView"
-            app:layout_constraintVertical_bias="0.333" />
+            app:layout_constraintVertical_bias="0.272" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
@@ -85,8 +90,8 @@
 
                 <ImageButton
                     android:id="@+id/ib_cart_minus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
@@ -98,14 +103,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:textColor="@color/purple_502"
                     android:text="1"
                     android:textStyle="bold" />
 
 
                 <ImageButton
                     android:id="@+id/ib_cart_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
@@ -117,10 +123,11 @@
 
         <ImageButton
             android:id="@+id/ib_cart_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginBottom="1dp"
+            android:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_baseline_delete_24" />

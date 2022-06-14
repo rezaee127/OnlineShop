@@ -22,7 +22,7 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
     ListAdapter<ProductsItem, CartAdapter.ViewHolder>(ProductsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
-        val productRow = view.findViewById<View>(R.id.cart_row_item)
+
         val ivProduct = view.findViewById<ImageView>(R.id.iv_cart_image)
         val tvProductName = view.findViewById<TextView>(R.id.tv_cart_title)
         val tvShortDescription = view.findViewById<TextView>(R.id.tv_cart_short_description)
@@ -37,9 +37,15 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
         fun bind(productsItem: ProductsItem, onClickItem: (Int) -> Unit,
                  deleteProductFromCart: (Int) -> Unit,
                  sendCount: (Int,String) -> Unit) {
+
             tvProductName.text = productsItem.name
             tvPrice.text="${productsItem.price} تومان"
-            tvShortDescription.text=productsItem.shortDescription
+
+            var str=productsItem.shortDescription
+            str=str.replace("</p>","")
+            str=str.replace("<p>","")
+            tvShortDescription.text=str
+
             if (count==1)
                 ibMinus.isClickable=false
 
@@ -56,7 +62,7 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
             ibDelete.setOnClickListener {
                 deleteProductFromCart(productsItem.id)
             }
-            productRow.setOnClickListener {
+            tvProductName.setOnClickListener {
                 onClickItem(productsItem.id)
             }
 
