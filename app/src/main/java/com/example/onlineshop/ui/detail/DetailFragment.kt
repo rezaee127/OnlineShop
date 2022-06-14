@@ -2,6 +2,7 @@ package com.example.onlineshop.ui.detail
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailFragment : Fragment() {
     lateinit var binding: FragmentDetailBinding
     var pagerSnapHelper = PagerSnapHelper()
+    var arrayOfProductIds=ArrayList<Int>()
     val vModel:DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +84,7 @@ class DetailFragment : Fragment() {
         vModel.product.observe(viewLifecycleOwner){
             setView(it)
         }
-
+        getArrayFromShared()
         binding.btnAddToCart.setOnClickListener {
             goToCartFragment(id)
         }
@@ -119,7 +121,34 @@ class DetailFragment : Fragment() {
 
 
     fun goToCartFragment(id:Int){
-        val bundle= bundleOf("id" to id)
-        findNavController().navigate(R.id.action_detailFragment_to_cartFragment,bundle)
+        if (arrayOfProductIds.contains(id)){
+            Toast.makeText(requireContext(),"این کالا در سبد خرید موجود است", Toast.LENGTH_SHORT).show()
+        }else{
+            arrayOfProductIds.add(id)
+            saveArrayToShared()
+            Toast.makeText(requireContext(),"این کالا به سبد خرید اضافه شد", Toast.LENGTH_SHORT).show()
+            //findNavController().navigate(R.id.action_detailFragment_to_cartFragment)
+        }
+    }
+
+
+    private fun getArrayFromShared() {
+        val pref = requireActivity().getSharedPreferences("share", Context.MODE_PRIVATE)
+        val size: Int = pref.getInt("array_size", 0)
+
+        if (size != 0 ) {
+            for (i in 0 until size)
+                arrayOfProductIds.add(pref.getInt("array_$i", 0))
+        }
+
+    }
+
+    private fun saveArrayToShared() {
+        val pref = requireActivity().getSharedPreferences("share", Context.MODE_PRIVATE)
+        val edit= pref.edit()
+        edit.putInt("array_size", arrayOfProductIds.size)
+        for (j in arrayOfProductIds.indices)
+            edit.putInt("array_$j", arrayOfProductIds[j])
+        edit.apply()
     }
 }

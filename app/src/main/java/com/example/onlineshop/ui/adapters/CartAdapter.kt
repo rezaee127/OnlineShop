@@ -18,7 +18,7 @@ import com.example.onlineshop.model.ProductsItem
 
 class CartAdapter(var onClickItem: (Int) -> Unit,
                   var deleteProductFromCart: (Int) -> Unit,
-                  var sendCount: (Int) -> Unit) :
+                  var sendCount: (Int,String) -> Unit) :
     ListAdapter<ProductsItem, CartAdapter.ViewHolder>(ProductsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
@@ -35,7 +35,8 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
 
         @SuppressLint("SetTextI18n")
         fun bind(productsItem: ProductsItem, onClickItem: (Int) -> Unit,
-                 deleteProductFromCart: (Int) -> Unit,sendCount: (Int) -> Unit) {
+                 deleteProductFromCart: (Int) -> Unit,
+                 sendCount: (Int,String) -> Unit) {
             tvProductName.text = productsItem.name
             tvPrice.text="${productsItem.price} تومان"
             tvShortDescription.text=productsItem.shortDescription
@@ -58,7 +59,9 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
             productRow.setOnClickListener {
                 onClickItem(productsItem.id)
             }
-            sendCount(count)
+
+            sendCount(count,productsItem.price)
+
             try {
                 Glide.with(context)
                     .load(productsItem.images[0].src)
