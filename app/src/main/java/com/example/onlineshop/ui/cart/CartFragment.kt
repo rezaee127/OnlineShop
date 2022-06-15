@@ -1,6 +1,6 @@
 package com.example.onlineshop.ui.cart
 
-import android.content.Context
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,25 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCartBinding
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.adapters.CartAdapter
-import com.example.onlineshop.ui.home.ApiStatus
-import com.example.onlineshop.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+
+const val KEY_PREF="cart"
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
     lateinit var binding:FragmentCartBinding
-    val vModel : CartViewModel by viewModels()
-    val vmodel2:HomeViewModel by viewModels()
-    var arrayOfProductIds=ArrayList<Int>()
     var listOfProducts=ArrayList<ProductsItem>()
     var sumPrice=0L
+    val sharedPref=SharedPref()
     lateinit var productAdapter : CartAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,114 +47,71 @@ class CartFragment : Fragment() {
 
     private fun initViews() {
         requireActivity().title="سبد خرید"
-        getArrayFromShared()
-        addProductsToList()
-
-        retry()
+        listOfProducts=sharedPref.getArrayFromShared(requireContext(),KEY_PREF)
+        setAdapter()
+        getPrice()
     }
 
+    private fun getPrice() {
+        val productList=sharedPref.getArrayFromShared(requireContext(),KEY_PREF)
 
-    private fun retry() {
-        binding.btnError.setOnClickListener {
-            if (!arrayOfProductIds.isNullOrEmpty()) {
-                vModel.getProductById(arrayOfProductIds[0])
-            }else
-                Toast.makeText(requireContext(),"سبد خرید خالی است", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun addProductsToList() {
-
-        if (!arrayOfProductIds.isNullOrEmpty()){
-            vModel.getProductById(arrayOfProductIds[0])
-            checkConnectivity()
-            for (id in arrayOfProductIds){
-                vModel.getProductById(id)
-                vModel.product.observe(viewLifecycleOwner){
-                    listOfProducts.add(it)
-                }
+        if (!productList.isNullOrEmpty()){
+            for (product in productList){
+                sumPrice += product.price.toLong()
             }
-            setAdapter()
-        }else
-            Toast.makeText(requireContext(),"سبد خرید خالی است", Toast.LENGTH_SHORT).show()
+        }
+        binding.btnSumPrice.text=sumPrice.toString()+"تومان"
     }
+
 
     private fun setAdapter() {
-        //if (!listOfProducts.isNullOrEmpty()){
+        if (!listOfProducts.isNullOrEmpty()){
             productAdapter=CartAdapter(
                 {detailId->goToDetailFragment(detailId)},
-                {deleteId->removeProductFromCart(deleteId)},
-                {count,price->getSumPrice(count,price) })
+                {count,product->removeProductFromCart(count,product)},
+                {count,price->plusPrice(count,price)},
+                {count,price->minusPrice(count,price) })
 
             binding.rvCart.adapter=productAdapter
             productAdapter.submitList(listOfProducts)
 
-       // }
-        vmodel2.getProductsOrderByDate().observe(viewLifecycleOwner){
-            productAdapter.submitList(it)
-        }
+        }else
+            Toast.makeText(requireContext(),"سبد خرید خالی است", Toast.LENGTH_SHORT).show()
+
     }
 
-    private fun getSumPrice(count: Int, price: String):Long {
+    private fun plusPrice(count: Int, price: String):Long {
+
         if(price!="")
-        sumPrice += count * (price.toLong())
+        sumPrice +=  (price.toLong())
+
+        binding.btnSumPrice.text=sumPrice.toString()+" تومان"
+        return sumPrice
+    }
+    private fun minusPrice(count: Int, price: String):Long {
+
+        if(price!="")
+            sumPrice -=  (price.toLong())
+
+        binding.btnSumPrice.text=sumPrice.toString()+" تومان"
         return sumPrice
     }
 
 
-    private fun checkConnectivity() {
-        vModel.status.observe(viewLifecycleOwner){
-            if(it == ApiStatus.ERROR){
-                binding.clErrorInCart.visibility=View.VISIBLE
-                binding.clCartBottom.visibility=View.GONE
-                binding.svCart.visibility=View.GONE
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
-            }else{
-                binding.clErrorInCart.visibility=View.GONE
-                binding.clCartBottom.visibility=View.VISIBLE
-                binding.svCart.visibility=View.VISIBLE
-            }
-        }
-    }
 
 
-    private fun getArrayFromShared() {
-        val pref = requireActivity().getSharedPreferences("share", Context.MODE_PRIVATE)
-        val size: Int = pref.getInt("array_size", 0)
-
-        if (size != 0 ) {
-            for (i in 0 until size)
-                arrayOfProductIds.add(pref.getInt("array_$i", 0))
-        }
-
-    }
-
-    private fun saveArrayToShared() {
-        val pref = requireActivity().getSharedPreferences("share", Context.MODE_PRIVATE)
-        val edit= pref.edit()
-        edit.clear()
-        edit.putInt("array_size", arrayOfProductIds.size)
-        for (j in arrayOfProductIds.indices)
-            edit.putInt("array_$j", arrayOfProductIds[j])
-        edit.apply()
-    }
-
-
-    private fun removeProductFromCart(id:Int){
-        arrayOfProductIds.remove(id)
-        saveArrayToShared()
-
-        for (product in listOfProducts){
-            if (product.id==id)
-                listOfProducts.remove(product)
-        }
-        productAdapter.submitList(listOfProducts)
+    private fun removeProductFromCart(count:Int,product:ProductsItem){
+       listOfProducts.remove(product)
+        sharedPref.saveArrayToShared(requireContext(),KEY_PREF,listOfProducts)
+        sumPrice-= (count * product.price.toLong())
+        setAdapter()
     }
 
     private fun goToDetailFragment(id:Int){
         val bundle= bundleOf("id" to id)
         findNavController().navigate(R.id.action_cartFragment_to_detailFragment,bundle)
     }
+
 
 
 }

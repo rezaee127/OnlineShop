@@ -17,8 +17,9 @@ import com.example.onlineshop.model.ProductsItem
 
 
 class CartAdapter(var onClickItem: (Int) -> Unit,
-                  var deleteProductFromCart: (Int) -> Unit,
-                  var sendCount: (Int,String) -> Unit) :
+                  var deleteProductFromCart: (Int,ProductsItem) -> Unit,
+                  var plusProduct: (Int,String) -> Unit,
+                  var minusProduct: (Int,String) -> Unit) :
     ListAdapter<ProductsItem, CartAdapter.ViewHolder>(ProductsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
@@ -35,8 +36,9 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
 
         @SuppressLint("SetTextI18n")
         fun bind(productsItem: ProductsItem, onClickItem: (Int) -> Unit,
-                 deleteProductFromCart: (Int) -> Unit,
-                 sendCount: (Int,String) -> Unit) {
+                 deleteProductFromCart: (Int,ProductsItem) -> Unit,
+                 plusProduct: (Int,String) -> Unit,
+                 minusProduct: (Int,String) -> Unit) {
 
             tvProductName.text = productsItem.name
             tvPrice.text="${productsItem.price} تومان"
@@ -52,21 +54,23 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
             ibAdd.setOnClickListener {
                 tvCount.text=(++count).toString()
                 ibMinus.isClickable=true
+                plusProduct(count,productsItem.price)
             }
 
             ibMinus.setOnClickListener {
                 tvCount.text=(--count).toString()
                 if (count==1)
                     ibMinus.isClickable=false
+                minusProduct(count,productsItem.price)
             }
             ibDelete.setOnClickListener {
-                deleteProductFromCart(productsItem.id)
+                deleteProductFromCart(count,productsItem)
             }
             tvProductName.setOnClickListener {
                 onClickItem(productsItem.id)
             }
 
-            sendCount(count,productsItem.price)
+
 
             try {
                 Glide.with(context)
@@ -94,7 +98,7 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.bind(getItem(position), onClickItem,deleteProductFromCart,sendCount)
+        viewHolder.bind(getItem(position), onClickItem,deleteProductFromCart,plusProduct,minusProduct)
 
     }
 

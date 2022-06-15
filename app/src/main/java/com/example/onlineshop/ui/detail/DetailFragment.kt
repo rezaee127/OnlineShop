@@ -2,32 +2,29 @@ package com.example.onlineshop.ui.detail
 
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
-import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentDetailBinding
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.adapters.ImageAdapter
+import com.example.onlineshop.ui.cart.KEY_PREF
+import com.example.onlineshop.ui.cart.SharedPref
 import com.example.onlineshop.ui.home.ApiStatus
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-
 
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
     lateinit var binding: FragmentDetailBinding
     var pagerSnapHelper = PagerSnapHelper()
-    var arrayOfProductIds=ArrayList<Int>()
+    var listOfProducts=ArrayList<ProductsItem>()
+    val sharedPref=SharedPref()
     val vModel:DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,13 +77,14 @@ class DetailFragment : Fragment() {
 
     private fun initView(id:Int) {
         vModel.getProductById(id)
-
+        lateinit var product:ProductsItem
         vModel.product.observe(viewLifecycleOwner){
             setView(it)
+            product=it
         }
-        getArrayFromShared()
+
         binding.btnAddToCart.setOnClickListener {
-            goToCartFragment(id)
+            goToCartFragment(product)
         }
 
     }
@@ -120,35 +118,19 @@ class DetailFragment : Fragment() {
     }
 
 
-    fun goToCartFragment(id:Int){
-        if (arrayOfProductIds.contains(id)){
+    fun goToCartFragment(product: ProductsItem){
+        listOfProducts=sharedPref.getArrayFromShared(requireContext(),KEY_PREF)
+        if (listOfProducts.contains(product)){
             Toast.makeText(requireContext(),"این کالا در سبد خرید موجود است", Toast.LENGTH_SHORT).show()
         }else{
-            arrayOfProductIds.add(id)
-            saveArrayToShared()
+            listOfProducts.add(product)
+            sharedPref.saveArrayToShared(requireContext(),KEY_PREF,listOfProducts)
             Toast.makeText(requireContext(),"این کالا به سبد خرید اضافه شد", Toast.LENGTH_SHORT).show()
             //findNavController().navigate(R.id.action_detailFragment_to_cartFragment)
         }
     }
 
 
-    private fun getArrayFromShared() {
-        val pref = requireActivity().getSharedPreferences("share", Context.MODE_PRIVATE)
-        val size: Int = pref.getInt("array_size", 0)
 
-        if (size != 0 ) {
-            for (i in 0 until size)
-                arrayOfProductIds.add(pref.getInt("array_$i", 0))
-        }
 
-    }
-
-    private fun saveArrayToShared() {
-        val pref = requireActivity().getSharedPreferences("share", Context.MODE_PRIVATE)
-        val edit= pref.edit()
-        edit.putInt("array_size", arrayOfProductIds.size)
-        for (j in arrayOfProductIds.indices)
-            edit.putInt("array_$j", arrayOfProductIds[j])
-        edit.apply()
-    }
 }
