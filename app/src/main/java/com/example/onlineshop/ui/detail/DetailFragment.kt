@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentDetailBinding
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.adapters.ImageAdapter
@@ -138,21 +141,25 @@ class DetailFragment : Fragment() {
     }
 
     private fun setRelatedProduct(product: ProductsItem) {
-        val relatedProductAdapter=ProductsItemAdapter{}
-
+        val relatedProductAdapter=ProductsItemAdapter{id->showDetailOfRelatedProduct(id)}
         binding.rvRelatedProduct.adapter=relatedProductAdapter
-        var stringOfRelatedIds=""
+
+        var stringOfIdsRelatedProducts=""
         for (id in product.relatedIds) {
-            stringOfRelatedIds += "$id,"
+            stringOfIdsRelatedProducts += "$id,"
         }
 
-        vModel.getRelatedProducts(stringOfRelatedIds)
+        vModel.getRelatedProducts(stringOfIdsRelatedProducts)
 
         vModel.relatedProducts.observe(viewLifecycleOwner){
             relatedProductAdapter.submitList(it)
         }
     }
 
+    private fun showDetailOfRelatedProduct(id: Int) {
+        val bundle= bundleOf("id" to id)
+        findNavController().navigate(R.id.action_detailFragment_self,bundle)
+    }
 
 
     private fun retry(id: Int) {

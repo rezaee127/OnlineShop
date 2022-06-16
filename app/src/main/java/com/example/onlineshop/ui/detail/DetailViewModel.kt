@@ -44,13 +44,12 @@ class DetailViewModel @Inject constructor(private val repository: Repository) : 
         return reviewsList
     }
 
-    fun getRelatedProducts(str:String) {
-            viewModelScope.async {
-                try {
-                    relatedProducts.value = repository.getRelatedProducts(str)
-                }
-                catch (e: Exception) {
-                }
+    fun getRelatedProducts(str: String) {
+        viewModelScope.async {
+            try {
+                relatedProducts.value = repository.getRelatedProducts(str)
+            } catch (e: Exception) {
             }
+        }
     }
 }
