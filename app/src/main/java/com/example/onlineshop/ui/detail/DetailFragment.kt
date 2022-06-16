@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.onlineshop.databinding.FragmentDetailBinding
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.adapters.ImageAdapter
+import com.example.onlineshop.ui.adapters.ProductsItemAdapter
+import com.example.onlineshop.ui.adapters.ReviewAdapter
 import com.example.onlineshop.ui.cart.KEY_PREF
-import com.example.onlineshop.ui.cart.SharedPref
+import com.example.onlineshop.ui.cart.getArrayFromShared
+import com.example.onlineshop.ui.cart.saveArrayToShared
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +27,6 @@ class DetailFragment : Fragment() {
     lateinit var binding: FragmentDetailBinding
     var pagerSnapHelper = PagerSnapHelper()
     var listOfProducts=ArrayList<ProductsItem>()
-    val sharedPref=SharedPref()
     val vModel:DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,38 +56,24 @@ class DetailFragment : Fragment() {
         initView(id)
     }
 
-    private fun retry(id: Int) {
-        binding.btnRefresh.setOnClickListener {
-            vModel.getProductById(id)
-        }
-    }
 
-    private fun checkConnectivity() {
-        vModel.status.observe(viewLifecycleOwner){
-            if(it == ApiStatus.ERROR){
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
-                binding.clErrorInDetail.visibility=View.VISIBLE
-                binding.svDetail.visibility=View.GONE
-                binding.clDetail.visibility=View.GONE
-            }else{
-                binding.clErrorInDetail.visibility=View.GONE
-                binding.svDetail.visibility=View.VISIBLE
-                binding.clDetail.visibility=View.VISIBLE
-            }
-        }
-    }
 
     private fun initView(id:Int) {
         vModel.getProductById(id)
+        vModel.getReviews(id)
         lateinit var product:ProductsItem
         vModel.product.observe(viewLifecycleOwner){
             setView(it)
             product=it
+            setRelatedProduct(product)
         }
 
         binding.btnAddToCart.setOnClickListener {
             goToCartFragment(product)
         }
+        
+
+        setReviews()
 
     }
 
@@ -93,9 +81,9 @@ class DetailFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setView(product:ProductsItem) {
-        val adapter=ImageAdapter()
-        binding.rvGallery.adapter=adapter
-        adapter.submitList(product.images)
+        val galleryAdapter=ImageAdapter()
+        binding.rvGallery.adapter=galleryAdapter
+        galleryAdapter.submitList(product.images)
 
         pagerSnapHelper.attachToRecyclerView(binding.rvGallery)
         binding.indicator.attachToRecyclerView(binding.rvGallery, pagerSnapHelper)
@@ -119,18 +107,73 @@ class DetailFragment : Fragment() {
 
 
     fun goToCartFragment(product: ProductsItem){
-        listOfProducts=sharedPref.getArrayFromShared(requireContext(),KEY_PREF)
+        listOfProducts=getArrayFromShared(requireContext(),KEY_PREF)
         if (listOfProducts.contains(product)){
             Toast.makeText(requireContext(),"این کالا در سبد خرید موجود است", Toast.LENGTH_SHORT).show()
         }else{
             listOfProducts.add(product)
-            sharedPref.saveArrayToShared(requireContext(),KEY_PREF,listOfProducts)
+            saveArrayToShared(requireContext(),KEY_PREF,listOfProducts)
             Toast.makeText(requireContext(),"این کالا به سبد خرید اضافه شد", Toast.LENGTH_SHORT).show()
             //findNavController().navigate(R.id.action_detailFragment_to_cartFragment)
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun setReviews() {
+        val reviewAdapter=ReviewAdapter()
+        binding.rvReviews.adapter=reviewAdapter
+        vModel.reviewsList.observe(viewLifecycleOwner){
+            reviewAdapter.submitList(it)
+            if (it.isNullOrEmpty())
+                binding.tvReview.text="نظرات کاربران : \n\n\n\n\t\t\t\tنظری برای این محصول ثبت نشده است"
+//            حذف نظرات تایید نشده
+//            var verifiedList=ArrayList<ReviewsItem>()
+//            for (review in it){
+//                if (review.verified)
+//                    verifiedList.add(review)
+//            }
+//            reviewAdapter.submitList(verifiedList)
+
+        }
+    }
+
+    private fun setRelatedProduct(product: ProductsItem) {
+        val relatedProductAdapter=ProductsItemAdapter{}
+
+        binding.rvRelatedProduct.adapter=relatedProductAdapter
+        var stringOfRelatedIds=""
+        for (id in product.relatedIds) {
+            stringOfRelatedIds += "$id,"
+        }
+
+        vModel.getRelatedProducts(stringOfRelatedIds)
+
+        vModel.relatedProducts.observe(viewLifecycleOwner){
+            relatedProductAdapter.submitList(it)
+        }
+    }
 
 
+
+    private fun retry(id: Int) {
+        binding.btnRefresh.setOnClickListener {
+            vModel.getProductById(id)
+        }
+    }
+
+    private fun checkConnectivity() {
+        vModel.status.observe(viewLifecycleOwner){
+            if(it == ApiStatus.ERROR){
+                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+                binding.clErrorInDetail.visibility=View.VISIBLE
+                binding.svDetail.visibility=View.GONE
+                binding.clDetail.visibility=View.GONE
+            }else{
+                binding.clErrorInDetail.visibility=View.GONE
+                binding.svDetail.visibility=View.VISIBLE
+                binding.clDetail.visibility=View.VISIBLE
+            }
+        }
+    }
 
 }

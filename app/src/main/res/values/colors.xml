@@ -18,10 +18,10 @@
     <color name="back1">#B37A7A</color>
     <color name="back2">#D5B5A1</color>
     <color name="back3">#B37A7A</color>
-
+    <color name="yellow">#ECDB19</color>
 
     <color name="purple_503">#BA880E4F</color>
-    <color name="purple_703">#9C27B0</color>
+
     <color name="purple_701">#9C27B0</color>
     <color name="purple_900">#4F52EC</color>
     <color name="purple_800">#42071B</color>

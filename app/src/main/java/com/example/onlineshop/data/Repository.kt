@@ -37,6 +37,10 @@ class Repository @Inject constructor(/*private val localDataSource: LocalDataSou
         return remoteDataSource.getReviews(productId)
     }
 
+    suspend fun getRelatedProducts(str:String): List<ProductsItem>{
+        return remoteDataSource.getRelatedProducts(str)
+    }
+
     suspend fun searchProducts(searchKey:String,orderBy: String,order: String):List<ProductsItem>{
         return remoteDataSource.searchProducts(searchKey,orderBy,order)
     }

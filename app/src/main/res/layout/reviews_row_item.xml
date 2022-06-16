@@ -2,8 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/category_list_row_item"
+    android:id="@+id/review_row_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -22,52 +21,70 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/iv_category_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/iv_reviewer_image"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/error" />
 
 
         <TextView
-            android:id="@+id/tv_category_name"
+            android:id="@+id/tv_review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
             android:lineSpacingMultiplier="1.1"
             android:maxLines="3"
-            android:text=""
-            android:textAlignment="center"
+            android:text="text"
+            android:textDirection="rtl"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_category_image"
+            app:layout_constraintTop_toBottomOf="@id/iv_reviewer_image"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/tv_category_count"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text=""
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_category_name"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_reviewer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
             android:text="TextView"
-            tools:layout_editor_absoluteX="69dp"
-            tools:layout_editor_absoluteY="69dp" />
+            app:layout_constraintEnd_toStartOf="@+id/iv_reviewer_image"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="10dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toStartOf="@+id/iv_reviewer_image"
+            app:layout_constraintTop_toTopOf="@id/tv_reviewer_name" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_review_rating"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            app:iconTint="@color/yellow"
+            android:text="5"
+            app:cornerRadius="500dp"
+            app:icon="@drawable/ic_baseline_star_rate_24"
+            app:iconGravity="start"
+            app:layout_constraintEnd_toStartOf="@+id/tv_date"
+            app:layout_constraintHorizontal_bias="0.014"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -51,12 +51,19 @@ interface ApiService {
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
 
-    //https://woocommerce.maktabsharif.ir/wp-json/wc/v3/products/reviews?id=666&consumer_key=ck_35f6bcc458eed45f8af8716c18772621ad139e13&consumer_secret=cs_710d145f6e04fc53ad917475459e14bcda2c9630
-    @GET("products/reviews/{id}")
+
+    @GET("products/reviews")
     suspend fun getReviews(
-        @Path("id") productId: Int,
+        @Query("product") productId: Int,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ReviewsItem>
+
+    @GET("products")
+    suspend fun getRelatedProducts(
+        @Query("include") str:String,
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+    ): List<ProductsItem>
+
 
     @GET("products")
     suspend fun searchProducts(
