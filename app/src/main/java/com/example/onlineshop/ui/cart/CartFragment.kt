@@ -16,14 +16,13 @@ import com.example.onlineshop.ui.adapters.CartAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
-const val KEY_PREF="cart"
+
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
     lateinit var binding:FragmentCartBinding
     var listOfProducts=ArrayList<ProductsItem>()
     var sumPrice=0L
-    val sharedPref=SharedPref()
     lateinit var productAdapter : CartAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +46,13 @@ class CartFragment : Fragment() {
 
     private fun initViews() {
         requireActivity().title="سبد خرید"
-        listOfProducts=sharedPref.getArrayFromShared(requireContext(),KEY_PREF)
+        listOfProducts=getArrayFromShared(requireContext(),KEY_PREF)
         setAdapter()
         getPrice()
     }
 
     private fun getPrice() {
-        val productList=sharedPref.getArrayFromShared(requireContext(),KEY_PREF)
+        val productList=getArrayFromShared(requireContext(),KEY_PREF)
 
         if (!productList.isNullOrEmpty()){
             for (product in productList){
@@ -102,8 +101,9 @@ class CartFragment : Fragment() {
 
     private fun removeProductFromCart(count:Int,product:ProductsItem){
        listOfProducts.remove(product)
-        sharedPref.saveArrayToShared(requireContext(),KEY_PREF,listOfProducts)
+        saveArrayToShared(requireContext(),KEY_PREF,listOfProducts)
         sumPrice-= (count * product.price.toLong())
+        binding.btnSumPrice.text=sumPrice.toString()+"تومان"
         setAdapter()
     }
 
