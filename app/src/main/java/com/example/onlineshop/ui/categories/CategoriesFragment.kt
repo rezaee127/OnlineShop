@@ -65,11 +65,12 @@ class CategoriesFragment : Fragment() {
                     binding.rvCategories.visibility=View.GONE
                 }
                 ApiStatus.ERROR -> {
+                    Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+                    binding.btnError.text=vModel.errorMessage
                     binding.btnError.visibility=View.VISIBLE
                     binding.btnRefresh.visibility=View.VISIBLE
                     binding.rvCategories.visibility=View.GONE
                     binding.pbLoading.visibility=View.GONE
-                    Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
                     binding.btnError.visibility=View.GONE

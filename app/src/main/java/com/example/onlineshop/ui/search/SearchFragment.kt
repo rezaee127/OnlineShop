@@ -78,7 +78,7 @@ class SearchFragment : Fragment() {
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
             if(it == ApiStatus.ERROR){
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط با اینترنت", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
             }else{
                 setAdapter()
             }
