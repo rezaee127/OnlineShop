@@ -180,6 +180,7 @@ class DetailFragment : Fragment() {
                 }
                 ApiStatus.ERROR -> {
                     Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+                    binding.btnError.text=vModel.errorMessage
                     binding.clErrorInDetail.visibility=View.VISIBLE
                     binding.clLoadingInDetail.visibility=View.GONE
                     binding.svDetail.visibility=View.GONE

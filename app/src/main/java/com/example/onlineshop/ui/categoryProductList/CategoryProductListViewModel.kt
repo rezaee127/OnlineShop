@@ -17,6 +17,7 @@ import javax.inject.Inject
 class CategoryProductListViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
     var status=MutableLiveData<ApiStatus>()
     val listOfProduct=MutableLiveData<List<ProductsItem>>()
+    var errorMessage=""
 
     fun getProductsListInEachCategory(category:Int): LiveData<List<ProductsItem>>{
         viewModelScope.launch {
@@ -25,7 +26,31 @@ class CategoryProductListViewModel @Inject constructor(private val repository: R
                 listOfProduct.value=repository.getProductsListInEachCategory(category)
                 status.value = ApiStatus.DONE
             }
-            catch (e:Exception){
+            catch (e:retrofit2.HttpException){
+                errorMessage="خطا در ارتباط با سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
+                errorMessage=when(e.message){
+                    "HTTP 400 "-> "$errorMessage\n\nدرخواست اشتباه است"
+                    "HTTP 401 "-> "$errorMessage\n\nیوزر معتبر نیست"
+                    "HTTP 404 "-> "$errorMessage\n\nلینک اشتباه است"
+                    "HTTP 500 "-> "$errorMessage\n\nارور سرور"
+                    else -> ""
+                }
+                status.value = ApiStatus.ERROR
+            }
+            catch (e:java.lang.IllegalArgumentException){
+                errorMessage="خطا در اطلاعات ارسالی به سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
+                status.value = ApiStatus.ERROR
+            }
+            catch (e:java.net.SocketTimeoutException){
+                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
+                status.value = ApiStatus.ERROR
+            }
+            catch (e:java.net.UnknownHostException){
+                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
+                status.value = ApiStatus.ERROR
+            }
+            catch(e:Exception){
+                errorMessage="خطا در دریافت اطلاعات"
                 status.value = ApiStatus.ERROR
             }
         }
