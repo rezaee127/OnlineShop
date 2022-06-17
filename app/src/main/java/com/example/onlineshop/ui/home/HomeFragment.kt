@@ -55,15 +55,26 @@ class HomeFragment : Fragment() {
 
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
-            if(it ==ApiStatus.ERROR){
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
-                binding.btnError.visibility=View.VISIBLE
-                binding.btnRefresh.visibility=View.VISIBLE
-                binding.svHomeFragment.visibility=View.GONE
-            }else{
-                binding.svHomeFragment.visibility=View.VISIBLE
-                binding.btnError.visibility=View.GONE
-                binding.btnRefresh.visibility=View.GONE
+            when (it) {
+                ApiStatus.LOADING -> {
+                    binding.pbLoading.visibility=View.VISIBLE
+                    binding.svHomeFragment.visibility=View.GONE
+                    binding.btnError.visibility=View.GONE
+                    binding.btnRefresh.visibility=View.GONE
+                }
+                ApiStatus.ERROR -> {
+                    Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+                    binding.btnError.visibility=View.VISIBLE
+                    binding.btnRefresh.visibility=View.VISIBLE
+                    binding.svHomeFragment.visibility=View.GONE
+                    binding.pbLoading.visibility=View.GONE
+                }
+                else -> {
+                    binding.svHomeFragment.visibility=View.VISIBLE
+                    binding.btnError.visibility=View.GONE
+                    binding.btnRefresh.visibility=View.GONE
+                    binding.pbLoading.visibility=View.GONE
+                }
             }
         }
     }

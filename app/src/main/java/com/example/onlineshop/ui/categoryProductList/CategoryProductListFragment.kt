@@ -52,15 +52,26 @@ class CategoryProductListFragment : Fragment() {
 
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
-            if(it == ApiStatus.ERROR){
-                binding.btnError.visibility=View.VISIBLE
-                binding.btnRefresh.visibility=View.VISIBLE
-                binding.rvCategoryListProduct.visibility=View.GONE
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
-            }else{
-                binding.btnError.visibility=View.GONE
-                binding.btnRefresh.visibility=View.GONE
-                binding.rvCategoryListProduct.visibility=View.VISIBLE
+            when (it) {
+                ApiStatus.LOADING -> {
+                    binding.pbLoading.visibility=View.VISIBLE
+                    binding.btnError.visibility=View.GONE
+                    binding.btnRefresh.visibility=View.GONE
+                    binding.rvCategoryListProduct.visibility=View.GONE
+                }
+                ApiStatus.ERROR -> {
+                    binding.btnError.visibility=View.VISIBLE
+                    binding.btnRefresh.visibility=View.VISIBLE
+                    binding.pbLoading.visibility=View.GONE
+                    binding.rvCategoryListProduct.visibility=View.GONE
+                    Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    binding.btnError.visibility=View.GONE
+                    binding.btnRefresh.visibility=View.GONE
+                    binding.pbLoading.visibility=View.GONE
+                    binding.rvCategoryListProduct.visibility=View.VISIBLE
+                }
             }
         }
     }

@@ -171,15 +171,26 @@ class DetailFragment : Fragment() {
 
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
-            if(it == ApiStatus.ERROR){
-                Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
-                binding.clErrorInDetail.visibility=View.VISIBLE
-                binding.svDetail.visibility=View.GONE
-                binding.clDetail.visibility=View.GONE
-            }else{
-                binding.clErrorInDetail.visibility=View.GONE
-                binding.svDetail.visibility=View.VISIBLE
-                binding.clDetail.visibility=View.VISIBLE
+            when (it) {
+                ApiStatus.LOADING -> {
+                    binding.clLoadingInDetail.visibility=View.VISIBLE
+                    binding.clErrorInDetail.visibility=View.GONE
+                    binding.svDetail.visibility=View.GONE
+                    binding.clDetail.visibility=View.GONE
+                }
+                ApiStatus.ERROR -> {
+                    Toast.makeText(requireContext(),"خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show()
+                    binding.clErrorInDetail.visibility=View.VISIBLE
+                    binding.clLoadingInDetail.visibility=View.GONE
+                    binding.svDetail.visibility=View.GONE
+                    binding.clDetail.visibility=View.GONE
+                }
+                else -> {
+                    binding.clErrorInDetail.visibility=View.GONE
+                    binding.clLoadingInDetail.visibility=View.GONE
+                    binding.svDetail.visibility=View.VISIBLE
+                    binding.clDetail.visibility=View.VISIBLE
+                }
             }
         }
     }
