@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="button_style">
+        <item name="iconTint">@color/purple_502</item>
+        <item name="android:textColor">@color/purple_502</item>
+    </style>
+
+</resources>

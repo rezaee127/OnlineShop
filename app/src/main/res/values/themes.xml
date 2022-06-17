@@ -15,6 +15,7 @@
         <item name="colorPrimary">@color/purple_502</item>
         <item name="colorPrimaryVariant">@color/purple_702</item>
         <item name="colorOnPrimary">@color/white2</item>
+<!--        <item name="fontFamily">@font/nazanin</item>-->
         <item name="android:windowBackground">@color/whiteBack2</item>
         <item name="android:colorBackgroundCacheHint">@color/whiteBack2</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>

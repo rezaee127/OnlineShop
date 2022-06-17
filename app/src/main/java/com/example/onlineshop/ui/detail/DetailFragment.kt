@@ -165,6 +165,7 @@ class DetailFragment : Fragment() {
     private fun retry(id: Int) {
         binding.btnRefresh.setOnClickListener {
             vModel.getProductById(id)
+            vModel.getReviews(id)
         }
     }
 
