@@ -18,9 +18,7 @@ import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.adapters.ImageAdapter
 import com.example.onlineshop.ui.adapters.ProductsItemAdapter
 import com.example.onlineshop.ui.adapters.ReviewAdapter
-import com.example.onlineshop.ui.cart.KEY_PREF
-import com.example.onlineshop.ui.cart.getArrayFromShared
-import com.example.onlineshop.ui.cart.saveArrayToShared
+import com.example.onlineshop.ui.cart.*
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +28,8 @@ class DetailFragment : Fragment() {
     lateinit var binding: FragmentDetailBinding
     var pagerSnapHelper = PagerSnapHelper()
     var listOfProducts=ArrayList<ProductsItem>()
+    var productMap=HashMap<Int,Int>()
+    lateinit var product:ProductsItem
     val vModel:DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +64,7 @@ class DetailFragment : Fragment() {
     private fun initView(id:Int) {
         vModel.getProductById(id)
         vModel.getReviews(id)
-        lateinit var product:ProductsItem
+
         vModel.product.observe(viewLifecycleOwner){
             setView(it)
             product=it
@@ -110,12 +110,15 @@ class DetailFragment : Fragment() {
 
 
     fun goToCartFragment(product: ProductsItem){
-        listOfProducts=getArrayFromShared(requireContext(),KEY_PREF)
-        if (listOfProducts.contains(product)){
+        listOfProducts=getArrayFromSharedPref(requireContext(),KEY_PREF)
+        productMap=getHashMapFromSharedPref(requireContext())
+        if (productMap.contains(product.id)){
             Toast.makeText(requireContext(),"این کالا در سبد خرید موجود است", Toast.LENGTH_SHORT).show()
         }else{
+            productMap[product.id]=1
+            saveHashMapToSharedPref(requireContext(),productMap)
             listOfProducts.add(product)
-            saveArrayToShared(requireContext(),KEY_PREF,listOfProducts)
+            saveArrayToSharedPref(requireContext(),KEY_PREF,listOfProducts)
             Toast.makeText(requireContext(),"این کالا به سبد خرید اضافه شد", Toast.LENGTH_SHORT).show()
             //findNavController().navigate(R.id.action_detailFragment_to_cartFragment)
         }

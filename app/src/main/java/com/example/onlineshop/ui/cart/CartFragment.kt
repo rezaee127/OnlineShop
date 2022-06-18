@@ -1,13 +1,11 @@
 package com.example.onlineshop.ui.cart
 
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCartBinding
@@ -17,11 +15,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 
-
 @AndroidEntryPoint
 class CartFragment : Fragment() {
     lateinit var binding:FragmentCartBinding
     var listOfProducts=ArrayList<ProductsItem>()
+    var productMap= HashMap<Int,Int>()
     var sumPrice=0L
     lateinit var productAdapter : CartAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,17 +44,20 @@ class CartFragment : Fragment() {
 
     private fun initViews() {
         requireActivity().title="سبد خرید"
-        listOfProducts=getArrayFromShared(requireContext(),KEY_PREF)
+        productMap=getHashMapFromSharedPref(requireContext())
+        listOfProducts=getArrayFromSharedPref(requireContext(),KEY_PREF)
         setAdapter()
         getPrice()
+        productOrder()
     }
 
-    private fun getPrice() {
-        val productList=getArrayFromShared(requireContext(),KEY_PREF)
 
-        if (!productList.isNullOrEmpty()){
-            for (product in productList){
-                sumPrice += product.price.toLong()
+
+    private fun getPrice() {
+        sumPrice=0L
+        if (!listOfProducts.isNullOrEmpty()){
+            for (product in listOfProducts){
+                sumPrice += product.price.toLong() * productMap[product.id]!!
             }
         }
         binding.btnSumPrice.text=sumPrice.toString()+"تومان"
@@ -64,47 +65,35 @@ class CartFragment : Fragment() {
 
 
     private fun setAdapter() {
-        if (!listOfProducts.isNullOrEmpty()){
-            productAdapter=CartAdapter(
-                {detailId->goToDetailFragment(detailId)},
-                {count,product->removeProductFromCart(count,product)},
-                {count,price->plusPrice(count,price)},
-                {count,price->minusPrice(count,price) })
-
-            binding.rvCart.adapter=productAdapter
-            productAdapter.submitList(listOfProducts)
-
-        }else
-            Toast.makeText(requireContext(),"سبد خرید خالی است", Toast.LENGTH_SHORT).show()
-
+        productAdapter=CartAdapter(productMap,
+            {detailId->goToDetailFragment(detailId)},
+            {product->removeProductFromCart(product)},
+            {operator,count,product->changeProductCount(operator,count,product)})
+        binding.rvCart.adapter=productAdapter
+        productAdapter.submitList(listOfProducts)
     }
 
-    private fun plusPrice(count: Int, price: String):Long {
-
-        if(price!="")
-        sumPrice +=  (price.toLong())
-
+    private fun changeProductCount(operator:String,count:Int, product: ProductsItem) {
+        if(product.price!=""){
+            sumPrice =when(operator){
+                "+"-> sumPrice+(product.price.toLong())
+                else-> sumPrice-(product.price.toLong())
+            }
+        }
         binding.btnSumPrice.text=sumPrice.toString()+" تومان"
-        return sumPrice
-    }
-    private fun minusPrice(count: Int, price: String):Long {
-
-        if(price!="")
-            sumPrice -=  (price.toLong())
-
-        binding.btnSumPrice.text=sumPrice.toString()+" تومان"
-        return sumPrice
+        productMap[product.id]= count
+        saveHashMapToSharedPref(requireContext(),productMap)
     }
 
-
-
-
-    private fun removeProductFromCart(count:Int,product:ProductsItem){
-       listOfProducts.remove(product)
-        saveArrayToShared(requireContext(),KEY_PREF,listOfProducts)
-        sumPrice-= (count * product.price.toLong())
-        binding.btnSumPrice.text=sumPrice.toString()+"تومان"
+    private fun removeProductFromCart(product:ProductsItem){
+        productMap.remove(product.id)
+        saveHashMapToSharedPref(requireContext(),productMap)
+        listOfProducts.remove(product)
+        saveArrayToSharedPref(requireContext(),KEY_PREF,listOfProducts)
+        productAdapter.submitList(listOfProducts)
         setAdapter()
+        getPrice()
+
     }
 
     private fun goToDetailFragment(id:Int){
@@ -113,5 +102,10 @@ class CartFragment : Fragment() {
     }
 
 
+    private fun productOrder() {
+        binding.btnOrder.setOnClickListener {
+            findNavController().navigate(R.id.action_cartFragment_to_profileFragment)
+        }
+    }
 
 }

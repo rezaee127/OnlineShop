@@ -16,10 +16,9 @@ import com.example.onlineshop.R
 import com.example.onlineshop.model.ProductsItem
 
 
-class CartAdapter(var onClickItem: (Int) -> Unit,
-                  var deleteProductFromCart: (Int,ProductsItem) -> Unit,
-                  var plusProduct: (Int,String) -> Unit,
-                  var minusProduct: (Int,String) -> Unit) :
+class CartAdapter(var productMap:HashMap<Int,Int>,var onClickItem: (Int) -> Unit,
+                  var deleteProductFromCart: (ProductsItem) -> Unit,
+                  var changeProductCount: (operator:String, Int, ProductsItem) -> Unit ) :
     ListAdapter<ProductsItem, CartAdapter.ViewHolder>(ProductsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
@@ -32,14 +31,14 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
         val ibAdd = view.findViewById<ImageButton>(R.id.ib_cart_add)
         val ibMinus = view.findViewById<ImageButton>(R.id.ib_cart_minus)
         val ibDelete = view.findViewById<ImageButton>(R.id.ib_cart_delete)
-        var count=tvCount.text.toString().toInt()
 
         @SuppressLint("SetTextI18n")
-        fun bind(productsItem: ProductsItem, onClickItem: (Int) -> Unit,
-                 deleteProductFromCart: (Int,ProductsItem) -> Unit,
-                 plusProduct: (Int,String) -> Unit,
-                 minusProduct: (Int,String) -> Unit) {
-
+        fun bind(productsItem: ProductsItem, productMap: HashMap<Int, Int>,
+                 onClickItem: (Int) -> Unit, deleteProductFromCart: (ProductsItem) -> Unit,
+                 changeProductCount: (operator:String,Int,ProductsItem) -> Unit)
+        {
+            var count= productMap[productsItem.id]!!
+            tvCount.text= productMap[productsItem.id].toString()
             tvProductName.text = productsItem.name
             tvPrice.text="${productsItem.price} تومان"
 
@@ -54,17 +53,17 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
             ibAdd.setOnClickListener {
                 tvCount.text=(++count).toString()
                 ibMinus.isClickable=true
-                plusProduct(count,productsItem.price)
+                changeProductCount("+",count,productsItem)
             }
 
             ibMinus.setOnClickListener {
                 tvCount.text=(--count).toString()
                 if (count==1)
                     ibMinus.isClickable=false
-                minusProduct(count,productsItem.price)
+                changeProductCount("-",count,productsItem)
             }
             ibDelete.setOnClickListener {
-                deleteProductFromCart(count,productsItem)
+                deleteProductFromCart(productsItem)
             }
             tvProductName.setOnClickListener {
                 onClickItem(productsItem.id)
@@ -98,7 +97,7 @@ class CartAdapter(var onClickItem: (Int) -> Unit,
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.bind(getItem(position), onClickItem,deleteProductFromCart,plusProduct,minusProduct)
+        viewHolder.bind(getItem(position),productMap, onClickItem,deleteProductFromCart,changeProductCount)
 
     }
 
