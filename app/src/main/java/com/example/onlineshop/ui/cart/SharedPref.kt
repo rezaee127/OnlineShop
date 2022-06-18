@@ -2,15 +2,17 @@ package com.example.onlineshop.ui.cart
 
 
 import android.content.Context
+import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
 import com.example.onlineshop.model.ProductsItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
+
 const val KEY_PREF = "cart"
 
-fun Fragment.saveArrayToShared(context: Context, key: String, list: ArrayList<ProductsItem>?) {
+fun Fragment.saveArrayToSharedPref(context: Context, key: String, list: ArrayList<ProductsItem>?) {
     val gson = Gson()
     val json: String = gson.toJson(list)
     set(context, key, json)
@@ -26,7 +28,7 @@ fun set(context: Context, key: String, value: String?) {
 
 
 //save
-fun Fragment.getArrayFromShared(context: Context, key: String): ArrayList<ProductsItem> {
+fun Fragment.getArrayFromSharedPref(context: Context, key: String): ArrayList<ProductsItem> {
     val pref = context.getSharedPreferences("share", Context.MODE_PRIVATE)
     var arrayItems = ArrayList<ProductsItem>()
     val serializedObject = pref.getString(key, null)
@@ -37,5 +39,37 @@ fun Fragment.getArrayFromShared(context: Context, key: String): ArrayList<Produc
     }
     return arrayItems
 }
+
+
+fun Fragment.getHashMapFromSharedPref(context: Context): HashMap<Int, Int> {
+    val prefs = context.getSharedPreferences("shares", Context.MODE_PRIVATE)
+    var hashMap=HashMap<Int, Int>()
+    val gson = Gson()
+    val json = prefs.getString("key", null)
+    if(json!=null){
+        val type = object : TypeToken<HashMap<Int, Int>?>() {}.type
+        hashMap= gson.fromJson(json, type)
+    }
+    return hashMap
+}
+
+
+fun Fragment.saveHashMapToSharedPref(context: Context, obj: HashMap<Int, Int>) {
+    val prefs = context.getSharedPreferences("shares", Context.MODE_PRIVATE)
+    val editor = prefs.edit()
+    val gson = Gson()
+    val json = gson.toJson(obj)
+    editor.putString("key", json)
+    editor.apply()
+}
+
+
+
+
+
+
+
+
+
 
 
