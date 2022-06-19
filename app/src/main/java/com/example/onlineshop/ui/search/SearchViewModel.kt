@@ -30,7 +30,7 @@ class SearchViewModel  @Inject constructor(private val repository: Repository): 
                 errorMessage="خطا در ارتباط با سرور\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n در صورت تداوم مشکل با ما تماس بگیرید"
                 errorMessage=when(e.message){
                     "HTTP 400 "-> "$errorMessage\nدرخواست اشتباه است"
-                    "HTTP 401 "-> "$errorMessage\nیوزر معتبر نیست"
+                    "HTTP 401 "-> "$errorMessage\nاعتبار سنجی انجام نشد"
                     "HTTP 404 "-> "$errorMessage\nلینک اشتباه است"
                     "HTTP 500 "-> "$errorMessage\nارور سرور"
                     else -> ""

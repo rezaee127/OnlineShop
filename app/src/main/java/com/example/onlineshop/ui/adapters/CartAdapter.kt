@@ -47,7 +47,7 @@ class CartAdapter(var productMap:HashMap<Int,Int>,var onClickItem: (Int) -> Unit
             str=str.replace("<p>","")
             tvShortDescription.text=str
 
-            if (count==1)
+            if (count<=1)
                 ibMinus.isClickable=false
 
             ibAdd.setOnClickListener {
@@ -57,10 +57,12 @@ class CartAdapter(var productMap:HashMap<Int,Int>,var onClickItem: (Int) -> Unit
             }
 
             ibMinus.setOnClickListener {
-                tvCount.text=(--count).toString()
-                if (count==1)
+                if (count<=1){
                     ibMinus.isClickable=false
-                changeProductCount("-",count,productsItem)
+                }else{
+                    tvCount.text=(--count).toString()
+                    changeProductCount("-",count,productsItem)
+                }
             }
             ibDelete.setOnClickListener {
                 deleteProductFromCart(productsItem)

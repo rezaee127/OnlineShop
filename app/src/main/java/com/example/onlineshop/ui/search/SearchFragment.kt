@@ -77,10 +77,17 @@ class SearchFragment : Fragment() {
 
     private fun checkConnectivity() {
         vModel.status.observe(viewLifecycleOwner){
-            if(it == ApiStatus.ERROR){
-                Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
-            }else{
-                setAdapter()
+            when (it) {
+                ApiStatus.LOADING ->
+                    binding.pbLoading.visibility=View.VISIBLE
+                ApiStatus.ERROR -> {
+                    binding.pbLoading.visibility=View.GONE
+                    Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    binding.pbLoading.visibility=View.GONE
+                    setAdapter()
+                }
             }
         }
     }

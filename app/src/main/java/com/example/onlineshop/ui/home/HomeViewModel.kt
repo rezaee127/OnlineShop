@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository): Vie
                 errorMessage="خطا در ارتباط با سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
                 errorMessage=when(e.message){
                     "HTTP 400 "-> "$errorMessage\n\nدرخواست اشتباه است"
-                    "HTTP 401 "-> "$errorMessage\n\nیوزر معتبر نیست"
+                    "HTTP 401 "-> "$errorMessage\n\nاعتبار سنجی انجام نشد"
                     "HTTP 404 "-> "$errorMessage\n\nلینک اشتباه است"
                     "HTTP 500 "-> "$errorMessage\n\nارور سرور"
                     else -> ""

@@ -10,14 +10,14 @@
 
 
     <color name="purple_502">#522E3C</color>
-    <color name="purple_702">#c5ceae</color>
+    <color name="purple_702">#D5B5A1</color>
     <color name="white2">#FFFFFF</color>
-    <color name="whiteBack2">#EDE2BD</color>
+    <color name="whiteBack2">#ffffff</color>
     <color name="teal_201">#D5B5A1</color>
 
-    <color name="back1">#B37A7A</color>
-    <color name="back2">#D5B5A1</color>
-    <color name="back3">#B37A7A</color>
+    <color name="back1">#EDE2BD</color>
+    <color name="back2">#522E3C</color>
+    <color name="back3">#EDE2BD</color>
     <color name="yellow">#ECDB19</color>
 
     <color name="purple_503">#BA880E4F</color>
