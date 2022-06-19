@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="8dp"
     android:background="@color/back1"
     android:orientation="vertical"
     tools:context=".ui.detail.DetailFragment"
@@ -17,6 +16,7 @@
         android:id="@+id/sv_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
         android:layout_weight="15"
         tools:ignore="MissingConstraints">
 

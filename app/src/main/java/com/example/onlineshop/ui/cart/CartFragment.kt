@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -17,8 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
-    lateinit var binding:FragmentCartBinding
-    var listOfProducts=ArrayList<ProductsItem>()
+    private lateinit var binding:FragmentCartBinding
+    private var listOfProducts=ArrayList<ProductsItem>()
     var productMap= HashMap<Int,Int>()
     var sumPrice=0L
     lateinit var productAdapter : CartAdapter
@@ -59,8 +60,13 @@ class CartFragment : Fragment() {
             for (product in listOfProducts){
                 sumPrice += product.price.toLong() * productMap[product.id]!!
             }
+            binding.btnSumPrice.text=sumPrice.toString()+"تومان"
+        }else {
+            binding.svCart.visibility=View.GONE
+            binding.clCartBottom.visibility=View.GONE
+            Toast.makeText(requireContext(),"سبد خرید خالی است", Toast.LENGTH_SHORT).show()
         }
-        binding.btnSumPrice.text=sumPrice.toString()+"تومان"
+
     }
 
 
@@ -86,14 +92,13 @@ class CartFragment : Fragment() {
     }
 
     private fun removeProductFromCart(product:ProductsItem){
-        productMap.remove(product.id)
-        saveHashMapToSharedPref(requireContext(),productMap)
         listOfProducts.remove(product)
-        saveArrayToSharedPref(requireContext(),KEY_PREF,listOfProducts)
         productAdapter.submitList(listOfProducts)
         setAdapter()
+        productMap.remove(product.id)
         getPrice()
-
+        saveArrayToSharedPref(requireContext(),KEY_PREF,listOfProducts)
+        saveHashMapToSharedPref(requireContext(),productMap)
     }
 
     private fun goToDetailFragment(id:Int){
