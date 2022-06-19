@@ -3,10 +3,8 @@ package com.example.onlineshop.data
 import com.example.onlineshop.model.CategoriesItem
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.data.network.ApiService
-import com.example.onlineshop.data.network.NetworkParams
+import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.ReviewsItem
-import retrofit2.http.Query
-import retrofit2.http.QueryMap
 import javax.inject.Inject
 
 
@@ -49,6 +47,10 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
 
     suspend fun searchProducts(searchKey:String,orderBy: String,order: String):List<ProductsItem>{
         return apiService.searchProducts(searchKey,orderBy,order)
+    }
+
+    suspend fun createCustomer(firstName:String,lastName: String,password: String, email: String): CustomerItem{
+        return apiService.createCustomer(firstName,lastName,password,email)
     }
 
 }

@@ -4,6 +4,7 @@ package com.example.onlineshop.ui.cart
 import android.content.Context
 import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
+import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.ProductsItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -63,6 +64,29 @@ fun Fragment.saveHashMapToSharedPref(context: Context, obj: HashMap<Int, Int>) {
     editor.apply()
 }
 
+
+
+fun getCustomerFromSharedPref(context: Context): CustomerItem? {
+    val preferences = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
+    var customer:CustomerItem?=null
+    val gson = Gson()
+    val json = preferences.getString("customer", null)
+    if(json!=null){
+        val type = object : TypeToken<CustomerItem?>() {}.type
+        customer= gson.fromJson(json, type)
+    }
+    return customer
+}
+
+
+fun saveCustomerToSharedPref(context: Context, obj: CustomerItem) {
+    val preferences = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
+    val editor = preferences.edit()
+    val gson = Gson()
+    val json = gson.toJson(obj)
+    editor.putString("customer", json)
+    editor.apply()
+}
 
 
 

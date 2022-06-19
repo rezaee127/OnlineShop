@@ -1,12 +1,10 @@
 package com.example.onlineshop.data.network
 
 import com.example.onlineshop.model.CategoriesItem
+import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.model.ReviewsItem
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
 
 interface ApiService {
@@ -72,5 +70,14 @@ interface ApiService {
         @Query("order")order: String,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
+
+    @POST("customers")
+    suspend fun createCustomer(
+        @Query("first_name")firstName:String,
+        @Query("last_name")lastName: String,
+        @Query("password")password: String,
+        @Query("email")email: String,
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+    ): CustomerItem
 
 }
