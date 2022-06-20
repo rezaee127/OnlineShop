@@ -43,12 +43,10 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         return remoteDataSource.searchProducts(searchKey,orderBy,order)
     }
 
-    suspend fun createCustomer(firstName:String, lastName: String, password: String,
-                               email: String, billing: Billing, shipping: Shipping): CustomerItem{
 
-        return remoteDataSource.createCustomer(firstName,lastName,password,email,billing,shipping)
+    suspend fun createCustomer(customerItem: CustomerItem): CustomerItem{
+        return remoteDataSource.createCustomer(customerItem)
     }
-
 
 
     fun saveCustomerInShared(context: Context,customer:CustomerItem){

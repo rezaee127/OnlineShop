@@ -1,12 +1,11 @@
 package com.example.onlineshop.ui.profile
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.*
 import com.example.onlineshop.data.Repository
+import com.example.onlineshop.model.Billing
 import com.example.onlineshop.model.CustomerItem
-import com.example.onlineshop.ui.cart.getCustomerFromSharedPref
-import com.example.onlineshop.ui.cart.saveCustomerToSharedPref
+import com.example.onlineshop.model.Shipping
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,12 +20,12 @@ class ProfileViewModel @Inject constructor(private val repository: Repository,
     var status= MutableLiveData<ApiStatus>()
     var errorMessage=""
 
-    fun createCustomer(firstName:String,lastName: String,password: String,
-                       email: String): LiveData<CustomerItem> {
+    fun createCustomer(customerItem: CustomerItem): LiveData<CustomerItem> {
+
         viewModelScope.launch {
             status.value = ApiStatus.LOADING
             try {
-                customer.value = repository.createCustomer(firstName, lastName,password, email)
+                customer.value = repository.createCustomer(customerItem)
                 status.value = ApiStatus.DONE
             }
             catch (e: retrofit2.HttpException) {
@@ -62,6 +61,11 @@ class ProfileViewModel @Inject constructor(private val repository: Repository,
 
     fun getCustomerFromShared(): CustomerItem ?{
         return repository.getCustomerFromShared(app.applicationContext)
+    }
+
+
+    fun getHashMapFromShared():HashMap<Int, Int>{
+        return repository.getHashMapFromShared(app.applicationContext)
     }
 }
 

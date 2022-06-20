@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.onlineshop.databinding.FragmentProfileBinding
+import com.example.onlineshop.model.Billing
 import com.example.onlineshop.model.CustomerItem
+import com.example.onlineshop.model.Shipping
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,6 +45,8 @@ class ProfileFragment : Fragment() {
 
         checkConnectivity()
 
+        order()
+
         if (vModel.getCustomerFromShared()!=null){
             enter()
         } else{
@@ -53,10 +57,15 @@ class ProfileFragment : Fragment() {
         vModel.customer.observe(viewLifecycleOwner){
             vModel.saveCustomerInShared(it)
             mCustomer=it
-            Toast.makeText(requireContext(),"ثبت نام با موفقیت انجام شد", Toast.LENGTH_SHORT).show()
             enter()
         }
 
+    }
+
+    private fun order() {
+        binding.btnOrder.setOnClickListener {
+
+        }
     }
 
     private fun enter() {
@@ -64,10 +73,11 @@ class ProfileFragment : Fragment() {
         binding.tfFirstName.editText?.setText(mCustomer.firstName)
         binding.tfLastName.editText?.setText(mCustomer.lastName)
         binding.tfEmail.editText?.setText(mCustomer.email)
+        binding.tfAddress.editText?.setText(mCustomer.billing.address1)
         binding.tfFirstName.editText?.isEnabled=false
         binding.tfLastName.editText?.isEnabled=false
         binding.tfEmail.editText?.isEnabled=false
-        binding.tfPassword.visibility=View.GONE
+        binding.tfAddress.editText?.isEnabled=false
         binding.btnRegister.visibility=View.GONE
         binding.btnOrder.visibility=View.VISIBLE
         binding.btnReturnToCart.visibility=View.VISIBLE
@@ -79,15 +89,23 @@ class ProfileFragment : Fragment() {
             when {
                 binding.tfFirstName.editText?.text.isNullOrBlank() -> binding.tfFirstName.error = "نام را وارد کنید"
                 binding.tfLastName.editText?.text.isNullOrBlank() -> binding.tfLastName.error = "نام خانوادگی را وارد کنید"
-                binding.tfPassword.editText?.text.isNullOrBlank() -> binding.tfPassword.error = "پسورد را وارد کنید"
+                binding.tfAddress.editText?.text.isNullOrBlank() -> binding.tfAddress.error = "آدرس را وارد کنید"
                 binding.tfEmail.editText?.text.isNullOrBlank() -> binding.tfEmail.error = "ایمیل را وارد کنید"
                 !emailRegex.matches(binding.tfEmail.editText?.text.toString()) -> binding.tfEmail.error ="ایمیل اشتباه است"
 
                 else -> {
-                    vModel.createCustomer(binding.tfFirstName.editText?.text.toString(),
+                    vModel.createCustomer(CustomerItem(0,
+                        binding.tfFirstName.editText?.text.toString(),
                         binding.tfLastName.editText?.text.toString(),
-                        binding.tfPassword.editText?.text.toString(),
-                        binding.tfEmail.editText?.text.toString())
+                        binding.tfEmail.editText?.text.toString(),
+                    Billing(binding.tfFirstName.editText?.text.toString(),
+                        binding.tfLastName.editText?.text.toString(),
+                        binding.tfEmail.editText?.text.toString(),
+                        binding.tfAddress.editText?.text.toString()),
+                    Shipping(binding.tfFirstName.editText?.text.toString(),
+                        binding.tfLastName.editText?.text.toString(),
+                        binding.tfAddress.editText?.text.toString())
+                    ))
                 }
             }
         }
@@ -102,7 +120,10 @@ class ProfileFragment : Fragment() {
                     binding.pbLoading.visibility=View.GONE
                     Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
                 }
-                else -> binding.pbLoading.visibility=View.GONE
+                else -> {
+                    Toast.makeText(requireContext(),"ثبت نام با موفقیت انجام شد", Toast.LENGTH_SHORT).show()
+                    binding.pbLoading.visibility=View.GONE
+                }
             }
 
         }

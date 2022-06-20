@@ -1,9 +1,7 @@
 package com.example.onlineshop.data.network
 
-import com.example.onlineshop.model.CategoriesItem
-import com.example.onlineshop.model.CustomerItem
-import com.example.onlineshop.model.ProductsItem
-import com.example.onlineshop.model.ReviewsItem
+import com.example.onlineshop.model.*
+import retrofit2.Call
 import retrofit2.http.*
 
 
@@ -58,26 +56,70 @@ interface ApiService {
 
     @GET("products")
     suspend fun getRelatedProducts(
-        @Query("include") str:String,
+        @Query("include") str: String,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
 
 
     @GET("products")
     suspend fun searchProducts(
-        @Query("search")searchKey:String,
-        @Query("orderby")orderBy: String,
-        @Query("order")order: String,
+        @Query("search") searchKey: String,
+        @Query("orderby") orderBy: String,
+        @Query("order") order: String,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
 
+
     @POST("customers")
     suspend fun createCustomer(
-        @Query("first_name")firstName:String,
-        @Query("last_name")lastName: String,
-        @Query("password")password: String,
-        @Query("email")email: String,
+        @Body customerItem: CustomerItem,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): CustomerItem
+
+
+    @POST("orders")
+    suspend fun createOrder(
+        @Query("customer_id") customerId: Int,
+        @Query("line_items") lineItems: List<LineItem>,
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+    ): OrderItem
+
+
+    @GET("products" )
+    fun getProducts(
+        @Query("search") searchText: String?,
+        @Query("attribute") attribute: String?,
+        @Query("attribute_term") terms: String?,
+        @Query("per_page") perPage: Int,
+        @Query("page") numberOfPage: Int,
+        @Query("orderby") baseOn: String?,
+        @Query("order") order: String?
+    ):List<ProductsItem?>?
+
+    @GET("products" )
+    fun getProducts(
+        @Query("search") searchText: String?,
+        @Query("attribute") attribute: String?,
+        @Query("attribute_term") terms: String?,
+        @Query("per_page") perPage: Int,
+        @Query("page") numberOfPage: Int
+    ): List<ProductsItem?>?
+
+
+    @GET("products")
+    fun getProducts(
+        @Query("attribute") attribute: String?,
+        @Query("attribute_term") terms: String?,
+        @Query("per_page") perPage: Int,
+        @Query("page") numberOfPage: Int
+    ): List<ProductsItem?>?
+
+    @GET("products" )
+    fun searchProducts(
+        @Query("search") searchText: String?,
+        @Query("per_page") perPage: Int,
+        @Query("page") numberOfPage: Int
+    ): List<ProductsItem?>?
+
 
 }
