@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCartBinding
@@ -19,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CartFragment : Fragment() {
     private lateinit var binding:FragmentCartBinding
+    val vModel:CartViewModel by viewModels()
     private var listOfProducts=ArrayList<ProductsItem>()
     var productMap= HashMap<Int,Int>()
     var sumPrice=0L
@@ -45,8 +47,8 @@ class CartFragment : Fragment() {
 
     private fun initViews() {
         requireActivity().title="سبد خرید"
-        productMap=getHashMapFromSharedPref(requireContext())
-        listOfProducts=getArrayFromSharedPref(requireContext(),KEY_PREF)
+        productMap= vModel.getHashMapFromShared()
+        listOfProducts=vModel.getArrayFromShared()
         setAdapter()
         getPrice()
         productOrder()
@@ -88,7 +90,7 @@ class CartFragment : Fragment() {
         }
         binding.btnSumPrice.text=sumPrice.toString()+" تومان"
         productMap[product.id]= count
-        saveHashMapToSharedPref(requireContext(),productMap)
+        vModel.saveHashMapInShared(productMap)
     }
 
     private fun removeProductFromCart(product:ProductsItem){
@@ -97,8 +99,8 @@ class CartFragment : Fragment() {
         setAdapter()
         productMap.remove(product.id)
         getPrice()
-        saveArrayToSharedPref(requireContext(),KEY_PREF,listOfProducts)
-        saveHashMapToSharedPref(requireContext(),productMap)
+        vModel.saveArrayInShared(listOfProducts)
+        vModel.saveHashMapInShared(productMap)
     }
 
     private fun goToDetailFragment(id:Int){

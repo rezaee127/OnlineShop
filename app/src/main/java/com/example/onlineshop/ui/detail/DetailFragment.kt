@@ -18,7 +18,6 @@ import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.adapters.ImageAdapter
 import com.example.onlineshop.ui.adapters.ProductsItemAdapter
 import com.example.onlineshop.ui.adapters.ReviewAdapter
-import com.example.onlineshop.ui.cart.*
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -110,15 +109,15 @@ class DetailFragment : Fragment() {
 
 
     fun goToCartFragment(product: ProductsItem){
-        listOfProducts=getArrayFromSharedPref(requireContext(),KEY_PREF)
-        productMap=getHashMapFromSharedPref(requireContext())
+        listOfProducts=vModel.getArrayFromShared()
+        productMap= vModel.getHashMapFromShared()
         if (productMap.contains(product.id)){
             Toast.makeText(requireContext(),"این کالا در سبد خرید موجود است", Toast.LENGTH_SHORT).show()
         }else{
             productMap[product.id]=1
-            saveHashMapToSharedPref(requireContext(),productMap)
+            vModel.saveHashMapInShared(productMap)
             listOfProducts.add(product)
-            saveArrayToSharedPref(requireContext(),KEY_PREF,listOfProducts)
+            vModel.saveArrayInShared(listOfProducts)
             Toast.makeText(requireContext(),"این کالا به سبد خرید اضافه شد", Toast.LENGTH_SHORT).show()
             //findNavController().navigate(R.id.action_detailFragment_to_cartFragment)
         }

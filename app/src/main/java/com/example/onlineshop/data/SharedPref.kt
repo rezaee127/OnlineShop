@@ -1,9 +1,7 @@
-package com.example.onlineshop.ui.cart
+package com.example.onlineshop.data
 
 
 import android.content.Context
-import android.preference.PreferenceManager
-import androidx.fragment.app.Fragment
 import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.ProductsItem
 import com.google.gson.Gson
@@ -11,28 +9,32 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 
-const val KEY_PREF = "cart"
 
-fun Fragment.saveArrayToSharedPref(context: Context, key: String, list: ArrayList<ProductsItem>?) {
-    val gson = Gson()
-    val json: String = gson.toJson(list)
-    set(context, key, json)
-}
 
-fun set(context: Context, key: String, value: String?) {
+fun saveArrayToSharedPref(context: Context, list: ArrayList<ProductsItem>?) {
     val pref = context.getSharedPreferences("share", Context.MODE_PRIVATE)
     val editor = pref.edit()
-    editor.putString(key, value)
+    val gson = Gson()
+    val json: String = gson.toJson(list)
+    editor.putString("cart", json)
+    editor.apply()
+}
+
+
+fun set(context: Context, value: String?) {
+    val pref = context.getSharedPreferences("share", Context.MODE_PRIVATE)
+    val editor = pref.edit()
+    editor.putString("cart", value)
     editor.commit()
     editor.apply()
 }
 
 
-//save
-fun Fragment.getArrayFromSharedPref(context: Context, key: String): ArrayList<ProductsItem> {
+
+fun getArrayFromSharedPref(context: Context): ArrayList<ProductsItem> {
     val pref = context.getSharedPreferences("share", Context.MODE_PRIVATE)
     var arrayItems = ArrayList<ProductsItem>()
-    val serializedObject = pref.getString(key, null)
+    val serializedObject = pref.getString("cart", null)
     if (serializedObject != null) {
         val gson = Gson()
         val type: Type = object : TypeToken<List<ProductsItem?>?>() {}.type
@@ -42,7 +44,7 @@ fun Fragment.getArrayFromSharedPref(context: Context, key: String): ArrayList<Pr
 }
 
 
-fun Fragment.getHashMapFromSharedPref(context: Context): HashMap<Int, Int> {
+fun getHashMapFromSharedPref(context: Context): HashMap<Int, Int> {
     val prefs = context.getSharedPreferences("shares", Context.MODE_PRIVATE)
     var hashMap=HashMap<Int, Int>()
     val gson = Gson()
@@ -55,7 +57,7 @@ fun Fragment.getHashMapFromSharedPref(context: Context): HashMap<Int, Int> {
 }
 
 
-fun Fragment.saveHashMapToSharedPref(context: Context, obj: HashMap<Int, Int>) {
+fun saveHashMapToSharedPref(context: Context, obj: HashMap<Int, Int>) {
     val prefs = context.getSharedPreferences("shares", Context.MODE_PRIVATE)
     val editor = prefs.edit()
     val gson = Gson()

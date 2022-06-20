@@ -3,8 +3,6 @@ package com.example.onlineshop.data
 
 import android.content.Context
 import com.example.onlineshop.model.*
-import com.example.onlineshop.ui.cart.getCustomerFromSharedPref
-import com.example.onlineshop.ui.cart.saveCustomerToSharedPref
 import javax.inject.Inject
 
 class Repository @Inject constructor(/*private val localDataSource: LocalDataSource,*/ private val remoteDataSource: RemoteDataSource) {
@@ -50,12 +48,33 @@ class Repository @Inject constructor(/*private val localDataSource: LocalDataSou
         return remoteDataSource.createCustomer(firstName,lastName,password,email)
     }
 
+
+
     fun saveCustomerInShared(context: Context,customer:CustomerItem){
         saveCustomerToSharedPref(context,customer)
     }
 
     fun getCustomerFromShared(context: Context): CustomerItem? {
         return getCustomerFromSharedPref(context)
+    }
+
+
+
+    fun saveHashMapInShared(context: Context,hashMap: HashMap<Int, Int>){
+        saveHashMapToSharedPref(context,hashMap)
+    }
+
+    fun getHashMapFromShared(context: Context): HashMap<Int, Int> {
+        return getHashMapFromSharedPref(context)
+    }
+
+
+    fun saveArrayInShared(context: Context,list: ArrayList<ProductsItem>?){
+        saveArrayToSharedPref(context,list)
+    }
+
+    fun getArrayFromShared(context: Context): ArrayList<ProductsItem> {
+        return getArrayFromSharedPref(context)
     }
 
 }
