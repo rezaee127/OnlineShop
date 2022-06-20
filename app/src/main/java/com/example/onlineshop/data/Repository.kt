@@ -5,7 +5,7 @@ import android.content.Context
 import com.example.onlineshop.model.*
 import javax.inject.Inject
 
-class Repository @Inject constructor(/*private val localDataSource: LocalDataSource,*/ private val remoteDataSource: RemoteDataSource) {
+class Repository @Inject constructor(private val remoteDataSource: RemoteDataSource) {
 
     suspend fun getProductsOrderByDate(): List<ProductsItem> {
         return remoteDataSource.getProductsOrderByDate()
@@ -43,9 +43,10 @@ class Repository @Inject constructor(/*private val localDataSource: LocalDataSou
         return remoteDataSource.searchProducts(searchKey,orderBy,order)
     }
 
-    suspend fun createCustomer(firstName:String,lastName: String, password: String,
-                               email: String): CustomerItem {
-        return remoteDataSource.createCustomer(firstName,lastName,password,email)
+    suspend fun createCustomer(firstName:String, lastName: String, password: String,
+                               email: String, billing: Billing, shipping: Shipping): CustomerItem{
+
+        return remoteDataSource.createCustomer(firstName,lastName,password,email,billing,shipping)
     }
 
 
