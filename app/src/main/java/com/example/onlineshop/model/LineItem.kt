@@ -6,18 +6,21 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class LineItem(
-//    @Json(name = "id")
-//    val id: Int,
+    @Json(name = "product_id")
+    val productId: Int,
+    @Json(name = "quantity")
+    val quantity: Int,
+////    @Json(name = "total")
+////    val total: String,
+
+////    @Json(name = "id")
+////    val id: Int,
 //    @Json(name = "meta_data")
 //    val metaData: List<MetaData>,
 ////    @Json(name = "name")
 ////    val name: String,
 //    @Json(name = "price")
 //    val price: Int,
-    @Json(name = "product_id")
-    val productId: Int,
-    @Json(name = "quantity")
-    val quantity: Int,
 //    @Json(name = "sku")
 //    val sku: String,
 //    @Json(name = "subtotal")
@@ -28,8 +31,6 @@ data class LineItem(
 //    val taxClass: String,
 //    @Json(name = "taxes")
 //    val taxes: List<Taxe>,
-////    @Json(name = "total")
-////    val total: String,
 //    @Json(name = "total_tax")
 //    val totalTax: String,
 //    @Json(name = "variation_id")

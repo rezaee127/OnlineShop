@@ -79,8 +79,7 @@ interface ApiService {
 
     @POST("orders")
     suspend fun createOrder(
-        @Query("customer_id") customerId: Int,
-        @Query("line_items") lineItems: List<LineItem>,
+        @Body orderItem: OrderItem,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): OrderItem
 

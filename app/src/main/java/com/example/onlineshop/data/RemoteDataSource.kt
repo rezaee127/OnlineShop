@@ -54,4 +54,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
         return apiService.createCustomer(customerItem)
     }
 
+    suspend fun createOrder(orderItem: OrderItem): OrderItem{
+        return apiService.createOrder(orderItem)
+    }
 }

@@ -48,6 +48,17 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         return remoteDataSource.createCustomer(customerItem)
     }
 
+    suspend fun createOrder(orderItem: OrderItem): OrderItem{
+        return remoteDataSource.createOrder(orderItem)
+    }
+
+    fun emptyShoppingCart(context: Context){
+        emptyCart(context)
+    }
+
+
+
+
 
     fun saveCustomerInShared(context: Context,customer:CustomerItem){
         saveCustomerToSharedPref(context,customer)

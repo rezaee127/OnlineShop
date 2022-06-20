@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.onlineshop.databinding.FragmentProfileBinding
-import com.example.onlineshop.model.Billing
-import com.example.onlineshop.model.CustomerItem
-import com.example.onlineshop.model.Shipping
+import com.example.onlineshop.model.*
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,11 +58,29 @@ class ProfileFragment : Fragment() {
             enter()
         }
 
+        vModel.order.observe(viewLifecycleOwner){
+            vModel.emptyShoppingCart()
+        }
+
     }
 
     private fun order() {
+        val productIdCountHashMap=vModel.getHashMapFromShared()
+        val lineItems=ArrayList<LineItem>()
+        for (item in productIdCountHashMap){
+            val lineItem=LineItem(item.key,item.value)
+            lineItems.add(lineItem)
+        }
         binding.btnOrder.setOnClickListener {
-
+            vModel.createOrder(OrderItem(0,lineItems,mCustomer.id,
+                Billing(binding.tfFirstName.editText?.text.toString(),
+                    binding.tfLastName.editText?.text.toString(),
+                    binding.tfEmail.editText?.text.toString(),
+                    binding.tfAddress.editText?.text.toString()),
+                Shipping(binding.tfFirstName.editText?.text.toString(),
+                    binding.tfLastName.editText?.text.toString(),
+                    binding.tfAddress.editText?.text.toString())
+            ))
         }
     }
 
@@ -113,7 +129,7 @@ class ProfileFragment : Fragment() {
 
 
     private fun checkConnectivity() {
-        vModel.status.observe(viewLifecycleOwner){
+        vModel.customerRequestStatus.observe(viewLifecycleOwner){
             when (it) {
                 ApiStatus.LOADING -> binding.pbLoading.visibility=View.VISIBLE
                 ApiStatus.ERROR -> {
@@ -122,6 +138,21 @@ class ProfileFragment : Fragment() {
                 }
                 else -> {
                     Toast.makeText(requireContext(),"ثبت نام با موفقیت انجام شد", Toast.LENGTH_SHORT).show()
+                    binding.pbLoading.visibility=View.GONE
+                }
+            }
+
+        }
+
+        vModel.orderRequestStatus.observe(viewLifecycleOwner){
+            when (it) {
+                ApiStatus.LOADING -> binding.pbLoading.visibility=View.VISIBLE
+                ApiStatus.ERROR -> {
+                    binding.pbLoading.visibility=View.GONE
+                    Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    Toast.makeText(requireContext(),"ثبت سفارش با موفقیت انجام شد", Toast.LENGTH_SHORT).show()
                     binding.pbLoading.visibility=View.GONE
                 }
             }

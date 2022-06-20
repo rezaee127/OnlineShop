@@ -8,8 +8,15 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 
+fun emptyCart(context:Context){
+    val pref = context.getSharedPreferences("sharedArray", Context.MODE_PRIVATE)
+    pref.edit().clear().apply()
+    val prefs = context.getSharedPreferences("sharedHashMap", Context.MODE_PRIVATE)
+    prefs.edit().clear().apply()
+}
+
 fun saveArrayToSharedPref(context: Context, list: ArrayList<ProductsItem>?) {
-    val pref = context.getSharedPreferences("share", Context.MODE_PRIVATE)
+    val pref = context.getSharedPreferences("sharedArray", Context.MODE_PRIVATE)
     val editor = pref.edit()
     val gson = Gson()
     val json: String = gson.toJson(list)
@@ -18,17 +25,8 @@ fun saveArrayToSharedPref(context: Context, list: ArrayList<ProductsItem>?) {
 }
 
 
-fun set(context: Context, value: String?) {
-    val pref = context.getSharedPreferences("share", Context.MODE_PRIVATE)
-    val editor = pref.edit()
-    editor.putString("cart", value)
-    editor.commit()
-    editor.apply()
-}
-
-
 fun getArrayFromSharedPref(context: Context): ArrayList<ProductsItem> {
-    val pref = context.getSharedPreferences("share", Context.MODE_PRIVATE)
+    val pref = context.getSharedPreferences("sharedArray", Context.MODE_PRIVATE)
     var arrayItems = ArrayList<ProductsItem>()
     val serializedObject = pref.getString("cart", null)
     if (serializedObject != null) {
@@ -41,7 +39,7 @@ fun getArrayFromSharedPref(context: Context): ArrayList<ProductsItem> {
 
 
 fun getHashMapFromSharedPref(context: Context): HashMap<Int, Int> {
-    val prefs = context.getSharedPreferences("shares", Context.MODE_PRIVATE)
+    val prefs = context.getSharedPreferences("sharedHashMap", Context.MODE_PRIVATE)
     var hashMap = HashMap<Int, Int>()
     val gson = Gson()
     val json = prefs.getString("key", null)
@@ -54,7 +52,7 @@ fun getHashMapFromSharedPref(context: Context): HashMap<Int, Int> {
 
 
 fun saveHashMapToSharedPref(context: Context, obj: HashMap<Int, Int>) {
-    val prefs = context.getSharedPreferences("shares", Context.MODE_PRIVATE)
+    val prefs = context.getSharedPreferences("sharedHashMap", Context.MODE_PRIVATE)
     val editor = prefs.edit()
     val gson = Gson()
     val json = gson.toJson(obj)
@@ -64,7 +62,7 @@ fun saveHashMapToSharedPref(context: Context, obj: HashMap<Int, Int>) {
 
 
 fun getCustomerFromSharedPref(context: Context): CustomerItem? {
-    val preferences = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
+    val preferences = context.getSharedPreferences("sharedCustomer", Context.MODE_PRIVATE)
     var customer: CustomerItem? = null
     val gson = Gson()
     val json = preferences.getString("customer", null)
@@ -77,7 +75,7 @@ fun getCustomerFromSharedPref(context: Context): CustomerItem? {
 
 
 fun saveCustomerToSharedPref(context: Context, obj: CustomerItem) {
-    val preferences = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
+    val preferences = context.getSharedPreferences("sharedCustomer", Context.MODE_PRIVATE)
     val editor = preferences.edit()
     val gson = Gson()
     val json = gson.toJson(obj)
