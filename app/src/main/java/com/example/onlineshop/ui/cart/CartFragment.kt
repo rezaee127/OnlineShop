@@ -93,7 +93,7 @@ class CartFragment : Fragment() {
         vModel.saveHashMapInShared(productMap)
     }
 
-    private fun removeProductFromCart(product:ProductsItem){
+    internal fun removeProductFromCart(product:ProductsItem){
         listOfProducts.remove(product)
         productAdapter.submitList(listOfProducts)
         setAdapter()

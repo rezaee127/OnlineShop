@@ -22,8 +22,10 @@ class HomeViewModel @Inject constructor(private val repository: Repository): Vie
     var listOfProductsOrderByRating= MutableLiveData<List<ProductsItem>>()
     var status=MutableLiveData<ApiStatus>()
     var errorMessage=""
+    var specialProducts=MutableLiveData<ProductsItem>()
 
     init {
+        getSpecialProduct()
         getProductsOrderByDate()
         getProductsOrderByPopularity()
         getProductsOrderByRating()
@@ -88,5 +90,18 @@ class HomeViewModel @Inject constructor(private val repository: Repository): Vie
             }
         }
         return listOfProductsOrderByRating
+    }
+
+
+
+    fun getSpecialProduct(): LiveData<ProductsItem> {
+        viewModelScope.launch {
+            try {
+                specialProducts.value = repository.getProductById(608)
+            }
+            catch(e:Exception){
+            }
+        }
+        return specialProducts
     }
 }

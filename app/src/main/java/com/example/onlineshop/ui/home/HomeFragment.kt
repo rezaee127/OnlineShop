@@ -7,16 +7,23 @@ import androidx.fragment.app.Fragment
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager.widget.ViewPager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import com.example.onlineshop.ui.adapters.ProductsItemAdapter
+import com.example.onlineshop.ui.slider.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import me.relex.circleindicator.CircleIndicator
+
 
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     val vModel:HomeViewModel by viewModels()
+    lateinit var viewPager: ViewPager
+    lateinit var viewPagerAdapter: ViewPagerAdapter
+    var imageList=  ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -35,10 +42,28 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().title="فروشگاه"
+        setViewPager(view)
         checkConnectivity()
         refresh()
         initViewModelFunctions()
         initAdapters()
+    }
+
+    private fun setViewPager(view: View) {
+
+        viewPager = view.findViewById(R.id.view_pager)
+        vModel.specialProducts.observe(viewLifecycleOwner){
+            imageList.clear()
+            for (image in it.images){
+                imageList.add(image.src)
+            }
+            viewPagerAdapter = ViewPagerAdapter(requireContext(), imageList)
+            viewPager.adapter = viewPagerAdapter
+            viewPager.rotationY = 180F
+            val indicator: CircleIndicator = view.findViewById(R.id.indicator)
+            indicator.setViewPager(viewPager)
+            //indicator.animatePageSelected(2)
+        }
     }
 
     private fun refresh() {
@@ -48,6 +73,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModelFunctions() {
+        vModel.getSpecialProduct()
         vModel.getProductsOrderByDate()
         vModel.getProductsOrderByRating()
         vModel.getProductsOrderByPopularity()
