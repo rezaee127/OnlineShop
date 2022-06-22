@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="category_array">
+        <item>همه کالاها</item>
+        <item>پوشاک زنانه</item>
+        <item>پوشاک مردانه</item>
+        <item>مد و پوشاک</item>
+        <item>کفش</item>
+        <item>کیف و کوله</item>
+        <item>فروش ویژه</item>
+        <item>دیجیتال</item>
+        <item>گوشی موبایل</item>
+        <item>ساعت و مچ‌بندهوشمند</item>
+        <item>کتاب و هنر</item>
+        <item>کتاب و مجلات</item>
+        <item>فیلم</item>
+        <item>سوپرمارکت</item>
+        <item>مواد پروتئینی</item>
+        <item>لبنیات</item>
+        <item>نوشیدنی ها</item>
+        <item>لوازم منزل</item>
+        <item>بهداشت</item>
+    </string-array>
+</resources>
