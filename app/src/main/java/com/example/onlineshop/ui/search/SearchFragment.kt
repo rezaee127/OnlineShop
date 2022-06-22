@@ -24,6 +24,7 @@ class SearchFragment : Fragment() {
     var category = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //view?.findViewById<Spinner>(R.id.category_spinner)?.onItemSelectedListener = this
     }
 
     override fun onCreateView(
@@ -38,7 +39,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //binding.categorySpinner.onItemSelectedListener = this
         initViews()
     }
 
