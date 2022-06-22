@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,14 +13,16 @@
     app:strokeWidth="1dp"
     tools:context=".ui.search.SearchFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/ll_search">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_weight="10">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cr_search"
@@ -26,7 +30,9 @@
                 android:layout_height="wrap_content"
                 app:cardElevation="0dp"
                 app:strokeColor="@color/stroke_color"
-                app:strokeWidth="1dp">
+                app:strokeWidth="1dp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/outlinedTextField"
@@ -35,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="20dp"
-                    android:hint="کلمه مورد نظر"
+                    android:hint="اسم کالا"
                     android:layoutDirection="rtl"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -51,12 +57,13 @@
                     android:id="@+id/divider1"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_marginTop="24dp"
                     android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="24dp"
                     android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/outlinedTextField" />
+
 
                 <TextView
                     android:id="@+id/tv1"
@@ -66,22 +73,21 @@
                     android:text="دسته بندی :"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.898"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/category_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/divider1" />
 
                 <Spinner
                     android:id="@+id/category_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="16dp"
-                    android:layoutDirection="rtl"
                     android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.12"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv1"
+                    app:layout_constraintEnd_toStartOf="@+id/tv1"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv1" />
+                    app:layout_constraintTop_toTopOf="@+id/tv1"
+                    app:layout_constraintVertical_bias="0.0" />
 
 
                 <View
@@ -91,11 +97,126 @@
                     android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="20dp"
                     android:background="?android:attr/listDivider"
-                    tools:layout_editor_absoluteX="1dp"
-                    tools:layout_editor_absoluteY="181dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category_spinner"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tv1"
+                    tools:layout_editor_absoluteX="1dp"
+                    tools:layout_editor_absoluteY="181dp" />
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_colors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider2"
+                    app:strokeColor="@color/stroke_color"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="رنگ "
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_colors"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:spanCount="3" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <View
+                    android:id="@+id/divider4"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="20dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_colors"
+                    tools:layout_editor_absoluteX="1dp"
+                    tools:layout_editor_absoluteY="181dp" />
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider4"
+                    app:strokeColor="@color/stroke_color"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="اندازه "
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_size"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:spanCount="4" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <View
+                    android:id="@+id/divider5"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="20dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_size"
+                    tools:layout_editor_absoluteX="1dp"
+                    tools:layout_editor_absoluteY="181dp" />
 
 
                 <TextView
@@ -108,7 +229,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.898"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider2" />
+                    app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
                 <RadioGroup
                     android:id="@+id/rg"
@@ -156,63 +277,74 @@
                         android:layoutDirection="rtl"
                         android:text="پرفروش‌ترین" />
                 </RadioGroup>
-
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:text="جستجو"
-                    app:cornerRadius="20dp"
-                    app:layout_constraintEnd_toEndOf="@+id/rg"
-                    app:layout_constraintHorizontal_bias="0.497"
-                    app:layout_constraintStart_toStartOf="@+id/rg"
-                    app:layout_constraintTop_toBottomOf="@+id/rg" />
-
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_search"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:visibility="gone"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:spanCount="2" />
+        </ScrollView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_return"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:text="بازگشت"
-                android:visibility="gone"
-                app:cornerRadius="20dp" />
-
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/pb_loading"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:text="جستجو"
+            app:cornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/rg"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="@+id/rg"
+            app:layout_constraintTop_toBottomOf="@+id/rg" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="gone"
-            android:indeterminate="true"
-            android:indeterminateTint="?attr/colorPrimary"
-            android:indeterminateTintMode="src_atop"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_weight="9"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:text="بازگشت"
+            app:cornerRadius="20dp" />
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:indeterminate="true"
+        android:indeterminateTint="?attr/colorPrimary"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

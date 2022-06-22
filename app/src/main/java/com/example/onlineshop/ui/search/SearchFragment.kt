@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentSearchBinding
 import com.example.onlineshop.ui.adapters.CategoryProductListAdapter
+import com.example.onlineshop.ui.adapters.SearchFilterAdapter
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,9 +23,11 @@ class SearchFragment : Fragment() {
     lateinit var binding: FragmentSearchBinding
     val vModel: SearchViewModel by viewModels()
     var category = ""
+    var attribute=""
+    var attributeTerm=""
+    var returnFlag=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //view?.findViewById<Spinner>(R.id.category_spinner)?.onItemSelectedListener = this
     }
 
     override fun onCreateView(
@@ -39,18 +42,64 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //binding.categorySpinner.onItemSelectedListener = this
+
         initViews()
     }
 
     private fun initViews() {
         requireActivity().title = "جستجو"
+        checkConnectivity()
         setCategorySpinner()
+        setColorAdapter()
+        setSizeAdapter()
         binding.btnSearch.setOnClickListener {
             search()
         }
         buttonReturnClicked()
     }
+
+    private fun checkConnectivity() {
+        vModel.status.observe(viewLifecycleOwner) {
+            when (it) {
+                ApiStatus.LOADING -> {
+                    binding.pbLoading.visibility = View.VISIBLE
+                    binding.llSearch.visibility = View.GONE
+                }
+                ApiStatus.ERROR -> {
+                    binding.pbLoading.visibility = View.GONE
+                    binding.llSearch.visibility = View.VISIBLE
+                    Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    binding.pbLoading.visibility = View.GONE
+                    binding.llSearch.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun setColorAdapter() {
+        val colorAdapter=SearchFilterAdapter(returnFlag) { id ->
+            attributeTerm = "$attributeTerm$id,"
+            attribute = "pa_color"
+        }
+        binding.rvColors.adapter=colorAdapter
+        vModel.listOfColors.observe(viewLifecycleOwner){
+            colorAdapter.submitList(it)
+        }
+    }
+
+    private fun setSizeAdapter() {
+        val sizeAdapter=SearchFilterAdapter(returnFlag){id ->
+            attributeTerm= "$attributeTerm$id,"
+            attribute="pa_size"
+        }
+        binding.rvSize.adapter=sizeAdapter
+        vModel.listOfSizes.observe(viewLifecycleOwner){
+            sizeAdapter.submitList(it)
+        }
+    }
+
 
 
     private fun search() {
@@ -75,10 +124,12 @@ class SearchFragment : Fragment() {
             binding.outlinedTextField.editText?.error = "یک کلمه وارد کنید"
         else {
             vModel.searchProducts(binding.outlinedTextField.editText?.text.toString(),
-                orderBy, order,category)
-            checkConnectivity()
+                orderBy, order,category,attribute,attributeTerm)
+            checkConnectivityForGetSearchResult()
         }
     }
+
+
 
     private fun setCategorySpinner() {
         ArrayAdapter.createFromResource(
@@ -124,8 +175,8 @@ class SearchFragment : Fragment() {
 
 
 
-    private fun checkConnectivity() {
-        vModel.status.observe(viewLifecycleOwner) {
+    private fun checkConnectivityForGetSearchResult() {
+        vModel.searchStatus.observe(viewLifecycleOwner) {
             when (it) {
                 ApiStatus.LOADING ->
                     binding.pbLoading.visibility = View.VISIBLE
@@ -146,13 +197,14 @@ class SearchFragment : Fragment() {
         val adapter = CategoryProductListAdapter { id -> goToDetailFragment(id) }
         binding.rvSearch.adapter = adapter
         vModel.listOfSearchedProduct.observe(viewLifecycleOwner) {
-            if (it.isNullOrEmpty()) {
-                Toast.makeText(requireContext(),"کالایی با این مشخصات یافت نشد", Toast.LENGTH_SHORT).show()
-            } else {
+            if (!it.isNullOrEmpty()) {
                 adapter.submitList(it)
                 binding.crSearch.visibility = View.GONE
+                binding.btnSearch.visibility = View.GONE
                 binding.rvSearch.visibility = View.VISIBLE
                 binding.btnReturn.visibility = View.VISIBLE
+            } else {
+                Toast.makeText(requireContext(),"کالایی با این مشخصات یافت نشد", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -161,12 +213,16 @@ class SearchFragment : Fragment() {
     private fun buttonReturnClicked() {
         binding.btnReturn.setOnClickListener {
             binding.crSearch.visibility = View.VISIBLE
+            binding.btnSearch.visibility = View.VISIBLE
             binding.rvSearch.visibility = View.GONE
             binding.btnReturn.visibility = View.GONE
+            attribute=""
+            attributeTerm=""
+            returnFlag=true
         }
     }
 
-    fun goToDetailFragment(id: Int) {
+    private fun goToDetailFragment(id: Int) {
         val bundle = bundleOf("id" to id)
         findNavController().navigate(R.id.action_searchFragment_to_detailFragment, bundle)
     }
