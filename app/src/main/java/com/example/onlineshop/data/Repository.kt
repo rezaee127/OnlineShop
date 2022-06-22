@@ -39,8 +39,8 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         return remoteDataSource.getRelatedProducts(str)
     }
 
-    suspend fun searchProducts(searchKey:String,orderBy: String,order: String):List<ProductsItem>{
-        return remoteDataSource.searchProducts(searchKey,orderBy,order)
+    suspend fun searchProducts(searchKey:String,orderBy: String,order: String,category: String):List<ProductsItem>{
+        return remoteDataSource.searchProducts(searchKey,orderBy,order,category)
     }
 
 

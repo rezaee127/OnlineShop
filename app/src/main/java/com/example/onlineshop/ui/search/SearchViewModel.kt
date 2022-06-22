@@ -19,11 +19,11 @@ class SearchViewModel  @Inject constructor(private val repository: Repository): 
     var listOfSearchedProduct=MutableLiveData<List<ProductsItem>>()
     var errorMessage=""
 
-    fun searchProducts(searchKey:String,orderBy: String,order: String):LiveData<List<ProductsItem>>{
+    fun searchProducts(searchKey:String,orderBy: String,order: String,category: String):LiveData<List<ProductsItem>>{
         viewModelScope.launch {
             status.value=ApiStatus.LOADING
             try {
-                listOfSearchedProduct.value=repository.searchProducts(searchKey,orderBy,order)
+                listOfSearchedProduct.value=repository.searchProducts(searchKey,orderBy,order,category)
                 status.value=ApiStatus.DONE
             }
             catch (e:retrofit2.HttpException){
