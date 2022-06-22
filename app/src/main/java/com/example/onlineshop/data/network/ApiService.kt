@@ -60,14 +60,29 @@ interface ApiService {
     ): List<ProductsItem>
 
 
+    @GET("products/attributes/3/terms")
+    suspend fun getColorList(
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+    ): List<AttributeTerm>
+
+    @GET("products/attributes/4/terms")
+    suspend fun getSizeList(
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+    ): List<AttributeTerm>
+
+
     @GET("products")
     suspend fun searchProducts(
         @Query("search") searchKey: String,
         @Query("orderby") orderBy: String,
         @Query("order") order: String,
         @Query("category") category: String,
+        @Query("attribute") attribute: String,
+        @Query("attribute_term") attributeTerm: String,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
+
+
 
 
     @POST("customers")

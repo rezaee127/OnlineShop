@@ -39,8 +39,19 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         return remoteDataSource.getRelatedProducts(str)
     }
 
-    suspend fun searchProducts(searchKey:String,orderBy: String,order: String,category: String):List<ProductsItem>{
-        return remoteDataSource.searchProducts(searchKey,orderBy,order,category)
+    suspend fun getColorList(): List<AttributeTerm>{
+        return remoteDataSource.getColorList()
+    }
+
+    suspend fun getSizeList(): List<AttributeTerm>{
+        return remoteDataSource.getSizeList()
+    }
+
+
+    suspend fun searchProducts(searchKey:String,orderBy: String,order: String,
+                               category: String,attribute: String,attributeTerm: String):List<ProductsItem>{
+
+        return remoteDataSource.searchProducts(searchKey,orderBy,order,category,attribute,attributeTerm)
     }
 
 
