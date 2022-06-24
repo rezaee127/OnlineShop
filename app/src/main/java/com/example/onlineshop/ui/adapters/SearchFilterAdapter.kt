@@ -1,6 +1,6 @@
 package com.example.onlineshop.ui.adapters
 
-import android.content.Context
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,21 +12,17 @@ import com.example.onlineshop.R
 import com.example.onlineshop.model.AttributeTerm
 
 
-class SearchFilterAdapter(var returnFlag:Boolean,var onClickItem: (Int) -> Unit) :
+class SearchFilterAdapter(var onClickItem: (Boolean,Int) -> Unit) :
     ListAdapter<AttributeTerm, SearchFilterAdapter.ViewHolder>(SearchFilterDiffCallback) {
 
-    class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val chbFilterName = view.findViewById<CheckBox>(R.id.chb_filter)
 
-        fun bind(attributeTerm:AttributeTerm,returnFlag: Boolean,onClickItem: (Int) -> Unit) {
+        fun bind(attributeTerm:AttributeTerm,onClickItem: (Boolean,Int) -> Unit) {
             chbFilterName.text=attributeTerm.name
-            if (returnFlag){
-                chbFilterName.isChecked=false
-            }
+
             chbFilterName.setOnCheckedChangeListener { compoundButton, b ->
-                if (b) {
-                    onClickItem(attributeTerm.id)
-                }
+                onClickItem(b,attributeTerm.id)
             }
         }
     }
@@ -37,12 +33,12 @@ class SearchFilterAdapter(var returnFlag:Boolean,var onClickItem: (Int) -> Unit)
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.search_filter_row_item, viewGroup, false)
 
-        return ViewHolder(view, viewGroup.context)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.bind(getItem(position),returnFlag,onClickItem)
+        viewHolder.bind(getItem(position),onClickItem)
 
     }
 

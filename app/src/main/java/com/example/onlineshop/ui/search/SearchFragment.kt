@@ -27,7 +27,6 @@ class SearchFragment : Fragment() {
     var attributeTerm=""
     var colorAttributeTerm=""
     var sizeAttributeTerm=""
-    var returnFlag=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -51,9 +50,11 @@ class SearchFragment : Fragment() {
     private fun initViews() {
         requireActivity().title = "جستجو"
         checkConnectivity()
+        checkConnectivityForGetSearchResult()
         setCategorySpinner()
         setColorAdapter()
         setSizeAdapter()
+        setSearchResultAdapter()
         binding.btnSearch.setOnClickListener {
             search()
         }
@@ -81,8 +82,13 @@ class SearchFragment : Fragment() {
     }
 
     private fun setColorAdapter() {
-        val colorAdapter=SearchFilterAdapter(returnFlag) { id ->
-            colorAttributeTerm = "$colorAttributeTerm$id,"
+        val colorAdapter=SearchFilterAdapter {isCheck, id ->
+            if (isCheck){
+                colorAttributeTerm= "$colorAttributeTerm$id,"
+            }else{
+                colorAttributeTerm=colorAttributeTerm.replace("$id,","")
+            }
+
             attributeTerm=colorAttributeTerm
             attribute = "pa_color"
         }
@@ -93,8 +99,13 @@ class SearchFragment : Fragment() {
     }
 
     private fun setSizeAdapter() {
-        val sizeAdapter=SearchFilterAdapter(returnFlag){id ->
-            sizeAttributeTerm= "$sizeAttributeTerm$id,"
+        val sizeAdapter=SearchFilterAdapter{isCheck,id ->
+            if (isCheck){
+                sizeAttributeTerm= "$sizeAttributeTerm$id,"
+            }else{
+                sizeAttributeTerm=sizeAttributeTerm.replace("$id,","")
+            }
+
             attributeTerm=sizeAttributeTerm
             attribute="pa_size"
         }
@@ -107,12 +118,13 @@ class SearchFragment : Fragment() {
 
 
     private fun search() {
-        var orderBy = "date"
-        var order = "desc"
+        var orderBy = ""
+        var order = ""
 
         when {
             binding.rbBestselling.isChecked -> {
                 orderBy = "popularity"
+                order = "desc"
             }
             binding.rbCheapest.isChecked -> {
                 orderBy = "price"
@@ -120,6 +132,11 @@ class SearchFragment : Fragment() {
             }
             binding.rbMostExpensive.isChecked -> {
                 orderBy = "price"
+                order = "desc"
+            }
+            else -> {
+                orderBy = "date"
+                order = "desc"
             }
         }
 
@@ -127,9 +144,18 @@ class SearchFragment : Fragment() {
         if (binding.outlinedTextField.editText?.text.isNullOrBlank())
             binding.outlinedTextField.editText?.error = "یک کلمه وارد کنید"
         else {
+            if (attributeTerm==""){
+                if (attribute=="pa_size"){
+                    attribute="pa_color"
+                    attributeTerm=colorAttributeTerm
+                }else{
+                    attribute="pa_size"
+                    attributeTerm=sizeAttributeTerm
+                }
+            }
+
             vModel.searchProducts(binding.outlinedTextField.editText?.text.toString(),
                 orderBy, order,category,attribute,attributeTerm)
-            checkConnectivityForGetSearchResult()
         }
     }
 
@@ -190,19 +216,18 @@ class SearchFragment : Fragment() {
                 }
                 else -> {
                     binding.pbLoading.visibility = View.GONE
-                    setAdapter()
                 }
             }
         }
     }
 
 
-    private fun setAdapter() {
-        val adapter = CategoryProductListAdapter { id -> goToDetailFragment(id) }
-        binding.rvSearch.adapter = adapter
+    private fun setSearchResultAdapter() {
+        val searchResultAadapter = CategoryProductListAdapter { id -> goToDetailFragment(id) }
+        binding.rvSearch.adapter = searchResultAadapter
         vModel.listOfSearchedProduct.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
-                adapter.submitList(it)
+                searchResultAadapter.submitList(it)
                 binding.crSearch.visibility = View.GONE
                 binding.btnSearch.visibility = View.GONE
                 binding.rvSearch.visibility = View.VISIBLE
@@ -220,9 +245,6 @@ class SearchFragment : Fragment() {
             binding.btnSearch.visibility = View.VISIBLE
             binding.rvSearch.visibility = View.GONE
             binding.btnReturn.visibility = View.GONE
-            attribute=""
-            attributeTerm=""
-            returnFlag=true
         }
     }
 
