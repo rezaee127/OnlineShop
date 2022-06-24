@@ -10,6 +10,7 @@ import com.example.onlineshop.model.AttributeTerm
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
@@ -109,7 +110,7 @@ class SearchViewModel  @Inject constructor(private val repository: Repository): 
     fun searchProducts(searchKey:String,orderBy: String,order: String, category: String,
                        attribute: String,attributeTerm: String):LiveData<List<ProductsItem>>{
 
-        viewModelScope.launch {
+        viewModelScope.async {
             searchStatus.value=ApiStatus.LOADING
             try {
                 listOfSearchedProduct.value=repository.searchProducts(searchKey,orderBy,order,
