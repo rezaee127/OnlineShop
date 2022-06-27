@@ -49,6 +49,8 @@ class SearchFragment : Fragment() {
 
     private fun initViews() {
         requireActivity().title = "جستجو"
+        vModel.getColorList()
+        vModel.getSizeList()
         checkConnectivity()
         checkConnectivityForGetSearchResult()
         setCategorySpinner()
@@ -58,7 +60,9 @@ class SearchFragment : Fragment() {
         binding.btnSearch.setOnClickListener {
             search()
         }
-        buttonReturnClicked()
+        binding.btnReturn.setOnClickListener {
+            buttonReturnClicked()
+        }
     }
 
     private fun checkConnectivity() {
@@ -240,17 +244,22 @@ class SearchFragment : Fragment() {
 
 
     private fun buttonReturnClicked() {
-        binding.btnReturn.setOnClickListener {
-            binding.crSearch.visibility = View.VISIBLE
-            binding.btnSearch.visibility = View.VISIBLE
-            binding.rvSearch.visibility = View.GONE
-            binding.btnReturn.visibility = View.GONE
-        }
+        binding.crSearch.visibility = View.VISIBLE
+        binding.btnSearch.visibility = View.VISIBLE
+        binding.rvSearch.visibility = View.GONE
+        binding.btnReturn.visibility = View.GONE
+        vModel.getColorList()
+        vModel.getSizeList()
     }
 
     private fun goToDetailFragment(id: Int) {
         val bundle = bundleOf("id" to id)
         findNavController().navigate(R.id.action_searchFragment_to_detailFragment, bundle)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        buttonReturnClicked()
     }
 
 }

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -14,7 +16,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentDetailBinding
+import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.ProductsItem
+import com.example.onlineshop.model.ReviewsItem
 import com.example.onlineshop.ui.adapters.ImageAdapter
 import com.example.onlineshop.ui.adapters.ProductsItemAdapter
 import com.example.onlineshop.ui.adapters.ReviewAdapter
@@ -29,6 +33,8 @@ class DetailFragment : Fragment() {
     var listOfProducts=ArrayList<ProductsItem>()
     var productMap=HashMap<Int,Int>()
     lateinit var product:ProductsItem
+    var customer: CustomerItem?=null
+    var productRating=0
     val vModel:DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +58,7 @@ class DetailFragment : Fragment() {
             pagerSnapHelper = PagerSnapHelper()
         }
         val id=requireArguments().getInt("id")
-
+        setRatingSpinner()
         checkConnectivity()
         retry(id)
         initView(id)
@@ -63,6 +69,7 @@ class DetailFragment : Fragment() {
     private fun initView(id:Int) {
         vModel.getProductById(id)
         vModel.getReviews(id)
+        submitComment(id)
 
         vModel.product.observe(viewLifecycleOwner){
             setView(it)
@@ -79,6 +86,62 @@ class DetailFragment : Fragment() {
 
     }
 
+    private fun submitComment(productId:Int) {
+        customer=vModel.getCustomerFromShared()
+        binding.btnSubmitComment.setOnClickListener{
+            if (customer==null){
+                Toast.makeText(requireContext(),"برای ثبت نظر ابتدا باید ثبت نام کنید", Toast.LENGTH_SHORT).show()
+
+            } else{
+                binding.clLoadingInDetail.visibility=View.GONE
+                binding.svDetail.visibility=View.GONE
+                binding.clDetail.visibility=View.GONE
+                binding.svSubmitComment.visibility=View.VISIBLE
+                saveReview(productId)
+            }
+        }
+    }
+
+    private fun saveReview(productId: Int) {
+        binding.btnCreateReview.setOnClickListener {
+            if (binding.tfReview.editText?.text.isNullOrBlank())
+                binding.tfReview.error = "لطفا نظزتان را وارد کنید"
+            else{
+                vModel.createReview(ReviewsItem(productId,binding.tfReview.editText?.text.toString(),
+                    customer?.firstName+customer?.lastName,customer!!.email,productRating))
+            }
+        }
+
+    }
+
+
+    private fun setRatingSpinner() {
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.rating_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.rateSpinner.adapter = adapter
+        }
+
+        binding.rateSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val spinnerItem = p0?.getItemAtPosition(p2).toString()
+                productRating= when (spinnerItem) {
+                    "1" -> 1
+                    "2" -> 2
+                    "3" -> 3
+                    "4" -> 4
+                    else -> 5
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+
+    }
 
 
     @SuppressLint("SetTextI18n")
@@ -172,7 +235,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun checkConnectivity() {
-        vModel.status.observe(viewLifecycleOwner){
+        vModel.detailStatus.observe(viewLifecycleOwner){
             when (it) {
                 ApiStatus.LOADING -> {
                     binding.clLoadingInDetail.visibility=View.VISIBLE
@@ -193,6 +256,20 @@ class DetailFragment : Fragment() {
                     binding.clLoadingInDetail.visibility=View.GONE
                     binding.svDetail.visibility=View.VISIBLE
                     binding.clDetail.visibility=View.VISIBLE
+                }
+            }
+        }
+
+        vModel.reviewStatus.observe(viewLifecycleOwner){
+            when (it) {
+                ApiStatus.LOADING -> binding.clLoadingInDetail.visibility=View.VISIBLE
+                ApiStatus.ERROR -> {
+                    binding.clLoadingInDetail.visibility=View.GONE
+                    Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    Toast.makeText(requireContext(),"دیدگاه شما با موفقیت ثبت شد", Toast.LENGTH_SHORT).show()
+                    binding.clLoadingInDetail.visibility=View.GONE
                 }
             }
         }
