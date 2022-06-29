@@ -3,15 +3,96 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context=".ui.home.HomeFragment"
+    android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="52dp"
     android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/ll_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/theme_menu_shape"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:layout_weight="5"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_theme0"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="تم‌اولیه"/>
+
+
+                <RadioButton
+                    android:id="@+id/rb_theme1"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="تم1"/>
+
+                <RadioButton
+                    android:id="@+id/rb_theme2"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="تم2" />
+
+                <RadioButton
+                    android:id="@+id/rb_theme3"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="تم3"/>
+
+
+                <RadioButton
+                    android:id="@+id/rb_theme4"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="تم4"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_theme"
+                android:textColor="?attr/colorOnPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="انتخاب تم"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
 <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/sv_home_fragment">
+    android:layout_height="wrap_content"
+    android:id="@+id/sv_home_fragment"
+    app:layout_constraintTop_toBottomOf="@id/ll_theme">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -42,7 +123,7 @@
             android:id="@+id/constraintLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/back1"
+            android:background="?attr/colorPrimaryVariant"
             android:layout_marginVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -97,7 +178,7 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/back2"
+        android:background="?attr/colorPrimary"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -111,7 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:textColor="@color/whiteBack2"
+            android:textColor="?attr/colorOnPrimary"
             android:text="پربازدیدترین محصولات"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -121,7 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textColor="@color/whiteBack2"
+            android:textColor="?attr/colorOnPrimary"
             android:text="موارد بیشتر"
             app:layout_constraintEnd_toStartOf="@+id/textView3"
             app:layout_constraintHorizontal_bias="0.0"
@@ -152,7 +233,7 @@
         android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/back3"
+        android:background="?attr/colorPrimaryVariant"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

@@ -9,6 +9,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCartBinding
 import com.example.onlineshop.model.ProductsItem
@@ -114,5 +116,34 @@ class CartFragment : Fragment() {
             findNavController().navigate(R.id.action_cartFragment_to_profileFragment)
         }
     }
+
+
+
+    private fun setRecyclerViewItemTouchListener() {
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                                viewHolder1: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                val position = viewHolder.adapterPosition
+
+                var product=listOfProducts[position]
+                listOfProducts.remove(product)
+                productAdapter.submitList(listOfProducts)
+                setAdapter()
+                productMap.remove(product.id)
+                getPrice()
+                vModel.saveArrayInShared(listOfProducts)
+                vModel.saveHashMapInShared(productMap)
+
+
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(binding.rvCart)
+    }
+
 
 }
