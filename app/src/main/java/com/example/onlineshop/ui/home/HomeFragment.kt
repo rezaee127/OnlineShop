@@ -1,15 +1,19 @@
 package com.example.onlineshop.ui.home
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
+import com.example.onlineshop.ui.MainActivity
 import com.example.onlineshop.ui.adapters.ProductsItemAdapter
 import com.example.onlineshop.ui.slider.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +51,7 @@ class HomeFragment : Fragment() {
         refresh()
         initViewModelFunctions()
         initAdapters()
+        changeTheme()
     }
 
     private fun setViewPager(view: View) {
@@ -136,5 +141,81 @@ class HomeFragment : Fragment() {
         val bundle= bundleOf("id" to id)
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment,bundle)
     }
+
+
+
+
+
+
+
+    private fun changeTheme() {
+        val pref = requireActivity().getSharedPreferences("setTheme", Context.MODE_PRIVATE)
+        if (pref.getString("theme", "").isNullOrEmpty())
+            binding.rbTheme0.isChecked=true
+        when(pref.getString("theme", "")) {
+           "0" -> binding.rbTheme0.isChecked=true
+           "1" -> binding.rbTheme1.isChecked=true
+           "2" -> binding.rbTheme2.isChecked=true
+           "3" -> binding.rbTheme3.isChecked=true
+           "4" -> binding.rbTheme4.isChecked=true
+        }
+
+        binding.rbTheme0.setOnCheckedChangeListener { _, b ->
+            if (b){
+                setTheme("0")
+            }
+        }
+        binding.rbTheme1.setOnCheckedChangeListener { _, b ->
+            if (b){
+                setTheme("1")
+            }
+        }
+        binding.rbTheme2.setOnCheckedChangeListener { _, b ->
+            if (b){
+                setTheme("2")
+            }
+        }
+        binding.rbTheme3.setOnCheckedChangeListener { _, b ->
+            if (b){
+                setTheme("3")
+            }
+        }
+        binding.rbTheme4.setOnCheckedChangeListener { _, b ->
+            if (b){
+                setTheme("4")
+            }
+        }
+    }
+
+
+    private fun setTheme(str:String) {
+        val pref = requireActivity().getSharedPreferences("setTheme", Context.MODE_PRIVATE)
+        pref.edit().putString("theme", str).apply()
+        val intent= Intent(activity,MainActivity::class.java)
+        requireActivity().finishAffinity()
+        startActivity(intent)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.app_bar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.theme_menu  -> {
+                showThemeRadioBottoms()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showThemeRadioBottoms() {
+        binding.llTheme.isVisible=!binding.llTheme.isVisible
+    }
+
 
 }

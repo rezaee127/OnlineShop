@@ -1,6 +1,7 @@
 package com.example.onlineshop.ui
 
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -18,6 +19,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var navHostFragment:NavHostFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        changTheme()
+
         //setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -36,6 +40,20 @@ class MainActivity : AppCompatActivity() {
         splash()
         setBottomNavigationVisibility()
 
+    }
+
+    private fun changTheme() {
+        val pref = getSharedPreferences("setTheme", Context.MODE_PRIVATE)
+        if(!pref.getString("theme", "").isNullOrBlank()){
+            when(pref.getString("theme", "")){
+                "0" -> setTheme(R.style.Theme0)
+                "1" -> setTheme(R.style.Theme1)
+                "2" -> setTheme(R.style.Theme2)
+                "3" -> setTheme(R.style.Theme3)
+                "4" -> setTheme(R.style.Theme4)
+            }
+        }else
+            setTheme(R.style.Theme0)
     }
 
     private fun setBottomNavigationVisibility() {
