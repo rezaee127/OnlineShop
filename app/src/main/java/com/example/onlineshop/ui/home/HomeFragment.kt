@@ -216,28 +216,28 @@ class HomeFragment : Fragment() {
     }
 
     private fun showThemeRadioBottoms() {
-        if (binding.llTheme.isVisible){
-            binding.llTheme.animate()
-                .alpha(0f)
-                .setDuration(1000)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        binding.llTheme.visibility = View.GONE
-                    }
-                })
-        }else {
-            binding.llTheme.animate()
-                .alpha(1f)
-                .setDuration(500)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        binding.llTheme.visibility = View.VISIBLE
-                    }
-                })
+//        if (binding.llTheme.isVisible){
+//            binding.llTheme.animate()
+//                .alpha(0f)
+//                .setDuration(1000)
+//                .setListener(object : AnimatorListenerAdapter() {
+//                    override fun onAnimationEnd(animation: Animator) {
+//                        binding.llTheme.visibility = View.GONE
+//                    }
+//                })
+//        }else {
+//            binding.llTheme.animate()
+//                .alpha(1f)
+//                .setDuration(500)
+//                .setListener(object : AnimatorListenerAdapter() {
+//                    override fun onAnimationEnd(animation: Animator) {
+//                        binding.llTheme.visibility = View.VISIBLE
+//                    }
+//                })
+//
+//        }
 
-        }
-
-        //binding.llTheme.isVisible=!binding.llTheme.isVisible
+        binding.llTheme.isVisible=!binding.llTheme.isVisible
     }
 
 

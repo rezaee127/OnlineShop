@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -193,7 +194,7 @@ class DetailFragment : Fragment() {
         vModel.reviewsList.observe(viewLifecycleOwner){
             reviewAdapter.submitList(it)
             if (it.isNullOrEmpty())
-                binding.tvReview.text="نظرات کاربران : \n\n\n\n\t\t\t\tنظری برای این محصول ثبت نشده است"
+                binding.tvReviewNotExist.isVisible=true
 //            حذف نظرات تایید نشده
 //            var verifiedList=ArrayList<ReviewsItem>()
 //            for (review in it){
