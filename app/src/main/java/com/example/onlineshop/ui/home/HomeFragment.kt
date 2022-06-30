@@ -1,5 +1,7 @@
 package com.example.onlineshop.ui.home
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -214,7 +216,28 @@ class HomeFragment : Fragment() {
     }
 
     private fun showThemeRadioBottoms() {
-        binding.llTheme.isVisible=!binding.llTheme.isVisible
+        if (binding.llTheme.isVisible){
+            binding.llTheme.animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        binding.llTheme.visibility = View.GONE
+                    }
+                })
+        }else {
+            binding.llTheme.animate()
+                .alpha(1f)
+                .setDuration(500)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        binding.llTheme.visibility = View.VISIBLE
+                    }
+                })
+
+        }
+
+        //binding.llTheme.isVisible=!binding.llTheme.isVisible
     }
 
 
