@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentProfileBinding
 import com.example.onlineshop.model.*
 import com.example.onlineshop.ui.home.ApiStatus
@@ -154,6 +156,7 @@ class ProfileFragment : Fragment() {
                 else -> {
                     Toast.makeText(requireContext(),"ثبت سفارش با موفقیت انجام شد", Toast.LENGTH_SHORT).show()
                     binding.pbLoading.visibility=View.GONE
+                    findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
                 }
             }
 
