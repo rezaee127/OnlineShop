@@ -1,12 +1,16 @@
 package com.example.onlineshop.ui.profile
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentProfileBinding
 import com.example.onlineshop.model.*
 import com.example.onlineshop.ui.home.ApiStatus
@@ -114,13 +118,13 @@ class ProfileFragment : Fragment() {
                         binding.tfFirstName.editText?.text.toString(),
                         binding.tfLastName.editText?.text.toString(),
                         binding.tfEmail.editText?.text.toString(),
-                    Billing(binding.tfFirstName.editText?.text.toString(),
-                        binding.tfLastName.editText?.text.toString(),
-                        binding.tfEmail.editText?.text.toString(),
-                        binding.tfAddress.editText?.text.toString()),
-                    Shipping(binding.tfFirstName.editText?.text.toString(),
-                        binding.tfLastName.editText?.text.toString(),
-                        binding.tfAddress.editText?.text.toString())
+                        Billing(binding.tfFirstName.editText?.text.toString(),
+                            binding.tfLastName.editText?.text.toString(),
+                            binding.tfEmail.editText?.text.toString(),
+                            binding.tfAddress.editText?.text.toString()),
+                        Shipping(binding.tfFirstName.editText?.text.toString(),
+                            binding.tfLastName.editText?.text.toString(),
+                            binding.tfAddress.editText?.text.toString())
                     ))
                 }
             }
@@ -137,7 +141,12 @@ class ProfileFragment : Fragment() {
                     Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
                 }
                 else -> {
-                    Toast.makeText(requireContext(),"ثبت نام با موفقیت انجام شد", Toast.LENGTH_SHORT).show()
+                    val dialog = AlertDialog.Builder(requireContext())
+                    dialog.setMessage("ثبت نام با موفقیت انجام شد. \nکد کاربری شما : ${mCustomer.id}")
+                        .setPositiveButton("متوجه شدم",
+                            DialogInterface.OnClickListener { dialog, id ->
+                            }).create().show()
+
                     binding.pbLoading.visibility=View.GONE
                 }
             }
@@ -152,8 +161,18 @@ class ProfileFragment : Fragment() {
                     Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
                 }
                 else -> {
-                    Toast.makeText(requireContext(),"ثبت سفارش با موفقیت انجام شد", Toast.LENGTH_SHORT).show()
+                    var orderId=0
+                    vModel.order.observe(viewLifecycleOwner){order ->
+                        orderId=order.id
+                    }
+                    val dialog = AlertDialog.Builder(requireContext())
+                    dialog.setMessage("سفارش شما با شماره $orderId ثبت شد")
+                        .setPositiveButton("متوجه شدم",
+                            DialogInterface.OnClickListener { dialog, id ->
+                                findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
+                            }).create().show()
                     binding.pbLoading.visibility=View.GONE
+                    binding.btnOrder.isEnabled=false
                 }
             }
 
