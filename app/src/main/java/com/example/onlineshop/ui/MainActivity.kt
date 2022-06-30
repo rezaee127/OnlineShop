@@ -46,14 +46,14 @@ class MainActivity : AppCompatActivity() {
         val pref = getSharedPreferences("setTheme", Context.MODE_PRIVATE)
         if(!pref.getString("theme", "").isNullOrBlank()){
             when(pref.getString("theme", "")){
-                "0" -> setTheme(R.style.Theme0)
+                "0" -> setTheme(R.style.ThemeOnlineShop)
                 "1" -> setTheme(R.style.Theme1)
                 "2" -> setTheme(R.style.Theme2)
                 "3" -> setTheme(R.style.Theme3)
                 "4" -> setTheme(R.style.Theme4)
             }
         }else
-            setTheme(R.style.Theme0)
+            setTheme(R.style.ThemeOnlineShop)
     }
 
     private fun setBottomNavigationVisibility() {
