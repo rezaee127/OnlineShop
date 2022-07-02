@@ -13,8 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentSearchBinding
-import com.example.onlineshop.ui.adapters.CategoryProductListAdapter
-import com.example.onlineshop.ui.adapters.SearchFilterAdapter
+import com.example.onlineshop.ui.categoryProductList.CategoryProductListAdapter
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -86,7 +85,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setColorAdapter() {
-        val colorAdapter=SearchFilterAdapter {isCheck, id ->
+        val colorAdapter= SearchFilterAdapter { isCheck, id ->
             if (isCheck){
                 colorAttributeTerm= "$colorAttributeTerm$id,"
             }else{
@@ -103,7 +102,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setSizeAdapter() {
-        val sizeAdapter=SearchFilterAdapter{isCheck,id ->
+        val sizeAdapter= SearchFilterAdapter{ isCheck, id ->
             if (isCheck){
                 sizeAttributeTerm= "$sizeAttributeTerm$id,"
             }else{

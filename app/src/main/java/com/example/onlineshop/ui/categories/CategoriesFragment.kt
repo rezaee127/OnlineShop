@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCategoriesBinding
-import com.example.onlineshop.ui.adapters.CategoriesItemAdapter
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -84,7 +83,7 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        val adapter=CategoriesItemAdapter{ id ,name -> goToCategoryProductListFragment(id,name) }
+        val adapter= CategoriesItemAdapter{ id, name -> goToCategoryProductListFragment(id,name) }
         binding.rvCategories.adapter=adapter
         vModel.listOfCategories.observe(viewLifecycleOwner){
             adapter.submitList(it)

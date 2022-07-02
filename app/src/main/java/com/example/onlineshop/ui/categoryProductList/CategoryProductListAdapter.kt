@@ -1,4 +1,4 @@
-package com.example.onlineshop.ui.adapters
+package com.example.onlineshop.ui.categoryProductList
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.onlineshop.R
 import com.example.onlineshop.model.ProductsItem
+import com.example.onlineshop.ui.adapters.ProductsItemAdapter
 
 
 class CategoryProductListAdapter(var onClickItem: (Int) -> Unit) :

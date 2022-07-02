@@ -20,9 +20,7 @@ import com.example.onlineshop.databinding.FragmentDetailBinding
 import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.model.ReviewsItem
-import com.example.onlineshop.ui.adapters.ImageAdapter
 import com.example.onlineshop.ui.adapters.ProductsItemAdapter
-import com.example.onlineshop.ui.adapters.ReviewAdapter
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -147,7 +145,7 @@ class DetailFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setView(product:ProductsItem) {
-        val galleryAdapter=ImageAdapter()
+        val galleryAdapter= ImageAdapter()
         binding.rvGallery.adapter=galleryAdapter
         galleryAdapter.submitList(product.images)
 
@@ -189,7 +187,7 @@ class DetailFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setReviews() {
-        val reviewAdapter=ReviewAdapter()
+        val reviewAdapter= ReviewAdapter()
         binding.rvReviews.adapter=reviewAdapter
         vModel.reviewsList.observe(viewLifecycleOwner){
             reviewAdapter.submitList(it)

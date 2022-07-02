@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCartBinding
 import com.example.onlineshop.model.ProductsItem
-import com.example.onlineshop.ui.adapters.CartAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -75,7 +74,7 @@ class CartFragment : Fragment() {
 
 
     private fun setAdapter() {
-        productAdapter=CartAdapter(productMap,
+        productAdapter= CartAdapter(productMap,
             {detailId->goToDetailFragment(detailId)},
             {product->removeProductFromCart(product)},
             {operator,count,product->changeProductCount(operator,count,product)})

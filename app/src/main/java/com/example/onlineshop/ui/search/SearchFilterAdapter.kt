@@ -1,4 +1,4 @@
-package com.example.onlineshop.ui.adapters
+package com.example.onlineshop.ui.search
 
 
 import android.view.LayoutInflater
