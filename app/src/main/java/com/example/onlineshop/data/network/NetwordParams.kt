@@ -11,10 +11,16 @@ class NetworkParams {
         const val PER_PAGE="100"
 
         fun getBaseOptions():Map<String,String>{
+            var optionsHashMap=HashMap<String,String>()
+            optionsHashMap= getBaseOptionsWithOutPerPage() as HashMap<String, String>
+            optionsHashMap["per_page"]= PER_PAGE
+            return optionsHashMap
+        }
+
+        fun getBaseOptionsWithOutPerPage():Map<String,String>{
             val optionsHashMap=HashMap<String,String>()
             optionsHashMap["consumer_key"]=CONSUMER_KEY
             optionsHashMap["consumer_secret"]=CONSUMER_SECRET
-            optionsHashMap["per_page"]= PER_PAGE
             return optionsHashMap
         }
     }

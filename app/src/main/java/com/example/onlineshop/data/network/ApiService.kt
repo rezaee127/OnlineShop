@@ -30,7 +30,7 @@ interface ApiService {
     @GET("products/{id}")
     suspend fun getProductById(
         @Path("id") id: Int,
-        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
     ): ProductsItem
 
 
@@ -50,14 +50,31 @@ interface ApiService {
     @GET("products/reviews")
     suspend fun getReviews(
         @Query("product") productId: Int,
-        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+        @Query("per_page") perPage: Int=30,
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
     ): List<ReviewsItem>
+
+    @GET("products/reviews/{id}")
+    suspend fun getReviewById(
+        @Path("id")reviewId:Int,
+        @Query("product") productId: Int,
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
+    ): ReviewsItem
 
     @POST("products/reviews")
     suspend fun createReview(
         @Body review: ReviewsItem,
-        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
     ): ReviewsItem
+
+    @PUT("products/reviews/{id}")
+    suspend fun editReview(
+        @Path("id")reviewId:Int,
+        @Query("review")reviewText:String,
+        @Query("rating")rating:Int,
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
+    ): ReviewsItem
+
 
 
     @GET("products")
@@ -95,14 +112,14 @@ interface ApiService {
     @POST("customers")
     suspend fun createCustomer(
         @Body customerItem: CustomerItem,
-        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
     ): CustomerItem
 
 
     @POST("orders")
     suspend fun createOrder(
         @Body orderItem: OrderItem,
-        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
     ): OrderItem
 
 
