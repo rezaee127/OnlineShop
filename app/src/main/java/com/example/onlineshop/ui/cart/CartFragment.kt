@@ -48,7 +48,7 @@ class CartFragment : Fragment() {
 
     private fun initViews() {
         requireActivity().title="سبد خرید"
-        productMap= vModel.getHashMapFromShared()
+        productMap= vModel.getCartHashMapFromShared()
         listOfProducts=vModel.getArrayFromShared()
         setAdapter()
         getPrice()
@@ -91,7 +91,7 @@ class CartFragment : Fragment() {
         }
         binding.btnSumPrice.text=sumPrice.toString()+" تومان"
         productMap[product.id]= count
-        vModel.saveHashMapInShared(productMap)
+        vModel.saveCartHashMapInShared(productMap)
     }
 
     internal fun removeProductFromCart(product:ProductsItem){
@@ -101,7 +101,7 @@ class CartFragment : Fragment() {
         productMap.remove(product.id)
         getPrice()
         vModel.saveArrayInShared(listOfProducts)
-        vModel.saveHashMapInShared(productMap)
+        vModel.saveCartHashMapInShared(productMap)
     }
 
     private fun goToDetailFragment(id:Int){
@@ -134,7 +134,7 @@ class CartFragment : Fragment() {
                 productMap.remove(product.id)
                 getPrice()
                 vModel.saveArrayInShared(listOfProducts)
-                vModel.saveHashMapInShared(productMap)
+                vModel.saveCartHashMapInShared(productMap)
 
 
             }

@@ -33,7 +33,7 @@ class ProfileViewModel @Inject constructor(private val repository: Repository,
             catch (e: retrofit2.HttpException) {
                 errorMessage = "خطا در ارتباط با سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
                 errorMessage = when (e.message) {
-                    "HTTP 400 " -> "این ایمیل قبلا ثبت شده است\n\n لطفا با یک ایمیل دیگر، ثبت نام نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
+                    "HTTP 400 " -> "ایمیل اشتباه است یا قبلا ثبت شده است\n\n لطفا با یک ایمیل دیگر، ثبت نام نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
                     "HTTP 401 " -> "$errorMessage\n\nاعتبار سنجی انجام نشد"
                     "HTTP 404 " -> "$errorMessage\n\nلینک اشتباه است"
                     "HTTP 500 " -> "$errorMessage\n\nارور سرور"
@@ -109,7 +109,7 @@ class ProfileViewModel @Inject constructor(private val repository: Repository,
 
 
     fun getHashMapFromShared():HashMap<Int, Int>{
-        return repository.getHashMapFromShared(app.applicationContext)
+        return repository.getCartHashMapFromShared(app.applicationContext)
     }
 }
 

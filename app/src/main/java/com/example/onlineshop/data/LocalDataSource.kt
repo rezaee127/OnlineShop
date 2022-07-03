@@ -7,16 +7,17 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
+const val CART_PRODUCTS_ARRAY="cartProductArray"
 
-fun emptyCart(context:Context){
-    val pref = context.getSharedPreferences("sharedArray", Context.MODE_PRIVATE)
+fun emptyCart(fileName: String,context:Context){
+    val pref = context.getSharedPreferences(CART_PRODUCTS_ARRAY, Context.MODE_PRIVATE)
     pref.edit().clear().apply()
-    val prefs = context.getSharedPreferences("sharedHashMap", Context.MODE_PRIVATE)
+    val prefs = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
     prefs.edit().clear().apply()
 }
 
 fun saveArrayToSharedPref(context: Context, list: ArrayList<ProductsItem>?) {
-    val pref = context.getSharedPreferences("sharedArray", Context.MODE_PRIVATE)
+    val pref = context.getSharedPreferences(CART_PRODUCTS_ARRAY, Context.MODE_PRIVATE)
     val editor = pref.edit()
     val gson = Gson()
     val json: String = gson.toJson(list)
@@ -26,7 +27,7 @@ fun saveArrayToSharedPref(context: Context, list: ArrayList<ProductsItem>?) {
 
 
 fun getArrayFromSharedPref(context: Context): ArrayList<ProductsItem> {
-    val pref = context.getSharedPreferences("sharedArray", Context.MODE_PRIVATE)
+    val pref = context.getSharedPreferences(CART_PRODUCTS_ARRAY, Context.MODE_PRIVATE)
     var arrayItems = ArrayList<ProductsItem>()
     val serializedObject = pref.getString("cart", null)
     if (serializedObject != null) {
@@ -38,8 +39,8 @@ fun getArrayFromSharedPref(context: Context): ArrayList<ProductsItem> {
 }
 
 
-fun getHashMapFromSharedPref(context: Context): HashMap<Int, Int> {
-    val prefs = context.getSharedPreferences("sharedHashMap", Context.MODE_PRIVATE)
+fun getHashMapFromSharedPref(fileName:String,context: Context): HashMap<Int, Int> {
+    val prefs = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
     var hashMap = HashMap<Int, Int>()
     val gson = Gson()
     val json = prefs.getString("key", null)
@@ -51,8 +52,8 @@ fun getHashMapFromSharedPref(context: Context): HashMap<Int, Int> {
 }
 
 
-fun saveHashMapToSharedPref(context: Context, obj: HashMap<Int, Int>) {
-    val prefs = context.getSharedPreferences("sharedHashMap", Context.MODE_PRIVATE)
+fun saveHashMapToSharedPref(fileName:String,context: Context, obj: HashMap<Int, Int>) {
+    val prefs = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
     val editor = prefs.edit()
     val gson = Gson()
     val json = gson.toJson(obj)

@@ -21,12 +21,12 @@ class CartViewModel  @Inject constructor(private val repository: Repository,
         return repository.getArrayFromShared(app.applicationContext)
     }
 
-    fun saveHashMapInShared(hashMap: HashMap<Int, Int>){
-        repository.saveHashMapInShared(app.applicationContext,hashMap)
+    fun saveCartHashMapInShared(hashMap: HashMap<Int, Int>){
+        repository.saveCartHashMapInShared(app.applicationContext,hashMap)
     }
 
-    fun getHashMapFromShared():HashMap<Int, Int>{
-        return repository.getHashMapFromShared(app.applicationContext)
+    fun getCartHashMapFromShared():HashMap<Int, Int>{
+        return repository.getCartHashMapFromShared(app.applicationContext)
     }
 
 }
