@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -13,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentSearchBinding
+import com.example.onlineshop.ui.categories.CategoriesViewModel
 import com.example.onlineshop.ui.categoryProductList.CategoryProductListAdapter
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchFragment : Fragment() {
     lateinit var binding: FragmentSearchBinding
     val vModel: SearchViewModel by viewModels()
+    val categoriesViewModel: CategoriesViewModel by viewModels()
     var category = ""
     var attribute=""
     var attributeTerm=""
@@ -50,12 +50,16 @@ class SearchFragment : Fragment() {
         requireActivity().title = "جستجو"
         vModel.getColorList()
         vModel.getSizeList()
+        categoriesViewModel.getCategories()
+
         checkConnectivity()
         checkConnectivityForGetSearchResult()
-        setCategorySpinner()
+
+        setCategoriesAdapter()
         setColorAdapter()
         setSizeAdapter()
         setSearchResultAdapter()
+
         binding.btnSearch.setOnClickListener {
             search()
         }
@@ -81,6 +85,21 @@ class SearchFragment : Fragment() {
                     binding.llSearch.visibility = View.VISIBLE
                 }
             }
+        }
+    }
+
+
+    private fun setCategoriesAdapter() {
+        val categoriesAdapter=SearchCategoriesAdapter{ isCheck, id ->
+            if (isCheck){
+                category="$category$id,"
+            }else{
+                category=category.replace("$id,","")
+            }
+        }
+        binding.rvCategories.adapter=categoriesAdapter
+        categoriesViewModel.listOfCategories.observe(viewLifecycleOwner){
+            categoriesAdapter.submitList(it)
         }
     }
 
@@ -164,49 +183,6 @@ class SearchFragment : Fragment() {
 
 
 
-    private fun setCategorySpinner() {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.category_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.categorySpinner.adapter = adapter
-        }
-
-        binding.categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val spinnerItem = p0?.getItemAtPosition(p2).toString()
-                category = when (spinnerItem) {
-                    "پوشاک زنانه" -> "63"
-                    "پوشاک مردانه" -> "64"
-                    "مد و پوشاک" -> "62"
-                    "کفش" -> "70"
-                    "کیف و کوله" -> "124"
-                    "فروش ویژه" -> "119"
-                    "دیجیتال" -> "52"
-                    "گوشی موبایل" -> "53"
-                    "ساعت و مچ بند هوشمند" -> "102"
-                    "کتاب و هنر" -> "76"
-                    "کتاب و مجلات" -> "79"
-                    "فیلم" -> "77"
-                    "سوپرمارکت" -> "81"
-                    "مواد پروتئینی" -> "82"
-                    "لبنیات" -> "86"
-                    "نوشیدنی ها" -> "95"
-                    "لوازم منزل" -> "129"
-                    "بهداشت" -> "121"
-                    else -> ""
-                }
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
-
-    }
-
-
 
     private fun checkConnectivityForGetSearchResult() {
         vModel.searchStatus.observe(viewLifecycleOwner) {
@@ -249,16 +225,12 @@ class SearchFragment : Fragment() {
         binding.btnReturn.visibility = View.GONE
         vModel.getColorList()
         vModel.getSizeList()
+        categoriesViewModel.getCategories()
     }
 
     private fun goToDetailFragment(id: Int) {
         val bundle = bundleOf("id" to id)
         findNavController().navigate(R.id.action_searchFragment_to_detailFragment, bundle)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //buttonReturnClicked(
     }
 
 }

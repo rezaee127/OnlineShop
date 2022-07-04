@@ -16,12 +16,12 @@ class SearchFilterAdapter(var onClickItem: (Boolean,Int) -> Unit) :
     ListAdapter<AttributeTerm, SearchFilterAdapter.ViewHolder>(SearchFilterDiffCallback) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val chbFilterName = view.findViewById<CheckBox>(R.id.chb_filter)
+        private val chbFilterName: CheckBox = view.findViewById(R.id.chb_filter)
 
         fun bind(attributeTerm:AttributeTerm,onClickItem: (Boolean,Int) -> Unit) {
             chbFilterName.text=attributeTerm.name
 
-            chbFilterName.setOnCheckedChangeListener { compoundButton, b ->
+            chbFilterName.setOnCheckedChangeListener { _, b ->
                 onClickItem(b,attributeTerm.id)
             }
         }

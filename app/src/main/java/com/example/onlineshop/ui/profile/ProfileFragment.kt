@@ -143,9 +143,8 @@ class ProfileFragment : Fragment() {
                 else -> {
                     val dialog = AlertDialog.Builder(requireContext())
                     dialog.setMessage("ثبت نام با موفقیت انجام شد. \nکد کاربری شما : ${mCustomer.id}")
-                        .setPositiveButton("متوجه شدم",
-                            DialogInterface.OnClickListener { dialog, id ->
-                            }).create().show()
+                        .setPositiveButton("متوجه شدم"
+                        ) { _, _ -> }.create().show()
 
                     binding.pbLoading.visibility=View.GONE
                 }
@@ -168,7 +167,7 @@ class ProfileFragment : Fragment() {
                     val dialog = AlertDialog.Builder(requireContext())
                     dialog.setMessage("سفارش شما با شماره $orderId ثبت شد")
                         .setPositiveButton("متوجه شدم",
-                            DialogInterface.OnClickListener { dialog, id ->
+                            DialogInterface.OnClickListener { _, _ ->
                                 findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
                             }).create().show()
                     binding.pbLoading.visibility=View.GONE
