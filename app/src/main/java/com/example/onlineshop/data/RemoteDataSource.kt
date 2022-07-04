@@ -45,6 +45,10 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
         return apiService.getReviewById(reviewId,productId)
     }
 
+    suspend fun deleteReview(reviewId:Int): DeleteReview {
+        return apiService.deleteReview(reviewId)
+    }
+
 
     suspend fun createReview(review: ReviewsItem): ReviewsItem{
         return apiService.createReview(review)

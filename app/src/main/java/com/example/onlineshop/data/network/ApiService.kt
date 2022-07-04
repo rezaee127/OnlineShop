@@ -61,6 +61,13 @@ interface ApiService {
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
     ): ReviewsItem
 
+    @DELETE("products/reviews/{id}")
+    suspend fun deleteReview(
+        @Path("id")reviewId:Int,
+        @Query("force")force:Boolean=true,
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
+    ): DeleteReview
+
     @POST("products/reviews")
     suspend fun createReview(
         @Body review: ReviewsItem,

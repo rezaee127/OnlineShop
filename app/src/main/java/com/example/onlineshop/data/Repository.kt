@@ -42,6 +42,10 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         return remoteDataSource.getReviewById(reviewId,productId)
     }
 
+    suspend fun deleteReview(reviewId:Int): DeleteReview {
+        return remoteDataSource.deleteReview(reviewId)
+    }
+
     suspend fun createReview(review: ReviewsItem): ReviewsItem{
         return remoteDataSource.createReview(review)
     }

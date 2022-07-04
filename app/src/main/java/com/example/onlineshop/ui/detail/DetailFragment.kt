@@ -31,7 +31,7 @@ class DetailFragment : Fragment() {
     var pagerSnapHelper = PagerSnapHelper()
     var listOfProducts=ArrayList<ProductsItem>()
     var productMap=HashMap<Int,Int>()
-    lateinit var product:ProductsItem
+    var product:ProductsItem?=null
     var customer: CustomerItem?=null
     var productRating=0
     var reviewMap=HashMap<Int,Int>()
@@ -79,13 +79,47 @@ class DetailFragment : Fragment() {
         }
 
         binding.btnAddToCart.setOnClickListener {
-            goToCartFragment(product)
+            addProductToCart(product)
         }
 
         saveReviewIdInShare(id)
 
         showReviews()
+        binding.ibReturn.setOnClickListener {
+            returnFromReviewPage(id)
+        }
+        deleteReview(id)
+    }
 
+    private fun deleteReview(productId:Int) {
+        binding.ibDeleteReview.setOnClickListener {
+            reviewMap[productId]?.let { it1 -> vModel.deleteReview(it1) }
+            vModel.deleteStatus.observe(viewLifecycleOwner){
+
+                when (it) {
+                    ApiStatus.LOADING -> binding.clLoadingInDetail.visibility=View.VISIBLE
+                    ApiStatus.ERROR -> {
+                        binding.clLoadingInDetail.visibility=View.GONE
+                        Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
+                    }
+                    else -> {
+                        Toast.makeText(requireContext(),"دیدگاه شما حذف شد", Toast.LENGTH_SHORT).show()
+                        reviewMap.remove(productId)
+                        vModel.saveReviewHashMapInShared(reviewMap)
+                        binding.clLoadingInDetail.visibility=View.GONE
+                        returnFromReviewPage(productId)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun returnFromReviewPage(productId:Int) {
+        binding.clLoadingInDetail.visibility=View.GONE
+        binding.svDetail.visibility=View.VISIBLE
+        binding.clDetail.visibility=View.VISIBLE
+        binding.svSubmitComment.visibility=View.GONE
+        vModel.getReviews(productId)
     }
 
     private fun saveReviewIdInShare(productId: Int) {
@@ -118,6 +152,7 @@ class DetailFragment : Fragment() {
                         binding.tfReview.editText?.setText(removeExtraCharacters(it.review))
                         binding.rateSpinner.setSelection(5-it.rating)
                         productRating=it.rating
+                        binding.btnFavorite.text= it.rating.toString()
                     }
                     binding.btnCreateReview.isEnabled=false
 
@@ -211,13 +246,13 @@ class DetailFragment : Fragment() {
     }
 
 
-    fun goToCartFragment(product: ProductsItem){
+    fun addProductToCart(product: ProductsItem?){
         listOfProducts=vModel.getArrayFromShared()
         productMap= vModel.getCartHashMapFromShared()
-        if (productMap.contains(product.id)){
+        if (productMap.contains(product?.id)){
             Toast.makeText(requireContext(),"این کالا در سبد خرید موجود است", Toast.LENGTH_SHORT).show()
         }else{
-            productMap[product.id]=1
+            productMap[product!!.id]=1
             vModel.saveCartHashMapInShared(productMap)
             listOfProducts.add(product)
             vModel.saveArrayInShared(listOfProducts)
@@ -234,23 +269,15 @@ class DetailFragment : Fragment() {
             reviewAdapter.submitList(it)
             if (it.isNullOrEmpty())
                 binding.tvReviewNotExist.isVisible=true
-//            حذف نظرات تایید نشده
-//            var verifiedList=ArrayList<ReviewsItem>()
-//            for (review in it){
-//                if (review.verified)
-//                    verifiedList.add(review)
-//            }
-//            reviewAdapter.submitList(verifiedList)
-
         }
     }
 
-    private fun setRelatedProduct(product: ProductsItem) {
+    private fun setRelatedProduct(product: ProductsItem?) {
         val relatedProductAdapter=ProductsItemAdapter{id->showDetailOfRelatedProduct(id)}
         binding.rvRelatedProduct.adapter=relatedProductAdapter
 
         var stringOfIdsRelatedProducts=""
-        for (id in product.relatedIds) {
+        for (id in product?.relatedIds!!) {
             stringOfIdsRelatedProducts += "$id,"
         }
 
@@ -271,7 +298,7 @@ class DetailFragment : Fragment() {
         binding.btnRefresh.setOnClickListener {
             vModel.getProductById(id)
             vModel.getReviews(id)
-            if (product.id!=0)
+            if (product!=null)
                 setRelatedProduct(product)
         }
     }
@@ -314,6 +341,7 @@ class DetailFragment : Fragment() {
                     binding.clLoadingInDetail.visibility=View.GONE
                     binding.btnCreateReview.isEnabled=false
                     binding.btnEdit.isEnabled=true
+                    binding.ibDeleteReview.isEnabled=true
                 }
             }
         }

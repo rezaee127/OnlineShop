@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.onlineshop.data.Repository
 import com.example.onlineshop.model.CustomerItem
+import com.example.onlineshop.model.DeleteReview
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.model.ReviewsItem
 import com.example.onlineshop.ui.home.ApiStatus
@@ -24,6 +25,8 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
     var reviewsList = MutableLiveData<List<ReviewsItem>>()
     var mReview = MutableLiveData<ReviewsItem>()
     var receivedReview = MutableLiveData<ReviewsItem>()
+    var deletedReview = MutableLiveData<DeleteReview>()
+    var deleteStatus = MutableLiveData<ApiStatus>()
     var errorMessage=""
 
     fun getProductById(id: Int): LiveData<ProductsItem> {
@@ -84,7 +87,45 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
         return receivedReview
     }
 
-    fun editReview(reviewId:Int,reviewText:String,rating:Int): LiveData<ReviewsItem>{
+    fun deleteReview(reviewId:Int) {
+        viewModelScope.launch {
+            deleteStatus.value=ApiStatus.LOADING
+            try {
+                deletedReview.value = repository.deleteReview(reviewId)
+                deleteStatus.value=ApiStatus.DONE
+            }
+            catch (e:retrofit2.HttpException){
+                errorMessage="خطا در ارتباط با سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
+                errorMessage=when(e.message){
+                    "HTTP 400 "-> "$errorMessage\n\nدرخواست اشتباه است"
+                    "HTTP 401 "-> "$errorMessage\n\nاعتبار سنجی انجام نشد"
+                    "HTTP 403 "-> "این نظر وجود ندارد"
+                    "HTTP 404 "-> "$errorMessage\n\nلینک اشتباه است"
+                    "HTTP 500 "-> "$errorMessage\n\nارور سرور"
+                    else -> ""
+                }
+                deleteStatus.value = ApiStatus.ERROR
+            }
+            catch (e:java.lang.IllegalArgumentException){
+                errorMessage="خطا در اطلاعات ارسالی به سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
+                deleteStatus.value = ApiStatus.ERROR
+            }
+            catch (e:java.net.SocketTimeoutException){
+                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
+                deleteStatus.value = ApiStatus.ERROR
+            }
+            catch (e:java.net.UnknownHostException){
+                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
+                deleteStatus.value = ApiStatus.ERROR
+            }
+            catch(e: java.lang.Exception){
+                errorMessage="خطا در دریافت اطلاعات"
+                deleteStatus.value = ApiStatus.ERROR
+            }
+        }
+    }
+
+    fun editReview(reviewId:Int,reviewText:String,rating:Int){
         viewModelScope.launch {
             reviewStatus.value=ApiStatus.LOADING
             try {
@@ -119,7 +160,6 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
                 reviewStatus.value = ApiStatus.ERROR
             }
         }
-        return mReview
     }
 
 
@@ -153,8 +193,8 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
                 errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
                 reviewStatus.value = ApiStatus.ERROR
             }
-            catch(e: java.lang.Exception){
-                errorMessage="خطا در دریافت اطلاعات"
+            catch(e: Exception){
+                errorMessage="${e.message}خطا در دریافت اطلاعات"
                 reviewStatus.value = ApiStatus.ERROR
             }
         }
