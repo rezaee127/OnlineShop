@@ -1,5 +1,6 @@
 package com.example.onlineshop.ui.categories
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,17 +15,18 @@ import com.example.onlineshop.R
 import com.example.onlineshop.model.CategoriesItem
 
 
-class CategoriesItemAdapter(var onClickItem: (Int,String) -> Unit) :
+class CategoriesItemAdapter(private var onClickItem: (Int, String) -> Unit) :
     ListAdapter<CategoriesItem, CategoriesItemAdapter.ViewHolder>(CategoriesItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
-        val categoriesItemRow = view.findViewById<View>(R.id.categories_row_item)
-        val ivCategoriesItem = view.findViewById<ImageView>(R.id.iv_categories_image)
-        val tvCategoriesItemName = view.findViewById<TextView>(R.id.tv_categories_name)
-        val tvCategoriesCount = view.findViewById<TextView>(R.id.tv_categories_count)
+        private val categoriesItemRow: View = view.findViewById(R.id.categories_row_item)
+        private val ivCategoriesItem: ImageView = view.findViewById(R.id.iv_categories_image)
+        private val tvCategoriesItemName: TextView = view.findViewById(R.id.tv_categories_name)
+        private val tvCategoriesCount: TextView = view.findViewById(R.id.tv_categories_count)
 
 
-        fun bind(categoriesItem: CategoriesItem, onClickItem: (Int,String) -> Unit) {
+        @SuppressLint("SetTextI18n")
+        fun bind(categoriesItem: CategoriesItem, onClickItem: (Int, String) -> Unit) {
             tvCategoriesItemName.text = categoriesItem.name
             tvCategoriesCount.text = "${categoriesItem.count} کالا"
             categoriesItemRow.setOnClickListener {

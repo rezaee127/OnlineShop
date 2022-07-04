@@ -18,13 +18,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
-    lateinit var binding: FragmentProfileBinding
-    lateinit var mCustomer: CustomerItem
-    val vModel : ProfileViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var binding: FragmentProfileBinding
+    private lateinit var mCustomer: CustomerItem
+    private val vModel : ProfileViewModel by viewModels()
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

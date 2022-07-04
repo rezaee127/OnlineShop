@@ -15,22 +15,22 @@ import com.example.onlineshop.R
 import com.example.onlineshop.model.ReviewsItem
 
 
-class ReviewAdapter() :
+class ReviewAdapter :
     ListAdapter <ReviewsItem, ReviewAdapter.ViewHolder>(ReviewsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
 
-        val ivReviewer = view.findViewById<ImageView>(R.id.iv_reviewer_image)
-        val tvReviewerName = view.findViewById<TextView>(R.id.tv_reviewer_name)
-        val tvDate = view.findViewById<TextView>(R.id.tv_date)
-        val tvReview = view.findViewById<TextView>(R.id.tv_review)
-        val btnRateing = view.findViewById<Button>(R.id.btn_review_rating)
+        private val ivReviewer: ImageView = view.findViewById(R.id.iv_reviewer_image)
+        private val tvReviewerName: TextView = view.findViewById(R.id.tv_reviewer_name)
+        private val tvDate: TextView = view.findViewById(R.id.tv_date)
+        private val tvReview: TextView = view.findViewById(R.id.tv_review)
+        private val btnRating: Button = view.findViewById(R.id.btn_review_rating)
 
 
         fun bind(reviewsItem: ReviewsItem) {
             tvReviewerName.text=reviewsItem.reviewer
             tvReview.text=reviewsItem.review
-            btnRateing.text= reviewsItem.rating.toString()
+            btnRating.text= reviewsItem.rating.toString()
 
             //حذف ساعت از زمان نظر دادن
             val strDate=reviewsItem.dateCreated

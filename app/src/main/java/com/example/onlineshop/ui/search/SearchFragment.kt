@@ -18,17 +18,15 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
-    lateinit var binding: FragmentSearchBinding
-    val vModel: SearchViewModel by viewModels()
-    val categoriesViewModel: CategoriesViewModel by viewModels()
-    var category = ""
-    var attribute=""
-    var attributeTerm=""
-    var colorAttributeTerm=""
-    var sizeAttributeTerm=""
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentSearchBinding
+    private val vModel: SearchViewModel by viewModels()
+    private val categoriesViewModel: CategoriesViewModel by viewModels()
+    private var category = ""
+    private var attribute=""
+    private var attributeTerm=""
+    private var colorAttributeTerm=""
+    private var sizeAttributeTerm=""
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -202,11 +200,11 @@ class SearchFragment : Fragment() {
 
 
     private fun setSearchResultAdapter() {
-        val searchResultAadapter = CategoryProductListAdapter { id -> goToDetailFragment(id) }
-        binding.rvSearch.adapter = searchResultAadapter
+        val searchResultAdapter = CategoryProductListAdapter { id -> goToDetailFragment(id) }
+        binding.rvSearch.adapter = searchResultAdapter
         vModel.listOfSearchedProduct.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
-                searchResultAadapter.submitList(it)
+                searchResultAdapter.submitList(it)
                 binding.crSearch.visibility = View.GONE
                 binding.btnSearch.visibility = View.GONE
                 binding.rvSearch.visibility = View.VISIBLE

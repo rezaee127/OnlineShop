@@ -1,5 +1,6 @@
-package com.example.onlineshop.ui.adapters
+package com.example.onlineshop.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +14,17 @@ import com.bumptech.glide.Glide
 import com.example.onlineshop.R
 import com.example.onlineshop.model.ProductsItem
 
-class ProductsItemAdapter(var onClickItem: (Int) -> Unit) :
+class ProductsItemAdapter(private var onClickItem: (Int) -> Unit) :
     ListAdapter<ProductsItem, ProductsItemAdapter.ViewHolder>(ProductsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
-        val productRow = view.findViewById<View>(R.id.product_row_item)
-        val ivProduct = view.findViewById<ImageView>(R.id.iv_product_image)
-        val tvProductName = view.findViewById<TextView>(R.id.tv_product_name)
-        val tvPrice = view.findViewById<TextView>(R.id.tv_price)
+        private val productRow: View = view.findViewById(R.id.product_row_item)
+        private val ivProduct: ImageView = view.findViewById(R.id.iv_product_image)
+        private val tvProductName: TextView = view.findViewById(R.id.tv_product_name)
+        private val tvPrice: TextView = view.findViewById(R.id.tv_price)
 
 
+        @SuppressLint("SetTextI18n")
         fun bind(productsItem: ProductsItem, onClickItem: (Int) -> Unit) {
             tvProductName.text = productsItem.name
             tvPrice.text="${productsItem.price} تومان"

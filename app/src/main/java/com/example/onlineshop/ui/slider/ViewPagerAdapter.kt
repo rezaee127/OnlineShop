@@ -15,7 +15,7 @@ import java.util.*
 //https://www.geeksforgeeks.org/android-image-slider-using-viewpager-in-kotlin/
 
 
-class ViewPagerAdapter(val context: Context, val imageList: ArrayList<String>) : PagerAdapter() {
+class ViewPagerAdapter(val context: Context, private val imageList: ArrayList<String>) : PagerAdapter() {
 
     override fun getCount(): Int {
         return imageList.size

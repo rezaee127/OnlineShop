@@ -12,7 +12,7 @@ import com.example.onlineshop.R
 import com.example.onlineshop.model.AttributeTerm
 
 
-class SearchFilterAdapter(var onClickItem: (Boolean,Int) -> Unit) :
+class SearchFilterAdapter(private var onClickItem: (Boolean, Int) -> Unit) :
     ListAdapter<AttributeTerm, SearchFilterAdapter.ViewHolder>(SearchFilterDiffCallback) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

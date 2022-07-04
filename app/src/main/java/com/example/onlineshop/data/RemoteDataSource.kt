@@ -1,12 +1,7 @@
 package com.example.onlineshop.data
 
 import com.example.onlineshop.data.network.ApiService
-import com.example.onlineshop.data.network.NetworkParams
 import com.example.onlineshop.model.*
-import retrofit2.http.Body
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.QueryMap
 import javax.inject.Inject
 
 

@@ -11,7 +11,7 @@ import com.example.onlineshop.model.CategoriesItem
 import com.example.onlineshop.ui.categories.CategoriesItemAdapter
 
 
-class SearchCategoriesAdapter(var onClickItem: (Boolean,Int) -> Unit) :
+class SearchCategoriesAdapter(private var onClickItem: (Boolean, Int) -> Unit) :
     ListAdapter<CategoriesItem, SearchCategoriesAdapter.ViewHolder>(CategoriesItemAdapter.CategoriesItemDiffCallback) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

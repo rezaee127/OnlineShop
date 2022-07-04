@@ -1,7 +1,5 @@
 package com.example.onlineshop.ui.home
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,7 +14,6 @@ import androidx.viewpager.widget.ViewPager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import com.example.onlineshop.ui.MainActivity
-import com.example.onlineshop.ui.adapters.ProductsItemAdapter
 import com.example.onlineshop.ui.slider.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator
@@ -25,11 +22,11 @@ import me.relex.circleindicator.CircleIndicator
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-    lateinit var binding: FragmentHomeBinding
-    val vModel:HomeViewModel by viewModels()
-    lateinit var viewPager: ViewPager
-    lateinit var viewPagerAdapter: ViewPagerAdapter
-    var imageList=  ArrayList<String>()
+    private lateinit var binding: FragmentHomeBinding
+    private val vModel:HomeViewModel by viewModels()
+    private lateinit var viewPager: ViewPager
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private var imageList=  ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -114,7 +111,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initAdapters() {
-        val adapterForTheProductsOrderByDate=ProductsItemAdapter{ id -> goToDetailFragment(id) }
+        val adapterForTheProductsOrderByDate= ProductsItemAdapter{ id -> goToDetailFragment(id) }
         binding.rvLastProduct.adapter=adapterForTheProductsOrderByDate
 
         vModel.listOfProductsOrderByDate.observe(viewLifecycleOwner){
@@ -122,14 +119,14 @@ class HomeFragment : Fragment() {
 
         }
 
-        val adapterForTheProductsOrderByPopularity=ProductsItemAdapter{ id -> goToDetailFragment(id) }
+        val adapterForTheProductsOrderByPopularity= ProductsItemAdapter{ id -> goToDetailFragment(id) }
         binding.rvMostPopular.adapter=adapterForTheProductsOrderByPopularity
 
         vModel.listOfProductsOrderByPopularity.observe(viewLifecycleOwner){
             adapterForTheProductsOrderByPopularity.submitList(it)
         }
 
-        val adapterForTheProductsOrderByRating=ProductsItemAdapter{ id -> goToDetailFragment(id) }
+        val adapterForTheProductsOrderByRating= ProductsItemAdapter{ id -> goToDetailFragment(id) }
         binding.rvMaxRate.adapter=adapterForTheProductsOrderByRating
 
         vModel.listOfProductsOrderByRating.observe(viewLifecycleOwner){
@@ -139,7 +136,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun goToDetailFragment(id:Int){
+    private fun goToDetailFragment(id:Int){
         val bundle= bundleOf("id" to id)
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment,bundle)
     }

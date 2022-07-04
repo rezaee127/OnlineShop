@@ -16,11 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CategoryProductListFragment : Fragment() {
-    lateinit var binding: FragmentCategoryProductListBinding
-    val vModel:CategoryProductListViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentCategoryProductListBinding
+    private val vModel:CategoryProductListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,7 +88,7 @@ class CategoryProductListFragment : Fragment() {
         }
     }
 
-    fun goToDetailFragment(id:Int){
+    private fun goToDetailFragment(id:Int){
         val bundle= bundleOf("id" to id)
         findNavController().navigate(R.id.action_categoryProductListFragment_to_detailFragment,bundle)
     }

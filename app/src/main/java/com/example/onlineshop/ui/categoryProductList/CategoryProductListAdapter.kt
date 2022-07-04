@@ -1,31 +1,32 @@
 package com.example.onlineshop.ui.categoryProductList
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.onlineshop.R
 import com.example.onlineshop.model.ProductsItem
-import com.example.onlineshop.ui.adapters.ProductsItemAdapter
+import com.example.onlineshop.ui.home.ProductsItemAdapter
 
 
-class CategoryProductListAdapter(var onClickItem: (Int) -> Unit) :
+class CategoryProductListAdapter(private var onClickItem: (Int) -> Unit) :
     ListAdapter<ProductsItem, CategoryProductListAdapter.ViewHolder>(ProductsItemAdapter.ProductsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
-        val productsItemRow = view.findViewById<View>(R.id.category_list_row_item)
-        val ivProductsItem = view.findViewById<ImageView>(R.id.iv_category_image)
-        val tvProductsItemName = view.findViewById<TextView>(R.id.tv_category_name)
-        val tvProductsPrice = view.findViewById<TextView>(R.id.tv_category_count)
+        private val productsItemRow: View = view.findViewById(R.id.category_list_row_item)
+        private val ivProductsItem: ImageView = view.findViewById(R.id.iv_category_image)
+        private val tvProductsItemName: TextView = view.findViewById(R.id.tv_category_name)
+        private val tvProductsPrice: TextView = view.findViewById(R.id.tv_category_count)
 
 
 
+        @SuppressLint("SetTextI18n")
         fun bind(productsItem: ProductsItem, onClickItem: (Int) -> Unit) {
             tvProductsItemName.text = productsItem.name
             tvProductsPrice.text = "${productsItem.price} تومان"
@@ -62,13 +63,4 @@ class CategoryProductListAdapter(var onClickItem: (Int) -> Unit) :
     }
 
 
-    object ProductsItemDiffCallback : DiffUtil.ItemCallback<ProductsItem>() {
-        override fun areItemsTheSame(oldItem: ProductsItem, newItem: ProductsItem): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: ProductsItem, newItem: ProductsItem): Boolean {
-            return oldItem.id == newItem.id
-        }
-    }
 }

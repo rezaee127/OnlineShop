@@ -16,21 +16,22 @@ import com.example.onlineshop.R
 import com.example.onlineshop.model.ProductsItem
 
 
-class CartAdapter(var productMap:HashMap<Int,Int>,var onClickItem: (Int) -> Unit,
-                  var deleteProductFromCart: (ProductsItem) -> Unit,
-                  var changeProductCount: (operator:String, Int, ProductsItem) -> Unit ) :
+class CartAdapter(
+    private var productMap:HashMap<Int,Int>, private var onClickItem: (Int) -> Unit,
+    private var deleteProductFromCart: (ProductsItem) -> Unit,
+    private var changeProductCount: (operator:String, Int, ProductsItem) -> Unit ) :
     ListAdapter<ProductsItem, CartAdapter.ViewHolder>(ProductsItemDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
 
-        val ivProduct = view.findViewById<ImageView>(R.id.iv_cart_image)
-        val tvProductName = view.findViewById<TextView>(R.id.tv_cart_title)
-        val tvShortDescription = view.findViewById<TextView>(R.id.tv_cart_short_description)
-        val tvPrice = view.findViewById<TextView>(R.id.tv_cart_price)
-        val tvCount = view.findViewById<TextView>(R.id.tv_cart_count)
-        val ibAdd = view.findViewById<ImageButton>(R.id.ib_cart_add)
-        val ibMinus = view.findViewById<ImageButton>(R.id.ib_cart_minus)
-        val ibDelete = view.findViewById<ImageButton>(R.id.ib_cart_delete)
+        private val ivProduct: ImageView = view.findViewById(R.id.iv_cart_image)
+        private val tvProductName: TextView = view.findViewById(R.id.tv_cart_title)
+        private val tvShortDescription: TextView = view.findViewById(R.id.tv_cart_short_description)
+        private val tvPrice: TextView = view.findViewById(R.id.tv_cart_price)
+        private val tvCount: TextView = view.findViewById(R.id.tv_cart_count)
+        private val ibAdd: ImageButton = view.findViewById(R.id.ib_cart_add)
+        private val ibMinus: ImageButton = view.findViewById(R.id.ib_cart_minus)
+        private val ibDelete: ImageButton = view.findViewById(R.id.ib_cart_delete)
 
         @SuppressLint("SetTextI18n")
         fun bind(productsItem: ProductsItem, productMap: HashMap<Int, Int>,

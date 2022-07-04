@@ -1,5 +1,6 @@
 package com.example.onlineshop.ui.cart
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCartBinding
 import com.example.onlineshop.model.ProductsItem
@@ -21,11 +20,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CartFragment : Fragment() {
     private lateinit var binding:FragmentCartBinding
-    val vModel:CartViewModel by viewModels()
+    private val vModel:CartViewModel by viewModels()
     private var listOfProducts=ArrayList<ProductsItem>()
-    var productMap= HashMap<Int,Int>()
-    var sumPrice=0L
-    lateinit var productAdapter : CartAdapter
+    private var productMap= HashMap<Int,Int>()
+    private var sumPrice=0L
+    private lateinit var productAdapter : CartAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -57,6 +56,7 @@ class CartFragment : Fragment() {
 
 
 
+    @SuppressLint("SetTextI18n")
     private fun getPrice() {
         sumPrice=0L
         if (!listOfProducts.isNullOrEmpty()){
@@ -82,14 +82,15 @@ class CartFragment : Fragment() {
         productAdapter.submitList(listOfProducts)
     }
 
-    private fun changeProductCount(operator:String,count:Int, product: ProductsItem) {
+    @SuppressLint("SetTextI18n")
+    private fun changeProductCount(operator:String, count:Int, product: ProductsItem) {
         if(product.price!=""){
             sumPrice =when(operator){
                 "+"-> sumPrice+(product.price.toLong())
                 else-> sumPrice-(product.price.toLong())
             }
         }
-        binding.btnSumPrice.text=sumPrice.toString()+" تومان"
+        binding.btnSumPrice.text= "$sumPrice تومان"
         productMap[product.id]= count
         vModel.saveCartHashMapInShared(productMap)
     }
@@ -114,34 +115,6 @@ class CartFragment : Fragment() {
         binding.btnOrder.setOnClickListener {
             findNavController().navigate(R.id.action_cartFragment_to_profileFragment)
         }
-    }
-
-
-
-    private fun setRecyclerViewItemTouchListener() {
-        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                                viewHolder1: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                val position = viewHolder.adapterPosition
-
-                var product=listOfProducts[position]
-                listOfProducts.remove(product)
-                productAdapter.submitList(listOfProducts)
-                setAdapter()
-                productMap.remove(product.id)
-                getPrice()
-                vModel.saveArrayInShared(listOfProducts)
-                vModel.saveCartHashMapInShared(productMap)
-
-
-            }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(binding.rvCart)
     }
 
 

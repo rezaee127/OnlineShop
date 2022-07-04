@@ -20,25 +20,23 @@ import com.example.onlineshop.databinding.FragmentDetailBinding
 import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.model.ReviewsItem
-import com.example.onlineshop.ui.adapters.ProductsItemAdapter
+import com.example.onlineshop.ui.home.ProductsItemAdapter
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
-    lateinit var binding: FragmentDetailBinding
-    var pagerSnapHelper = PagerSnapHelper()
-    var listOfProducts=ArrayList<ProductsItem>()
-    var productMap=HashMap<Int,Int>()
-    var product:ProductsItem?=null
-    var customer: CustomerItem?=null
+    private lateinit var binding: FragmentDetailBinding
+    private var pagerSnapHelper = PagerSnapHelper()
+    private var listOfProducts=ArrayList<ProductsItem>()
+    private var productMap=HashMap<Int,Int>()
+    private var product:ProductsItem?=null
+    private var customer: CustomerItem?=null
     var productRating=0
-    var reviewMap=HashMap<Int,Int>()
-    val vModel:DetailViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var reviewMap=HashMap<Int,Int>()
+    private val vModel:DetailViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -246,7 +244,7 @@ class DetailFragment : Fragment() {
     }
 
 
-    fun addProductToCart(product: ProductsItem?){
+    private fun addProductToCart(product: ProductsItem?){
         listOfProducts=vModel.getArrayFromShared()
         productMap= vModel.getCartHashMapFromShared()
         if (productMap.contains(product?.id)){
@@ -273,7 +271,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun setRelatedProduct(product: ProductsItem?) {
-        val relatedProductAdapter=ProductsItemAdapter{id->showDetailOfRelatedProduct(id)}
+        val relatedProductAdapter= ProductsItemAdapter{ id->showDetailOfRelatedProduct(id)}
         binding.rvRelatedProduct.adapter=relatedProductAdapter
 
         var stringOfIdsRelatedProducts=""

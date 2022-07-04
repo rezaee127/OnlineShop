@@ -12,10 +12,10 @@ import com.bumptech.glide.Glide
 import com.example.onlineshop.R
 import com.example.onlineshop.model.Image
 
-class ImageAdapter() : ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallback) {
+class ImageAdapter : ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallback) {
 
     class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
-        val ivMovie = view.findViewById<ImageView>(R.id.iv_detail)
+        private val ivMovie: ImageView = view.findViewById(R.id.iv_detail)
 
         fun bind(image: Image) {
             try {
