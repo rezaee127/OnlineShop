@@ -5,6 +5,9 @@ import android.content.Context
 import com.example.onlineshop.model.*
 import javax.inject.Inject
 
+const val CART_HASHMAP="cartHashMap"
+const val REVIEW_HASHMAP="reviewHashMap"
+
 class Repository @Inject constructor(private val remoteDataSource: RemoteDataSource) {
 
     suspend fun getProductsOrderByDate(): List<ProductsItem> {
@@ -35,9 +38,18 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         return remoteDataSource.getReviews(productId)
     }
 
+    suspend fun getReviewById(reviewId:Int,productId: Int): ReviewsItem {
+        return remoteDataSource.getReviewById(reviewId,productId)
+    }
+
     suspend fun createReview(review: ReviewsItem): ReviewsItem{
         return remoteDataSource.createReview(review)
     }
+
+    suspend fun editReview(reviewId:Int,reviewText:String,rating:Int): ReviewsItem{
+        return remoteDataSource.editReview(reviewId,reviewText,rating)
+    }
+
 
 
     suspend fun getRelatedProducts(str:String): List<ProductsItem>{
@@ -69,7 +81,7 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
     }
 
     fun emptyShoppingCart(context: Context){
-        emptyCart(context)
+        emptyCart(CART_HASHMAP,context)
     }
 
 
@@ -86,13 +98,22 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
 
 
 
-    fun saveHashMapInShared(context: Context,hashMap: HashMap<Int, Int>){
-        saveHashMapToSharedPref(context,hashMap)
+    fun saveCartHashMapInShared(context: Context,hashMap: HashMap<Int, Int>){
+        saveHashMapToSharedPref(CART_HASHMAP,context,hashMap)
     }
 
-    fun getHashMapFromShared(context: Context): HashMap<Int, Int> {
-        return getHashMapFromSharedPref(context)
+    fun getCartHashMapFromShared(context: Context): HashMap<Int, Int> {
+        return getHashMapFromSharedPref(CART_HASHMAP,context)
     }
+
+    fun saveReviewHashMapInShared(context: Context,hashMap: HashMap<Int, Int>){
+        saveHashMapToSharedPref(REVIEW_HASHMAP,context,hashMap)
+    }
+
+    fun getReviewHashMapFromShared(context: Context): HashMap<Int, Int> {
+        return getHashMapFromSharedPref(REVIEW_HASHMAP,context)
+    }
+
 
 
     fun saveArrayInShared(context: Context,list: ArrayList<ProductsItem>?){

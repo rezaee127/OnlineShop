@@ -34,6 +34,7 @@ class DetailFragment : Fragment() {
     lateinit var product:ProductsItem
     var customer: CustomerItem?=null
     var productRating=0
+    var reviewMap=HashMap<Int,Int>()
     val vModel:DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +69,8 @@ class DetailFragment : Fragment() {
     private fun initView(id:Int) {
         vModel.getProductById(id)
         vModel.getReviews(id)
-        submitComment(id)
+        reviewMap=vModel.getReviewHashMapFromShared()
+        setReview(id)
 
         vModel.product.observe(viewLifecycleOwner){
             setView(it)
@@ -79,29 +81,65 @@ class DetailFragment : Fragment() {
         binding.btnAddToCart.setOnClickListener {
             goToCartFragment(product)
         }
-        
 
-        setReviews()
+        saveReviewIdInShare(id)
+
+        showReviews()
 
     }
 
-    private fun submitComment(productId:Int) {
+    private fun saveReviewIdInShare(productId: Int) {
+        vModel.mReview.observe(viewLifecycleOwner){
+            reviewMap[productId]=it.id
+            vModel.saveReviewHashMapInShared(reviewMap)
+        }
+    }
+
+    private fun setReview(productId:Int) {
         customer=vModel.getCustomerFromShared()
         binding.btnSubmitComment.setOnClickListener{
             if (customer==null){
                 Toast.makeText(requireContext(),"برای ثبت نظر ابتدا باید ثبت نام کنید", Toast.LENGTH_SHORT).show()
-
+                findNavController().navigate(R.id.action_detailFragment_to_profileFragment)
             } else{
                 binding.clLoadingInDetail.visibility=View.GONE
                 binding.svDetail.visibility=View.GONE
                 binding.clDetail.visibility=View.GONE
                 binding.svSubmitComment.visibility=View.VISIBLE
-                saveReview(productId)
+
+                if(reviewMap[productId]==null){
+                    registerReview(productId)
+                    binding.btnEdit.isEnabled=false
+                    binding.ibDeleteReview.isEnabled=false
+                }else{
+                    reviewMap=vModel.getReviewHashMapFromShared()
+                    vModel.getReviewById(reviewMap[productId]!!,productId)
+                    vModel.receivedReview.observe(viewLifecycleOwner){
+                        binding.tfReview.editText?.setText(removeExtraCharacters(it.review))
+                        binding.rateSpinner.setSelection(5-it.rating)
+                        productRating=it.rating
+                    }
+                    binding.btnCreateReview.isEnabled=false
+
+                    editReview(reviewMap[productId]!!,productId)
+
+                }
+
             }
         }
     }
 
-    private fun saveReview(productId: Int) {
+    private fun editReview(reviewId:Int,productId: Int) {
+        binding.btnEdit.setOnClickListener {
+            if (binding.tfReview.editText?.text.isNullOrBlank())
+                binding.tfReview.error = "لطفا نظزتان را وارد کنید"
+            else{
+                vModel.editReview(reviewId,binding.tfReview.editText?.text.toString(),productRating)
+            }
+        }
+    }
+
+    private fun registerReview(productId: Int) {
         binding.btnCreateReview.setOnClickListener {
             if (binding.tfReview.editText?.text.isNullOrBlank())
                 binding.tfReview.error = "لطفا نظزتان را وارد کنید"
@@ -110,7 +148,6 @@ class DetailFragment : Fragment() {
                     customer?.firstName+customer?.lastName,customer!!.email,productRating))
             }
         }
-
     }
 
 
@@ -159,25 +196,29 @@ class DetailFragment : Fragment() {
         binding.btnPrice.text="${product.price}تومان"
 
         //حذف کارکترهای اضافی توضیحات محصول
-        var str=product.description
+        binding.tvDescription.text= removeExtraCharacters(product.description)
+
+    }
+
+    private fun removeExtraCharacters(description:String):String{
+        var str=description
         str=str.replace("br","")
         str=str.replace("p","")
         str=str.replace("< />","")
         str=str.replace("</>","")
         str=str.replace("<>","")
-        binding.tvDescription.text=str
-
+        return str
     }
 
 
     fun goToCartFragment(product: ProductsItem){
         listOfProducts=vModel.getArrayFromShared()
-        productMap= vModel.getHashMapFromShared()
+        productMap= vModel.getCartHashMapFromShared()
         if (productMap.contains(product.id)){
             Toast.makeText(requireContext(),"این کالا در سبد خرید موجود است", Toast.LENGTH_SHORT).show()
         }else{
             productMap[product.id]=1
-            vModel.saveHashMapInShared(productMap)
+            vModel.saveCartHashMapInShared(productMap)
             listOfProducts.add(product)
             vModel.saveArrayInShared(listOfProducts)
             Toast.makeText(requireContext(),"این کالا به سبد خرید اضافه شد", Toast.LENGTH_SHORT).show()
@@ -186,7 +227,7 @@ class DetailFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setReviews() {
+    private fun showReviews() {
         val reviewAdapter= ReviewAdapter()
         binding.rvReviews.adapter=reviewAdapter
         vModel.reviewsList.observe(viewLifecycleOwner){
@@ -230,6 +271,8 @@ class DetailFragment : Fragment() {
         binding.btnRefresh.setOnClickListener {
             vModel.getProductById(id)
             vModel.getReviews(id)
+            if (product.id!=0)
+                setRelatedProduct(product)
         }
     }
 
@@ -269,6 +312,8 @@ class DetailFragment : Fragment() {
                 else -> {
                     Toast.makeText(requireContext(),"دیدگاه شما با موفقیت ثبت شد", Toast.LENGTH_SHORT).show()
                     binding.clLoadingInDetail.visibility=View.GONE
+                    binding.btnCreateReview.isEnabled=false
+                    binding.btnEdit.isEnabled=true
                 }
             }
         }

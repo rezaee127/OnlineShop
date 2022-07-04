@@ -23,6 +23,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
     var relatedProducts = MutableLiveData<List<ProductsItem>>()
     var reviewsList = MutableLiveData<List<ReviewsItem>>()
     var mReview = MutableLiveData<ReviewsItem>()
+    var receivedReview = MutableLiveData<ReviewsItem>()
     var errorMessage=""
 
     fun getProductById(id: Int): LiveData<ProductsItem> {
@@ -71,6 +72,54 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
             }
         }
         return reviewsList
+    }
+
+    fun getReviewById(reviewId:Int,productId: Int): LiveData<ReviewsItem> {
+        viewModelScope.launch {
+            try {
+                receivedReview.value = repository.getReviewById(reviewId,productId)
+            } catch (e: Exception) {
+            }
+        }
+        return receivedReview
+    }
+
+    fun editReview(reviewId:Int,reviewText:String,rating:Int): LiveData<ReviewsItem>{
+        viewModelScope.launch {
+            reviewStatus.value=ApiStatus.LOADING
+            try {
+                mReview.value=repository.editReview(reviewId,reviewText,rating)
+                reviewStatus.value=ApiStatus.DONE
+            }
+            catch (e:retrofit2.HttpException){
+                errorMessage="خطا در ارتباط با سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
+                errorMessage=when(e.message){
+                    "HTTP 400 "-> "$errorMessage\n\nدرخواست اشتباه است"
+                    "HTTP 401 "-> "$errorMessage\n\nاعتبار سنجی انجام نشد"
+                    "HTTP 404 "-> "$errorMessage\n\nلینک اشتباه است"
+                    "HTTP 500 "-> "$errorMessage\n\nارور سرور"
+                    else -> ""
+                }
+                reviewStatus.value = ApiStatus.ERROR
+            }
+            catch (e:java.lang.IllegalArgumentException){
+                errorMessage="خطا در اطلاعات ارسالی به سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
+                reviewStatus.value = ApiStatus.ERROR
+            }
+            catch (e:java.net.SocketTimeoutException){
+                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
+                reviewStatus.value = ApiStatus.ERROR
+            }
+            catch (e:java.net.UnknownHostException){
+                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
+                reviewStatus.value = ApiStatus.ERROR
+            }
+            catch(e: java.lang.Exception){
+                errorMessage="خطا در دریافت اطلاعات"
+                reviewStatus.value = ApiStatus.ERROR
+            }
+        }
+        return mReview
     }
 
 
@@ -131,13 +180,22 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
         return repository.getArrayFromShared(app.applicationContext)
     }
 
-    fun saveHashMapInShared(hashMap: HashMap<Int, Int>){
-        repository.saveHashMapInShared(app.applicationContext,hashMap)
+    fun saveCartHashMapInShared(hashMap: HashMap<Int, Int>){
+        repository.saveCartHashMapInShared(app.applicationContext,hashMap)
     }
 
-    fun getHashMapFromShared():HashMap<Int, Int>{
-        return repository.getHashMapFromShared(app.applicationContext)
+    fun getCartHashMapFromShared():HashMap<Int, Int>{
+        return repository.getCartHashMapFromShared(app.applicationContext)
     }
+
+    fun saveReviewHashMapInShared(hashMap: HashMap<Int, Int>){
+        repository.saveReviewHashMapInShared(app.applicationContext,hashMap)
+    }
+
+    fun getReviewHashMapFromShared():HashMap<Int, Int>{
+        return repository.getReviewHashMapFromShared(app.applicationContext)
+    }
+
 
     fun getCustomerFromShared(): CustomerItem?{
         return repository.getCustomerFromShared(app.applicationContext)

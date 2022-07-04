@@ -5,6 +5,7 @@ import com.example.onlineshop.data.network.NetworkParams
 import com.example.onlineshop.model.*
 import retrofit2.http.Body
 import retrofit2.http.Path
+import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import javax.inject.Inject
 
@@ -40,10 +41,19 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
         return apiService.getReviews(productId)
     }
 
+    suspend fun getReviewById(reviewId:Int,productId: Int): ReviewsItem {
+        return apiService.getReviewById(reviewId,productId)
+    }
+
 
     suspend fun createReview(review: ReviewsItem): ReviewsItem{
         return apiService.createReview(review)
     }
+
+    suspend fun editReview(reviewId:Int,reviewText:String,rating:Int): ReviewsItem{
+        return apiService.editReview(reviewId,reviewText,rating)
+    }
+
 
 
     suspend fun getRelatedProducts(str:String): List<ProductsItem>{

@@ -17,12 +17,12 @@ data class ReviewsItem(
     val reviewerEmail: String,
     @Json(name = "rating")
     val rating: Int,
+    @Json(name = "id")
+    val id: Int=0,
     @Json(name = "date_created")
     val dateCreated: String="",
     @Json(name = "reviewer_avatar_urls")
     val reviewerAvatarUrls: ReviewerAvatarUrls=ReviewerAvatarUrls("","",""),
-    @Json(name = "id")
-    val id: Int=0,
 //    @Json(name = "date_created_gmt")
 //    val dateCreatedGmt: String,
 //    @Json(name = "_links")
