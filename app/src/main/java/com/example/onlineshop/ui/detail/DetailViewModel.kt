@@ -25,7 +25,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
     var reviewsList = MutableLiveData<List<ReviewsItem>>()
     var mReview = MutableLiveData<ReviewsItem>()
     var receivedReview = MutableLiveData<ReviewsItem>()
-    private var deletedReview = MutableLiveData<DeleteReview>()
+    var deletedReview = MutableLiveData<DeleteReview>()
     var deleteStatus = MutableLiveData<ApiStatus>()
     var errorMessage=""
 

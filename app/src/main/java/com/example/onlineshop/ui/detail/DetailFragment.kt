@@ -101,11 +101,18 @@ class DetailFragment : Fragment() {
                         Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
                     }
                     else -> {
-                        Toast.makeText(requireContext(),"دیدگاه شما حذف شد", Toast.LENGTH_SHORT).show()
-                        reviewMap.remove(productId)
-                        vModel.saveReviewHashMapInShared(reviewMap)
-                        binding.clLoadingInDetail.visibility=View.GONE
-                        returnFromReviewPage(productId)
+                        vModel.deletedReview.observe(viewLifecycleOwner){ deleteReview ->
+                            if(deleteReview.deleted){
+                                Toast.makeText(requireContext(),"دیدگاه شما حذف شد", Toast.LENGTH_SHORT).show()
+                                reviewMap.remove(productId)
+                                vModel.saveReviewHashMapInShared(reviewMap)
+                                binding.clLoadingInDetail.visibility=View.GONE
+                                returnFromReviewPage(productId)
+                            }else{
+                                Toast.makeText(requireContext(),"خطایی رخ داده است\n deleted=false", Toast.LENGTH_LONG).show()
+                            }
+                        }
+
                     }
                 }
             }
@@ -140,9 +147,12 @@ class DetailFragment : Fragment() {
                 binding.svSubmitComment.visibility=View.VISIBLE
 
                 if(reviewMap[productId]==null){
-                    registerReview(productId)
                     binding.btnEdit.isEnabled=false
                     binding.ibDeleteReview.isEnabled=false
+                    binding.btnCreateReview.isEnabled=true
+                    binding.tfReview.editText?.setText("")
+                    binding.rateSpinner.setSelection(0)
+                    registerReview(productId)
                 }else{
                     reviewMap=vModel.getReviewHashMapFromShared()
                     vModel.getReviewById(reviewMap[productId]!!,productId)
@@ -154,7 +164,7 @@ class DetailFragment : Fragment() {
                     }
                     binding.btnCreateReview.isEnabled=false
 
-                    editReview(reviewMap[productId]!!,productId)
+                    editReview(reviewMap[productId]!!)
 
                 }
 
@@ -162,7 +172,7 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun editReview(reviewId:Int,productId: Int) {
+    private fun editReview(reviewId:Int) {
         binding.btnEdit.setOnClickListener {
             if (binding.tfReview.editText?.text.isNullOrBlank())
                 binding.tfReview.error = "لطفا نظزتان را وارد کنید"
