@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.onlineshop.data.Repository
+import com.example.onlineshop.data.errorHandling
 import com.example.onlineshop.model.AttributeTerm
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.home.ApiStatus
@@ -24,10 +25,10 @@ class SearchViewModel  @Inject constructor(private val repository: Repository): 
     var listOfSizes=MutableLiveData<List<AttributeTerm>>()
     var errorMessage=""
 
-    init {
-        getColorList()
-        getSizeList()
-    }
+//    init {
+//        getColorList()
+//        getSizeList()
+//    }
 
     fun getColorList(): LiveData<List<AttributeTerm>>{
         viewModelScope.launch {
@@ -36,31 +37,8 @@ class SearchViewModel  @Inject constructor(private val repository: Repository): 
                 listOfColors.value=repository.getColorList()
                 status.value=ApiStatus.DONE
             }
-            catch (e:retrofit2.HttpException){
-                errorMessage="خطا در ارتباط با سرور\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n در صورت تداوم مشکل با ما تماس بگیرید"
-                errorMessage=when(e.message){
-                    "HTTP 400 "-> "$errorMessage\nدرخواست اشتباه است"
-                    "HTTP 401 "-> "$errorMessage\nاعتبار سنجی انجام نشد"
-                    "HTTP 404 "-> "$errorMessage\nلینک اشتباه است"
-                    "HTTP 500 "-> "$errorMessage\nارور سرور"
-                    else -> ""
-                }
-                status.value = ApiStatus.ERROR
-            }
-            catch (e:java.lang.IllegalArgumentException){
-                errorMessage="خطا در اطلاعات ارسالی به سرور\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n در صورت تداوم مشکل با ما تماس بگیرید"
-                status.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.SocketTimeoutException){
-                errorMessage="خطا در ارتباط با اینترنت\n لطفا اتصال اینترنت خود را چک نمایید"
-                status.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.UnknownHostException){
-                errorMessage="خطا در ارتباط با اینترنت\n لطفا اتصال اینترنت خود را چک نمایید"
-                status.value = ApiStatus.ERROR
-            }
             catch(e:Exception){
-                errorMessage="خطا در دریافت اطلاعات"
+                errorMessage=errorHandling(e)
                 status.value = ApiStatus.ERROR
             }
         }
@@ -75,31 +53,8 @@ class SearchViewModel  @Inject constructor(private val repository: Repository): 
                 listOfSizes.value=repository.getSizeList()
                 status.value=ApiStatus.DONE
             }
-            catch (e:retrofit2.HttpException){
-                errorMessage="خطا در ارتباط با سرور\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n در صورت تداوم مشکل با ما تماس بگیرید"
-                errorMessage=when(e.message){
-                    "HTTP 400 "-> "$errorMessage\nدرخواست اشتباه است"
-                    "HTTP 401 "-> "$errorMessage\nاعتبار سنجی انجام نشد"
-                    "HTTP 404 "-> "$errorMessage\nلینک اشتباه است"
-                    "HTTP 500 "-> "$errorMessage\nارور سرور"
-                    else -> ""
-                }
-                status.value = ApiStatus.ERROR
-            }
-            catch (e:java.lang.IllegalArgumentException){
-                errorMessage="خطا در اطلاعات ارسالی به سرور\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n در صورت تداوم مشکل با ما تماس بگیرید"
-                status.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.SocketTimeoutException){
-                errorMessage="خطا در ارتباط با اینترنت\n لطفا اتصال اینترنت خود را چک نمایید"
-                status.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.UnknownHostException){
-                errorMessage="خطا در ارتباط با اینترنت\n لطفا اتصال اینترنت خود را چک نمایید"
-                status.value = ApiStatus.ERROR
-            }
             catch(e:Exception){
-                errorMessage="خطا در دریافت اطلاعات"
+                errorMessage= errorHandling(e)
                 status.value = ApiStatus.ERROR
             }
         }
@@ -118,31 +73,8 @@ class SearchViewModel  @Inject constructor(private val repository: Repository): 
 
                 searchStatus.value=ApiStatus.DONE
             }
-            catch (e:retrofit2.HttpException){
-                errorMessage="خطا در ارتباط با سرور\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n در صورت تداوم مشکل با ما تماس بگیرید"
-                errorMessage=when(e.message){
-                    "HTTP 400 "-> "$errorMessage\nدرخواست اشتباه است"
-                    "HTTP 401 "-> "$errorMessage\nاعتبار سنجی انجام نشد"
-                    "HTTP 404 "-> "$errorMessage\nلینک اشتباه است"
-                    "HTTP 500 "-> "$errorMessage\nارور سرور"
-                    else -> ""
-                }
-                searchStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.lang.IllegalArgumentException){
-                errorMessage="خطا در اطلاعات ارسالی به سرور\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n در صورت تداوم مشکل با ما تماس بگیرید"
-                searchStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.SocketTimeoutException){
-                errorMessage="خطا در ارتباط با اینترنت\n لطفا اتصال اینترنت خود را چک نمایید"
-                searchStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.UnknownHostException){
-                errorMessage="خطا در ارتباط با اینترنت\n لطفا اتصال اینترنت خود را چک نمایید"
-                searchStatus.value = ApiStatus.ERROR
-            }
             catch(e:Exception){
-                errorMessage="خطا در دریافت اطلاعات"
+                errorMessage=errorHandling(e)
                 searchStatus.value = ApiStatus.ERROR
             }
         }

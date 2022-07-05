@@ -4,6 +4,7 @@ package com.example.onlineshop.ui.detail
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.onlineshop.data.Repository
+import com.example.onlineshop.data.errorHandling
 import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.DeleteReview
 import com.example.onlineshop.model.ProductsItem
@@ -36,31 +37,8 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
                 product.value = repository.getProductById(id)
                 detailStatus.value = ApiStatus.DONE
             }
-            catch (e:retrofit2.HttpException){
-                errorMessage="خطا در ارتباط با سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
-                errorMessage=when(e.message){
-                    "HTTP 400 "-> "$errorMessage\n\nدرخواست اشتباه است"
-                    "HTTP 401 "-> "$errorMessage\n\nاعتبار سنجی انجام نشد"
-                    "HTTP 404 "-> "$errorMessage\n\nلینک اشتباه است"
-                    "HTTP 500 "-> "$errorMessage\n\nارور سرور"
-                    else -> ""
-                }
-                detailStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.lang.IllegalArgumentException){
-                errorMessage="خطا در اطلاعات ارسالی به سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
-                detailStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.SocketTimeoutException){
-                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
-                detailStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.UnknownHostException){
-                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
-                detailStatus.value = ApiStatus.ERROR
-            }
-            catch(e: java.lang.Exception){
-                errorMessage="خطا در دریافت اطلاعات"
+            catch(e: Exception){
+                errorMessage= errorHandling(e)
                 detailStatus.value = ApiStatus.ERROR
             }
         }
@@ -94,32 +72,8 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
                 deletedReview.value = repository.deleteReview(reviewId)
                 deleteStatus.value=ApiStatus.DONE
             }
-            catch (e:retrofit2.HttpException){
-                errorMessage="خطا در ارتباط با سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
-                errorMessage=when(e.message){
-                    "HTTP 400 "-> "$errorMessage\n\nدرخواست اشتباه است"
-                    "HTTP 401 "-> "$errorMessage\n\nاعتبار سنجی انجام نشد"
-                    "HTTP 403 "-> "این نظر وجود ندارد"
-                    "HTTP 404 "-> "$errorMessage\n\nلینک اشتباه است"
-                    "HTTP 500 "-> "$errorMessage\n\nارور سرور"
-                    else -> ""
-                }
-                deleteStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.lang.IllegalArgumentException){
-                errorMessage="خطا در اطلاعات ارسالی به سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
-                deleteStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.SocketTimeoutException){
-                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
-                deleteStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.UnknownHostException){
-                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
-                deleteStatus.value = ApiStatus.ERROR
-            }
-            catch(e: java.lang.Exception){
-                errorMessage="خطا در دریافت اطلاعات"
+            catch(e: Exception){
+                errorMessage=errorHandling(e,"detail")
                 deleteStatus.value = ApiStatus.ERROR
             }
         }
@@ -132,31 +86,8 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
                 mReview.value=repository.editReview(reviewId,reviewText,rating)
                 reviewStatus.value=ApiStatus.DONE
             }
-            catch (e:retrofit2.HttpException){
-                errorMessage="خطا در ارتباط با سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
-                errorMessage=when(e.message){
-                    "HTTP 400 "-> "$errorMessage\n\nدرخواست اشتباه است"
-                    "HTTP 401 "-> "$errorMessage\n\nاعتبار سنجی انجام نشد"
-                    "HTTP 404 "-> "$errorMessage\n\nلینک اشتباه است"
-                    "HTTP 500 "-> "$errorMessage\n\nارور سرور"
-                    else -> ""
-                }
-                reviewStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.lang.IllegalArgumentException){
-                errorMessage="خطا در اطلاعات ارسالی به سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
-                reviewStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.SocketTimeoutException){
-                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
-                reviewStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.UnknownHostException){
-                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
-                reviewStatus.value = ApiStatus.ERROR
-            }
-            catch(e: java.lang.Exception){
-                errorMessage="خطا در دریافت اطلاعات"
+            catch(e: Exception){
+                errorMessage=errorHandling(e)
                 reviewStatus.value = ApiStatus.ERROR
             }
         }
@@ -170,31 +101,8 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
                 mReview.value=repository.createReview(review)
                 reviewStatus.value=ApiStatus.DONE
             }
-            catch (e:retrofit2.HttpException){
-                errorMessage="خطا در ارتباط با سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
-                errorMessage=when(e.message){
-                    "HTTP 400 "-> "$errorMessage\n\nدرخواست اشتباه است"
-                    "HTTP 401 "-> "$errorMessage\n\nاعتبار سنجی انجام نشد"
-                    "HTTP 404 "-> "$errorMessage\n\nلینک اشتباه است"
-                    "HTTP 500 "-> "$errorMessage\n\nارور سرور"
-                    else -> ""
-                }
-                reviewStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.lang.IllegalArgumentException){
-                errorMessage="خطا در اطلاعات ارسالی به سرور\n\n لطفا چند دقیقه دیگر مجددا تلاش نمایید\n\n در صورت تداوم مشکل با ما تماس بگیرید"
-                reviewStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.SocketTimeoutException){
-                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
-                reviewStatus.value = ApiStatus.ERROR
-            }
-            catch (e:java.net.UnknownHostException){
-                errorMessage="خطا در ارتباط با اینترنت\n\n لطفا اتصال اینترنت خود را چک نمایید"
-                reviewStatus.value = ApiStatus.ERROR
-            }
             catch(e: Exception){
-                errorMessage="${e.message}خطا در دریافت اطلاعات"
+                errorMessage=errorHandling(e)
                 reviewStatus.value = ApiStatus.ERROR
             }
         }
