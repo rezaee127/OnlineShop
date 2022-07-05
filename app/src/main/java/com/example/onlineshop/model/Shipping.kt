@@ -12,8 +12,8 @@ data class Shipping(
     val lastName: String,
     @Json(name = "address_1")
     val address1: String,
-//    @Json(name = "address_2")
-//    val address2: String,
+    @Json(name = "address_2")
+    val address2: String,
 //    @Json(name = "city")
 //    val city: String,
 //    @Json(name = "company")
