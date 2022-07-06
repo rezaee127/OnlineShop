@@ -1,9 +1,13 @@
 package com.example.onlineshop.ui.profile
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.*
 import com.example.onlineshop.data.Repository
 import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.data.getAddressListFromSharedPref
+import com.example.onlineshop.data.saveAddressListToSharedPref
+import com.example.onlineshop.model.Address
 import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.OrderItem
 import com.example.onlineshop.ui.home.ApiStatus
@@ -73,6 +77,14 @@ class ProfileViewModel @Inject constructor(private val repository: Repository,
 
     fun getHashMapFromShared():HashMap<Int, Int>{
         return repository.getCartHashMapFromShared(app.applicationContext)
+    }
+
+    fun saveAddressListInShared( list: ArrayList<Address>?){
+        repository.saveAddressListInShared(app.applicationContext,list)
+    }
+
+    fun getAddressListFromShared(): ArrayList<Address> {
+        return repository.getAddressListFromShared(app.applicationContext)
     }
 }
 

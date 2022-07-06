@@ -1,6 +1,7 @@
 package com.example.onlineshop.data
 
 import android.content.Context
+import com.example.onlineshop.model.Address
 import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.ProductsItem
 import com.google.gson.Gson
@@ -83,6 +84,29 @@ fun saveCustomerToSharedPref(context: Context, obj: CustomerItem) {
     val json = gson.toJson(obj)
     editor.putString("customer", json)
     editor.apply()
+}
+
+
+fun saveAddressListToSharedPref(context: Context, list: ArrayList<Address>?) {
+    val pref = context.getSharedPreferences("sharedCustomer", Context.MODE_PRIVATE)
+    val editor = pref.edit()
+    val gson = Gson()
+    val json: String = gson.toJson(list)
+    editor.putString("address", json)
+    editor.apply()
+}
+
+
+fun getAddressListFromSharedPref(context: Context): ArrayList<Address> {
+    val pref = context.getSharedPreferences("sharedCustomer", Context.MODE_PRIVATE)
+    var arrayItems = ArrayList<Address>()
+    val serializedObject = pref.getString("address", null)
+    if (serializedObject != null) {
+        val gson = Gson()
+        val type: Type = object : TypeToken<List<Address?>?>() {}.type
+        arrayItems = gson.fromJson(serializedObject, type)
+    }
+    return arrayItems
 }
 
 

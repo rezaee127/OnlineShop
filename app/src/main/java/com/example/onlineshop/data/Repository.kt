@@ -128,4 +128,12 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         return getArrayFromSharedPref(context)
     }
 
+    fun saveAddressListInShared(context: Context,list: ArrayList<Address>?){
+        saveAddressListToSharedPref(context,list)
+    }
+
+    fun getAddressListFromShared(context: Context): ArrayList<Address> {
+        return getAddressListFromSharedPref(context)
+    }
+
 }
