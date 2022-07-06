@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:hint="نام خانوادگی"
                 android:layoutDirection="rtl"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="16dp"
                 android:hint="ایمیل"
                 android:layoutDirection="rtl"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:hint="آدرس 1"
                 android:layoutDirection="rtl"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:hint="آدرس 2"
                 android:layoutDirection="rtl"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -125,47 +125,57 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_register"
+                android:id="@+id/btn_order"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
+                android:visibility="gone"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="30dp"
-                android:text="ثبت نام"
+                android:layout_marginTop="24dp"
+                android:text="ثبت سفارش"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tf_address2" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_order"
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="16dp"
+                android:text="ثبت نام"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_order" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="ثبت سفارش"
+                android:layout_marginTop="16dp"
+                android:text="گرفتن لوکیشن"
                 android:visibility="gone"
                 app:iconGravity="end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/btn_return_to_cart"
-                app:layout_constraintTop_toBottomOf="@id/tf_address2" />
+                app:layout_constraintStart_toEndOf="@+id/btn_show_on_map"
+                app:layout_constraintTop_toBottomOf="@id/btn_order" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_return_to_cart"
+                android:id="@+id/btn_show_on_map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" بازگشت "
+                android:enabled="false"
+                android:text="نمایش روی نقشه"
                 android:visibility="gone"
-                app:icon="@drawable/ic_baseline_keyboard_return_24"
-                app:iconTint="?attr/colorPrimary"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_order"
-                app:layout_constraintEnd_toStartOf="@+id/btn_order"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_location"
+                app:layout_constraintEnd_toStartOf="@+id/btn_location"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btn_order" />
+                app:layout_constraintTop_toTopOf="@+id/btn_location" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <ProgressBar
