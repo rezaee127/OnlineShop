@@ -1,7 +1,9 @@
 package com.example.onlineshop.data
 
 import com.example.onlineshop.data.network.ApiService
+import com.example.onlineshop.data.network.NetworkParams
 import com.example.onlineshop.model.*
+import retrofit2.http.QueryMap
 import javax.inject.Inject
 
 
@@ -30,6 +32,10 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
 
     suspend fun getProductsListInEachCategory(category:Int): List<ProductsItem>{
         return apiService.getProductsListInEachCategory(category)
+    }
+
+    suspend fun getCoupons(): List<Coupon>{
+        return apiService.getCoupons()
     }
 
     suspend fun getReviews(productId: Int): List<ReviewsItem> {

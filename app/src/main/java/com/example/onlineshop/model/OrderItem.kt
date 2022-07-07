@@ -16,6 +16,8 @@ data class OrderItem(
     val billing: Billing,
     @Json(name = "shipping")
     val shipping: Shipping,
+    @Json(name = "coupon_lines")
+    val couponLines: List<CouponLines>,
 ////    @Json(name = "total")
 ////    val total: String,
 
@@ -23,8 +25,6 @@ data class OrderItem(
 //    val cartHash: String,
 //    @Json(name = "cart_tax")
 //    val cartTax: String,
-//    @Json(name = "coupon_lines")
-//    val couponLines: List<Any>,
 //    @Json(name = "created_via")
 //    val createdVia: String,
 //    @Json(name = "currency")

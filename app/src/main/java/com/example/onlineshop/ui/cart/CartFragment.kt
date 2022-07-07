@@ -12,7 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentCartBinding
+import com.example.onlineshop.model.Coupon
 import com.example.onlineshop.model.ProductsItem
+import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -22,8 +24,10 @@ class CartFragment : Fragment() {
     private lateinit var binding:FragmentCartBinding
     private val vModel:CartViewModel by viewModels()
     private var listOfProducts=ArrayList<ProductsItem>()
+    private var listOfCoupons=listOf<Coupon>()
     private var productMap= HashMap<Int,Int>()
     private var sumPrice=0L
+    private var couponCode=""
     private lateinit var productAdapter : CartAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +56,68 @@ class CartFragment : Fragment() {
         setAdapter()
         getPrice()
         productOrder()
+
+        getCoupon()
+
     }
 
+    private fun getCoupon() {
+        binding.btnCoupon.setOnClickListener {
+            if (binding.etCoupon.text.isNullOrBlank())
+                binding.etCoupon.error = "لطفا کد تخفیف را وارد کنید"
+            else {
+                if ("code10"==binding.etCoupon.text.toString()) {
+                    couponCode = "code10"
+                    sumPrice= ((sumPrice * 10.00)/100).toLong()
+                }
+//                vModel.getCoupons()
+//                setCoupon()
+            }
+        }
+    }
+
+    private fun checkConnectivity() {
+        vModel.status.observe(viewLifecycleOwner) {
+            when (it) {
+                ApiStatus.LOADING -> {
+                    binding.clLoadingInCart.visibility = View.VISIBLE
+                }
+                ApiStatus.ERROR -> {
+                    binding.clLoadingInCart.visibility = View.GONE
+                    Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    binding.clLoadingInCart.visibility = View.GONE
+                   // setCoupon()
+                }
+            }
+        }
+    }
+
+    private fun setCoupon() {
+        vModel.listOfCoupons.observe(viewLifecycleOwner){
+            listOfCoupons=it
+            var flag=false
+            for (coupon in listOfCoupons){
+                if (coupon.code==binding.etCoupon.text.toString()){
+                    countDiscount(coupon)
+                    flag=true
+                    break
+                }
+            }
+                if (!flag)
+                    Toast.makeText(requireContext(),"کد تخفیف نامعتبر است", Toast.LENGTH_SHORT).show()
+
+        }
+
+    }
+
+    private fun countDiscount(coupon: Coupon) {
+        couponCode=coupon.code
+        if(coupon.discountType=="percent"){
+            sumPrice= ((sumPrice * coupon.amount.toDouble())/100).toLong()
+        }
+    }
 
 
     @SuppressLint("SetTextI18n")
@@ -112,8 +176,9 @@ class CartFragment : Fragment() {
 
 
     private fun productOrder() {
+        val bundle= bundleOf("coupon" to couponCode)
         binding.btnOrder.setOnClickListener {
-            findNavController().navigate(R.id.action_cartFragment_to_profileFragment)
+            findNavController().navigate(R.id.action_cartFragment_to_profileFragment,bundle)
         }
     }
 

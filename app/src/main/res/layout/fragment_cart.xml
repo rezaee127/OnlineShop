@@ -59,18 +59,64 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_loading_in_cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/pb_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:indeterminate="true"
+                    android:indeterminateTintMode="src_atop"
+                    android:indeterminateTint="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_cart_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cl_cart_bottom"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sv_detail">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ثبت کد تخفیف"
+            app:cornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/et_coupon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_coupon"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="کد تخفیف"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_coupon"
+            app:layout_constraintEnd_toStartOf="@+id/btn_coupon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_coupon"
+            app:layout_constraintVertical_bias="0.333" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sum_price"
@@ -88,16 +134,20 @@
             android:id="@+id/btn_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="ادامه فرآیند خرید"
             app:cornerRadius="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btn_coupon"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_sum_price"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/btn_coupon"
+            app:layout_constraintTop_toBottomOf="@id/btn_coupon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+
+
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--        android:id="@+id/cl_error_in_cart"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent"-->

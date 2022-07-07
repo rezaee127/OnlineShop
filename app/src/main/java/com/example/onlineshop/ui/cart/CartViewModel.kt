@@ -3,15 +3,31 @@ package com.example.onlineshop.ui.cart
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.onlineshop.data.Repository
+import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.model.CategoriesItem
+import com.example.onlineshop.model.Coupon
 import com.example.onlineshop.model.ProductsItem
+import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel  @Inject constructor(private val repository: Repository,
                                          private val app:Application): AndroidViewModel(app){
 
+    var status= MutableLiveData<ApiStatus>()
+    var listOfCoupons= MutableLiveData<List<Coupon>>()
+    var errorMessage=""
+
+    init {
+        getCoupons()
+    }
 
     fun saveArrayInShared(list: ArrayList<ProductsItem>?){
         repository.saveArrayInShared(app.applicationContext,list)
@@ -27,6 +43,22 @@ class CartViewModel  @Inject constructor(private val repository: Repository,
 
     fun getCartHashMapFromShared():HashMap<Int, Int>{
         return repository.getCartHashMapFromShared(app.applicationContext)
+    }
+
+    fun getCoupons(): LiveData<List<Coupon>> {
+        viewModelScope.launch {
+            status.value=ApiStatus.LOADING
+            try {
+                listOfCoupons.value=repository.getCoupons()
+                status.value = ApiStatus.DONE
+            }
+            catch(e: Exception){
+                errorMessage= errorHandling(e)
+                status.value = ApiStatus.ERROR
+            }
+        }
+        return listOfCoupons
+
     }
 
 }
