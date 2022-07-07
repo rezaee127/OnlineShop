@@ -8,6 +8,7 @@ interface ApiService {
 
     @GET("coupons")
     suspend fun getCoupons(
+        @Query("code")code:String,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
     ): List<Coupon>
 

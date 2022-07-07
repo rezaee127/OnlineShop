@@ -17,21 +17,23 @@ data class Coupon(
     val minimumAmount: String,
     @Json(name = "id")
     val id: Int,
-    @Json(name = "free_shipping")
-    val freeShipping: Boolean,
-    @Json(name = "individual_use")
-    val individualUse: Boolean,
-    @Json(name = "date_expires")
-    val dateExpires: String,
+//    @Json(name = "free_shipping")
+//    val freeShipping: Boolean,
+//    @Json(name = "individual_use")
+//    val individualUse: Boolean,
+//    @Json(name = "date_expires")
+//    val dateExpires: String,
+//
+//    @Json(name = "status")
+//    val status: String,
+//    @Json(name = "usage_count")
+//    val usageCount: Int,
+//    @Json(name = "usage_limit")
+//    val usageLimit: Any,
+//    @Json(name = "usage_limit_per_user")
+//    val usageLimitPerUser: Any,
 
-    @Json(name = "status")
-    val status: String,
-    @Json(name = "usage_count")
-    val usageCount: Int,
-    @Json(name = "usage_limit")
-    val usageLimit: Any,
-    @Json(name = "usage_limit_per_user")
-    val usageLimitPerUser: Any,
+
 //    @Json(name = "date_created")
 //    val dateCreated: String,
 //    @Json(name = "date_created_gmt")

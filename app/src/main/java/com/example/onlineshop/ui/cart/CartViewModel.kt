@@ -25,9 +25,6 @@ class CartViewModel  @Inject constructor(private val repository: Repository,
     var listOfCoupons= MutableLiveData<List<Coupon>>()
     var errorMessage=""
 
-    init {
-        getCoupons()
-    }
 
     fun saveArrayInShared(list: ArrayList<ProductsItem>?){
         repository.saveArrayInShared(app.applicationContext,list)
@@ -45,11 +42,11 @@ class CartViewModel  @Inject constructor(private val repository: Repository,
         return repository.getCartHashMapFromShared(app.applicationContext)
     }
 
-    fun getCoupons(): LiveData<List<Coupon>> {
+    fun getCoupons(code:String):LiveData<List<Coupon>> {
         viewModelScope.launch {
             status.value=ApiStatus.LOADING
             try {
-                listOfCoupons.value=repository.getCoupons()
+                listOfCoupons.value=repository.getCoupons(code)
                 status.value = ApiStatus.DONE
             }
             catch(e: Exception){
@@ -58,7 +55,9 @@ class CartViewModel  @Inject constructor(private val repository: Repository,
             }
         }
         return listOfCoupons
-
     }
 
 }
+
+
+

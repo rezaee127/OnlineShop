@@ -74,11 +74,13 @@ class ProfileFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun initViews() {
-        var couponCode= requireArguments().getString("coupon","")
+
+        val couponCode= requireArguments().getString("coupon")
+        Log.d("123", "p $couponCode ")
         addressList=vModel.getAddressListFromShared()
         checkConnectivity()
 
-        order(couponCode)
+        order(couponCode!!)
 
         if (vModel.getCustomerFromShared()!=null){
             enter()
@@ -110,7 +112,7 @@ class ProfileFragment : Fragment() {
         val lineItems=ArrayList<LineItem>()
         var couponList= mutableListOf<CouponLines>()
         if (couponCode!=""){
-            couponList[0]=CouponLines(couponCode)
+            couponList.add(CouponLines(couponCode))
         }else{
             couponList= emptyArray<CouponLines>().toMutableList()
         }
@@ -326,6 +328,10 @@ class ProfileFragment : Fragment() {
     private fun setAddressList(location : Location){
         Toast.makeText(requireContext(), "latitude" + location.latitude + " , long=" + location.longitude, Toast.LENGTH_LONG).show()
         var addressFlag=false
+        val completeAddress=getCompleteAddressString(location.latitude , location.longitude)
+
+        if(completeAddress=="")
+            addressFlag=true
         for(address in addressList){
             if (location.latitude==address.lat && location.longitude==address.long )
                 addressFlag=true

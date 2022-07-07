@@ -24,7 +24,6 @@ class CartFragment : Fragment() {
     private lateinit var binding:FragmentCartBinding
     private val vModel:CartViewModel by viewModels()
     private var listOfProducts=ArrayList<ProductsItem>()
-    private var listOfCoupons=listOf<Coupon>()
     private var productMap= HashMap<Int,Int>()
     private var sumPrice=0L
     private var couponCode=""
@@ -45,7 +44,6 @@ class CartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews()
     }
 
@@ -55,10 +53,9 @@ class CartFragment : Fragment() {
         listOfProducts=vModel.getArrayFromShared()
         setAdapter()
         getPrice()
-        productOrder()
 
         getCoupon()
-
+        productOrder()
     }
 
     private fun getCoupon() {
@@ -66,16 +63,19 @@ class CartFragment : Fragment() {
             if (binding.etCoupon.text.isNullOrBlank())
                 binding.etCoupon.error = "لطفا کد تخفیف را وارد کنید"
             else {
-                //if ("code10"==binding.etCoupon.text.toString()) {
-                    couponCode = "code10"
-                    sumPrice -= (((sumPrice * 10.00) / 100).toLong())
-                    binding.btnSumPrice.text=sumPrice.toString()+"تومان"
-                    binding.btnCoupon.isEnabled=false
-               // }
-//                vModel.getCoupons()
-//                setCoupon()
+                vModel.getCoupons(binding.etCoupon.text.toString())
+            }
+            checkConnectivity()
+        }
+
+        vModel.listOfCoupons.observe(viewLifecycleOwner){
+            if(it.isNullOrEmpty()){
+                Toast.makeText(requireContext(),"کد تخفیف نامعتبر است", Toast.LENGTH_SHORT).show()
+            }else{
+                countDiscount(it[0])
             }
         }
+
     }
 
     private fun checkConnectivity() {
@@ -90,34 +90,22 @@ class CartFragment : Fragment() {
                 }
                 else -> {
                     binding.clLoadingInCart.visibility = View.GONE
-                   // setCoupon()
                 }
             }
         }
     }
 
-    private fun setCoupon() {
-        vModel.listOfCoupons.observe(viewLifecycleOwner){
-            listOfCoupons=it
-            var flag=false
-            for (coupon in listOfCoupons){
-                if (coupon.code==binding.etCoupon.text.toString()){
-                    countDiscount(coupon)
-                    flag=true
-                    break
-                }
-            }
-                if (!flag)
-                    Toast.makeText(requireContext(),"کد تخفیف نامعتبر است", Toast.LENGTH_SHORT).show()
 
-        }
-
-    }
-
+    @SuppressLint("SetTextI18n")
     private fun countDiscount(coupon: Coupon) {
         couponCode=coupon.code
         if(coupon.discountType=="percent"){
-            sumPrice= ((sumPrice * coupon.amount.toDouble())/100).toLong()
+            sumPrice -= ((sumPrice * coupon.amount.toDouble())/100).toLong()
+            binding.btnSumPrice.text="${sumPrice}تومان"
+            binding.btnCoupon.isEnabled=false
+            binding.etCoupon.setText("")
+
+            productOrder()
         }
     }
 
@@ -184,5 +172,8 @@ class CartFragment : Fragment() {
         }
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        vModel.listOfCoupons.value= listOf(Coupon("","","","","",0))
+    }
 }

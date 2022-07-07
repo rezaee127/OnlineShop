@@ -34,8 +34,8 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         return remoteDataSource.getProductsListInEachCategory(category)
     }
 
-    suspend fun getCoupons(): List<Coupon>{
-        return remoteDataSource.getCoupons()
+    suspend fun getCoupons(code:String): List<Coupon>{
+        return remoteDataSource.getCoupons(code)
     }
 
     suspend fun getReviews(productId: Int): List<ReviewsItem> {
