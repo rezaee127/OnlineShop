@@ -125,18 +125,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_order"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:visibility="gone"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="24dp"
-                android:text="ثبت سفارش"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tf_address2" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_register"
@@ -148,34 +136,47 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_order" />
+                app:layout_constraintTop_toBottomOf="@id/tf_address2" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="ثبت سفارش"
+                android:visibility="gone"
+                app:iconGravity="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btn_location"
+                app:layout_constraintTop_toBottomOf="@id/tf_address2" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:text="گرفتن لوکیشن"
                 android:visibility="gone"
-                app:iconGravity="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/btn_show_on_map"
-                app:layout_constraintTop_toBottomOf="@id/btn_order" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_show_on_map"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="نمایش روی نقشه"
-                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_location"
-                app:layout_constraintEnd_toStartOf="@+id/btn_location"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_order"
+                app:layout_constraintEnd_toStartOf="@+id/btn_order"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btn_location" />
+                app:layout_constraintTop_toTopOf="@+id/btn_order" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_order"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <ProgressBar

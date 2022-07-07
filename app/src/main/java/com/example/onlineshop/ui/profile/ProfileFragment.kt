@@ -31,6 +31,7 @@ import com.example.onlineshop.model.*
 import com.example.onlineshop.ui.home.ApiStatus
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -73,7 +74,7 @@ class ProfileFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun initViews() {
-
+        addressList=vModel.getAddressListFromShared()
         checkConnectivity()
 
         order()
@@ -99,7 +100,9 @@ class ProfileFragment : Fragment() {
         binding.btnLocation.setOnClickListener {
             getLocation()
         }
+        setAddressAdapter()
     }
+
 
     private fun order() {
         val productIdCountHashMap=vModel.getHashMapFromShared()
@@ -142,7 +145,7 @@ class ProfileFragment : Fragment() {
         binding.btnRegister.visibility=View.GONE
         binding.btnOrder.visibility=View.VISIBLE
         binding.btnLocation.visibility=View.VISIBLE
-        binding.btnShowOnMap.visibility=View.VISIBLE
+        binding.rvAddress.visibility=View.VISIBLE
     }
 
     private fun register() {
@@ -287,7 +290,7 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun showLocation() {
-        addressList=vModel.getAddressListFromShared()
+
 
         if(!isLocationEnabled(requireContext())){
             Toast.makeText(requireContext(), "لطفا لوکیشن خود را روشن کنید", Toast.LENGTH_SHORT).show()
@@ -296,33 +299,48 @@ class ProfileFragment : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
             location?.let{
-                Toast.makeText(requireContext(), "latitude" + it.latitude + " , long=" + it.longitude, Toast.LENGTH_LONG).show()
 
-                binding.tfAddress2.editText?.setText(getCompleteAddressString(it.latitude , it.longitude))
-
-                addressList.add(Address("آدرس ${addressList.size+1}",
-                    getCompleteAddressString(it.latitude , it.longitude),it.latitude , it.longitude))
-
-                vModel.saveAddressListInShared(addressList)
-
+                setAddressList(it)
                 showLocationOnMap(it.latitude , it.longitude)
             }
         }
 
-//        fusedLocationClient.getCurrentLocation(	PRIORITY_BALANCED_POWER_ACCURACY , null).addOnSuccessListener{
+//        fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY , null).addOnSuccessListener{
 //                location : Location? ->
 //            location?.let{
-//                Toast.makeText(requireContext(), "latitude" + it.latitude + " , long=" + it.longitude, Toast.LENGTH_LONG).show()
-//
-//                binding.btnShowOnMap.isEnabled=true
-//                binding.btnShowOnMap.setOnClickListener {view ->
-//                    showLocationOnMap(it.latitude , it.longitude)
-//                }
-//
-//                binding.tfAddress2.editText?.setText(getCompleteAddressString(it.latitude , it.longitude))
+//                setAddressList(it)
+//                showLocationOnMap(it.latitude , it.longitude)
 //            }
 //        }
     }
+
+    private fun setAddressList(location : Location){
+        Toast.makeText(requireContext(), "latitude" + location.latitude + " , long=" + location.longitude, Toast.LENGTH_LONG).show()
+        var addressFlag=false
+        for(address in addressList){
+            if (location.latitude==address.lat && location.longitude==address.long )
+                addressFlag=true
+        }
+        if (!addressFlag){
+            addressList.add(Address("آدرس ${addressList.size+1}",
+                getCompleteAddressString(location.latitude , location.longitude),location.latitude , location.longitude))
+
+            vModel.saveAddressListInShared(addressList)
+        }
+
+        binding.tfAddress2.editText?.setText(getCompleteAddressString(location.latitude , location.longitude))
+
+    }
+
+    private fun setAddressAdapter() {
+        val addressAdapter=AddressAdapter(
+            {address->binding.tfAddress2.editText?.setText(address)},
+            {lat,long -> showLocationOnMap(lat , long)}
+        )
+        binding.rvAddress.adapter=addressAdapter
+        addressAdapter.submitList(addressList)
+    }
+
 
     private fun showLocationOnMap(lat:Double,long:Double) {
         val intent = Intent(requireContext(), MapActivity::class.java)
