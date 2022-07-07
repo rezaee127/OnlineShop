@@ -139,7 +139,8 @@ class DetailFragment : Fragment() {
         binding.btnSubmitComment.setOnClickListener{
             if (customer==null){
                 Toast.makeText(requireContext(),"برای ثبت نظر ابتدا باید ثبت نام کنید", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_detailFragment_to_profileFragment)
+                val bundle= bundleOf("c" to "")
+                findNavController().navigate(R.id.action_detailFragment_to_profileFragment,bundle)
             } else{
                 binding.clLoadingInDetail.visibility=View.GONE
                 binding.svDetail.visibility=View.GONE

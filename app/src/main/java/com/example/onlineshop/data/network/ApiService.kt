@@ -6,6 +6,12 @@ import retrofit2.http.*
 
 interface ApiService {
 
+    @GET("coupons")
+    suspend fun getCoupons(
+        @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
+    ): List<Coupon>
+
+
     @GET("products")
     suspend fun getProductsOrderByDate(
         @Query("orderby") orderBy: String = "date",
@@ -47,10 +53,11 @@ interface ApiService {
     ): List<ProductsItem>
 
 
+
     @GET("products/reviews")
     suspend fun getReviews(
         @Query("product") productId: Int,
-        @Query("per_page") perPage: Int=30,
+       // @Query("per_page") perPage: Int=30,
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptionsWithOutPerPage()
     ): List<ReviewsItem>
 

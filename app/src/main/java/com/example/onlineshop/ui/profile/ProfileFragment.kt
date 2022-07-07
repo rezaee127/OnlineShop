@@ -74,10 +74,11 @@ class ProfileFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun initViews() {
+        var couponCode= requireArguments().getString("coupon","")
         addressList=vModel.getAddressListFromShared()
         checkConnectivity()
 
-        order()
+        order(couponCode)
 
         if (vModel.getCustomerFromShared()!=null){
             enter()
@@ -104,9 +105,16 @@ class ProfileFragment : Fragment() {
     }
 
 
-    private fun order() {
+    private fun order(couponCode:String) {
         val productIdCountHashMap=vModel.getHashMapFromShared()
         val lineItems=ArrayList<LineItem>()
+        var couponList= mutableListOf<CouponLines>()
+        if (couponCode!=""){
+            couponList[0]=CouponLines(couponCode)
+        }else{
+            couponList= emptyArray<CouponLines>().toMutableList()
+        }
+
         if (productIdCountHashMap.isEmpty()){
             binding.btnOrder.isEnabled=false
         }else{
@@ -124,8 +132,9 @@ class ProfileFragment : Fragment() {
                     Shipping(binding.tfFirstName.editText?.text.toString(),
                         binding.tfLastName.editText?.text.toString(),
                         binding.tfAddress1.editText?.text.toString(),
-                        binding.tfAddress2.editText?.text.toString())
-                ))
+                        binding.tfAddress2.editText?.text.toString()),
+                    couponList)
+                )
             }
         }
     }
