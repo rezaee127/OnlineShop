@@ -90,8 +90,6 @@
         android:id="@+id/cl_cart_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sv_detail">
 
@@ -99,7 +97,7 @@
             android:id="@+id/btn_coupon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ثبت کد تخفیف"
+            android:text="ثبت‌کدتخفیف"
             app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -108,16 +106,15 @@
 
         <EditText
             android:id="@+id/et_coupon"
-            android:layout_width="100dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="کد تخفیف"
+            android:hint="کدتخفیف"
             app:layout_constraintBottom_toBottomOf="@+id/btn_coupon"
             app:layout_constraintEnd_toStartOf="@+id/btn_coupon"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btn_coupon"
-            app:layout_constraintVertical_bias="0.333" />
+            app:layout_constraintTop_toTopOf="@+id/btn_coupon" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sum_price"
@@ -135,8 +132,7 @@
             android:id="@+id/btn_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="ادامه فرآیند خرید"
+            android:text="ادامه‌فرآیندخرید"
             app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="@+id/btn_coupon"
             app:layout_constraintHorizontal_bias="0.5"

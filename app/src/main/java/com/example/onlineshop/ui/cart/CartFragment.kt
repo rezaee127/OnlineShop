@@ -1,11 +1,13 @@
 package com.example.onlineshop.ui.cart
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,12 +27,9 @@ class CartFragment : Fragment() {
     private val vModel:CartViewModel by viewModels()
     private var listOfProducts=ArrayList<ProductsItem>()
     private var productMap= HashMap<Int,Int>()
-    private var sumPrice=0L
+    private var sumPrice=0.00
     private var couponCode=""
     private lateinit var productAdapter : CartAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +71,7 @@ class CartFragment : Fragment() {
             if(it.isNullOrEmpty()){
                 Toast.makeText(requireContext(),"کد تخفیف نامعتبر است", Toast.LENGTH_SHORT).show()
             }else{
-                countDiscount(it[0])
+                discountCalculation(it[0])
             }
         }
 
@@ -96,28 +95,64 @@ class CartFragment : Fragment() {
     }
 
 
-    @SuppressLint("SetTextI18n")
-    private fun countDiscount(coupon: Coupon) {
-        couponCode=coupon.code
-        if(coupon.discountType=="percent"){
-            sumPrice -= ((sumPrice * coupon.amount.toDouble())/100).toLong()
-            binding.btnSumPrice.text="${sumPrice}تومان"
-            binding.btnCoupon.isEnabled=false
-            binding.etCoupon.setText("")
 
-            productOrder()
+    private fun discountCalculation(coupon: Coupon) {
+
+        when {
+            sumPrice<coupon.minimumAmount.toDouble() -> {
+                val dialog = AlertDialog.Builder(requireContext())
+                dialog.setMessage("برای استفاده از این تخفیف باید حداقل ${coupon.minimumAmount}تومان خرید کرده باشید")
+                    .setPositiveButton("متوجه شدم") { _, _ -> }.create().show()
+            }
+            coupon.discountType=="percent" -> {
+                val discount=((sumPrice * coupon.amount.toDouble())/100)
+                if(coupon.maximumAmount.toDouble()!=0.00 && discount>coupon.maximumAmount.toDouble()){
+                    sumPrice -=coupon.maximumAmount.toDouble()
+                }else{
+                    sumPrice -= discount
+                }
+                setViewAfterDiscount(coupon)
+
+            }
+            coupon.discountType=="fixed_cart" -> {
+                if (coupon.code=="yalda"){
+                    if (sumPrice<coupon.amount.toDouble())
+                        sumPrice=0.00
+                    else
+                        sumPrice-=coupon.amount.toDouble()
+                    setViewAfterDiscount(coupon)
+                }
+                else if(coupon.code=="s9pbkvt9"){
+                    if(coupon.maximumAmount.toDouble()!=0.00 && sumPrice>coupon.maximumAmount.toDouble()){
+                        sumPrice -=coupon.maximumAmount.toDouble()
+                    }else
+                        sumPrice =0.00
+                    setViewAfterDiscount(coupon)
+                }
+            }
         }
+
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun setViewAfterDiscount(coupon: Coupon){
+        binding.btnSumPrice.text="${sumPrice.toLong()} تومان"
+        binding.btnCoupon.isEnabled=false
+        binding.etCoupon.setText("")
+        couponCode=coupon.code
+        productOrder()
+    }
 
     @SuppressLint("SetTextI18n")
     private fun getPrice() {
-        sumPrice=0L
+        sumPrice=0.00
         if (!listOfProducts.isNullOrEmpty()){
             for (product in listOfProducts){
-                sumPrice += product.price.toLong() * productMap[product.id]!!
+                if(product.price!="") {
+                    sumPrice += product.price.toDouble() * productMap[product.id]!!
+                }
             }
-            binding.btnSumPrice.text=sumPrice.toString()+"تومان"
+            binding.btnSumPrice.text= "${sumPrice.toLong()} تومان"
         }else {
             binding.svCart.visibility=View.GONE
             binding.clCartBottom.visibility=View.GONE
@@ -140,11 +175,11 @@ class CartFragment : Fragment() {
     private fun changeProductCount(operator:String, count:Int, product: ProductsItem) {
         if(product.price!=""){
             sumPrice =when(operator){
-                "+"-> sumPrice+(product.price.toLong())
-                else-> sumPrice-(product.price.toLong())
+                "+"-> sumPrice+(product.price.toDouble())
+                else-> sumPrice-(product.price.toDouble())
             }
         }
-        binding.btnSumPrice.text= "$sumPrice تومان"
+        binding.btnSumPrice.text= "${sumPrice.toLong()} تومان"
         productMap[product.id]= count
         vModel.saveCartHashMapInShared(productMap)
     }
@@ -174,6 +209,6 @@ class CartFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        vModel.listOfCoupons.value= listOf(Coupon("","","","","",0))
+        vModel.listOfCoupons.value= listOf(Coupon("0.00","","","0.00","0.00",0))
     }
 }

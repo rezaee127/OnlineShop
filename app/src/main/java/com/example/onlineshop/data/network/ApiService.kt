@@ -15,6 +15,7 @@ interface ApiService {
 
     @GET("products")
     suspend fun getProductsOrderByDate(
+        @Query("min_price")minPrice:String="1",
         @Query("orderby") orderBy: String = "date",
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
@@ -22,6 +23,7 @@ interface ApiService {
 
     @GET("products")
     suspend fun getProductsOrderByPopularity(
+        @Query("min_price")minPrice:String="1",
         @Query("orderby") orderBy: String = "popularity",
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>
@@ -29,6 +31,7 @@ interface ApiService {
 
     @GET("products")
     suspend fun getProductsOrderByRating(
+        @Query("min_price")minPrice:String="1",
         @Query("orderby") orderBy: String = "rating",
         @QueryMap option: Map<String, String> = NetworkParams.getBaseOptions()
     ): List<ProductsItem>

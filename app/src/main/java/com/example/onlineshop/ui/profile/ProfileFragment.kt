@@ -79,7 +79,10 @@ class ProfileFragment : Fragment() {
         addressList=vModel.getAddressListFromShared()
         checkConnectivity()
 
-        order(couponCode!!)
+        if (couponCode != null)
+            order(couponCode)
+        else
+            order("")
 
         if (vModel.getCustomerFromShared()!=null){
             enter()
