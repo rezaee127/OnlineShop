@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.onlineshop.data.Repository
 import com.example.onlineshop.data.errorHandling
-import com.example.onlineshop.model.CategoriesItem
 import com.example.onlineshop.model.Coupon
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.ui.home.ApiStatus

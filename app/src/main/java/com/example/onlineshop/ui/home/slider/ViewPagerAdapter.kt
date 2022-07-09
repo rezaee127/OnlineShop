@@ -1,4 +1,4 @@
-package com.example.onlineshop.ui.slider
+package com.example.onlineshop.ui.home.slider
 
 import android.content.Context
 import android.view.LayoutInflater

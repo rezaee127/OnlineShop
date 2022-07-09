@@ -1,12 +1,9 @@
 package com.example.onlineshop.ui.profile
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.*
 import com.example.onlineshop.data.Repository
 import com.example.onlineshop.data.errorHandling
-import com.example.onlineshop.data.getAddressListFromSharedPref
-import com.example.onlineshop.data.saveAddressListToSharedPref
 import com.example.onlineshop.model.Address
 import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.OrderItem

@@ -9,12 +9,15 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentSearchBinding
 import com.example.onlineshop.ui.categories.CategoriesViewModel
 import com.example.onlineshop.ui.categoryProductList.CategoryProductListAdapter
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -213,6 +216,10 @@ class SearchFragment : Fragment() {
                 Toast.makeText(requireContext(),"کالایی با این مشخصات یافت نشد", Toast.LENGTH_SHORT).show()
             }
         }
+        val gridLayoutManager =
+            GridLayoutManager(requireContext(),2 , GridLayoutManager.VERTICAL,false)
+        gridLayoutManager.scrollToPosition(0)
+        binding.rvSearch.layoutManager = gridLayoutManager
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.onlineshop.ui.home
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,7 +16,7 @@ import androidx.viewpager.widget.ViewPager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import com.example.onlineshop.ui.MainActivity
-import com.example.onlineshop.ui.slider.ViewPagerAdapter
+import com.example.onlineshop.ui.home.slider.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator
 
@@ -116,7 +118,6 @@ class HomeFragment : Fragment() {
 
         vModel.listOfProductsOrderByDate.observe(viewLifecycleOwner){
             adapterForTheProductsOrderByDate.submitList(it)
-
         }
 
         val adapterForTheProductsOrderByPopularity= ProductsItemAdapter{ id -> goToDetailFragment(id) }
@@ -158,30 +159,14 @@ class HomeFragment : Fragment() {
            "3" -> binding.rbTheme3.isChecked=true
            "4" -> binding.rbTheme4.isChecked=true
         }
+        val arrayOfCheckBoxes=arrayOf(binding.rbTheme0,binding.rbTheme1,
+            binding.rbTheme2,binding.rbTheme3,binding.rbTheme4)
 
-        binding.rbTheme0.setOnCheckedChangeListener { _, b ->
-            if (b){
-                setTheme("0")
-            }
-        }
-        binding.rbTheme1.setOnCheckedChangeListener { _, b ->
-            if (b){
-                setTheme("1")
-            }
-        }
-        binding.rbTheme2.setOnCheckedChangeListener { _, b ->
-            if (b){
-                setTheme("2")
-            }
-        }
-        binding.rbTheme3.setOnCheckedChangeListener { _, b ->
-            if (b){
-                setTheme("3")
-            }
-        }
-        binding.rbTheme4.setOnCheckedChangeListener { _, b ->
-            if (b){
-                setTheme("4")
+        for (i in arrayOfCheckBoxes.indices){
+            arrayOfCheckBoxes[i].setOnCheckedChangeListener { _, b ->
+                if (b){
+                    setTheme("$i")
+                }
             }
         }
     }
@@ -202,7 +187,6 @@ class HomeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
         return when (item.itemId) {
             R.id.theme_menu  -> {
                 showThemeRadioBottoms()
@@ -212,29 +196,32 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showThemeRadioBottoms() {
-//        if (binding.llTheme.isVisible){
-//            binding.llTheme.animate()
-//                .alpha(0f)
-//                .setDuration(1000)
-//                .setListener(object : AnimatorListenerAdapter() {
-//                    override fun onAnimationEnd(animation: Animator) {
-//                        binding.llTheme.visibility = View.GONE
-//                    }
-//                })
-//        }else {
-//            binding.llTheme.animate()
-//                .alpha(1f)
-//                .setDuration(500)
-//                .setListener(object : AnimatorListenerAdapter() {
-//                    override fun onAnimationEnd(animation: Animator) {
-//                        binding.llTheme.visibility = View.VISIBLE
-//                    }
-//                })
-//
-//        }
 
-        binding.llTheme.isVisible=!binding.llTheme.isVisible
+    private fun showThemeRadioBottoms() {
+
+        if (binding.llTheme.isVisible){
+            binding.llTheme.animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        binding.llTheme.visibility = View.GONE
+                    }
+                })
+        }else {
+            binding.llTheme.animate()
+                .alpha(1f)
+                .setDuration(100)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        binding.llTheme.visibility = View.VISIBLE
+                    }
+                })
+
+        }
+
+
+        //binding.llTheme.isVisible=!binding.llTheme.isVisible
     }
 
 
