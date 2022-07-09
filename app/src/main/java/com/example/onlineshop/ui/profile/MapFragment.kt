@@ -1,7 +1,10 @@
 package com.example.onlineshop.ui.profile
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.example.onlineshop.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -11,15 +14,25 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
+class MapFragment : Fragment(), OnMapReadyCallback {
 
-class MapActivity : AppCompatActivity(),OnMapReadyCallback {
     private lateinit var map: GoogleMap
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_map)
+    }
 
-        val mapFragment = supportFragmentManager
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_map, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
@@ -27,8 +40,8 @@ class MapActivity : AppCompatActivity(),OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val lat=intent.getDoubleExtra("lat",0.0)
-        val long=intent.getDoubleExtra("long",0.0)
+        val lat=requireArguments().getDouble("lat")
+        val long=requireArguments().getDouble("long")
 
         map.setMinZoomPreference(15.0f)
         map.setMaxZoomPreference(60.0f)

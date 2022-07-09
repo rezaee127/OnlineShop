@@ -77,5 +77,12 @@
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.onlineshop.ui.profile.MapFragment"
+        android:label="MapFragment" />
 </navigation>
