@@ -61,6 +61,29 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         )
 
         map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat , long)))
+        var latitude=0.0
+        var longitude=0.0
+        var temp: LatLng? = null
+        map.setOnMarkerDragListener(object : OnMarkerDragListener {
+
+            override fun onMarkerDragStart(marker: Marker) {
+                //temp = marker.position
+            }
+
+            override fun onMarkerDragEnd(marker: Marker) {
+                //marker.position = temp!!
+
+                latitude =  marker.position.latitude
+                longitude  =  marker.position.longitude
+                saveLocation(latitude,longitude)
+            }
+
+            override fun onMarkerDrag(marker: Marker) {
+                //temp = marker.position
+                //marker.position = temp!!
+            }
+        })
+
 
 
 
