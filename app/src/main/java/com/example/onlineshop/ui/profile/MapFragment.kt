@@ -1,18 +1,23 @@
 package com.example.onlineshop.ui.profile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
@@ -46,15 +51,44 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         map.setMinZoomPreference(15.0f)
         map.setMaxZoomPreference(60.0f)
         map.addMarker(
+
             MarkerOptions()
                 .position(LatLng(lat, long))
-                .title("Marker in Location")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location))
-                .zIndex(2.0f),
+                .title("مکان شما")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker))
+                .draggable(true)
+                .zIndex(2.0f)
         )
+
         map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat , long)))
+        var latitude=0.0
+        var longitude=0.0
+        var temp: LatLng? = null
+        map.setOnMarkerDragListener(object : OnMarkerDragListener {
+
+            override fun onMarkerDragStart(marker: Marker) {
+                //temp = marker.position
+            }
+
+            override fun onMarkerDragEnd(marker: Marker) {
+                //marker.position = temp!!
+
+                latitude =  marker.position.latitude
+                longitude  =  marker.position.longitude
+                saveLocation(latitude,longitude)
+            }
+
+            override fun onMarkerDrag(marker: Marker) {
+                //temp = marker.position
+                //marker.position = temp!!
+            }
+        })
+
 
     }
 
-
+    private fun saveLocation(lat:Double,long:Double) {
+        val bundle= bundleOf("lat" to lat , "long" to long)
+        findNavController().navigate(R.id.action_mapFragment_to_profileFragment,bundle)
+    }
 }
