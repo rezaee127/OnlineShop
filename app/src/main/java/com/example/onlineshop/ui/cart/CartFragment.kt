@@ -183,14 +183,18 @@ class CartFragment : Fragment() {
         vModel.saveCartHashMapInShared(productMap)
     }
 
-    internal fun removeProductFromCart(product:ProductsItem){
-        listOfProducts.remove(product)
-        productAdapter.submitList(listOfProducts)
-        setAdapter()
-        productMap.remove(product.id)
-        getPrice()
-        vModel.saveArrayInShared(listOfProducts)
-        vModel.saveCartHashMapInShared(productMap)
+    private fun removeProductFromCart(product:ProductsItem){
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setMessage("آیا میخواهید این کالا را حذف کنید؟")
+            .setNegativeButton("خیر") { _, _ -> }
+            .setPositiveButton("بله") { _, _ ->
+                listOfProducts.remove(product)
+                setAdapter()
+                productMap.remove(product.id)
+                getPrice()
+                vModel.saveArrayInShared(listOfProducts)
+                vModel.saveCartHashMapInShared(productMap)
+            }.create().show()
     }
 
     private fun goToDetailFragment(id:Int){

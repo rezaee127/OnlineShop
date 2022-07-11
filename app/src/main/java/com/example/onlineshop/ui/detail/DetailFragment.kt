@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -86,34 +87,42 @@ class DetailFragment : Fragment() {
         binding.ibReturn.setOnClickListener {
             returnFromReviewPage(id)
         }
-        deleteReview(id)
+        deleteReviewButtonOnClick(id)
     }
 
-    private fun deleteReview(productId:Int) {
+    private fun deleteReviewButtonOnClick(productId:Int) {
         binding.ibDeleteReview.setOnClickListener {
-            reviewMap[productId]?.let { it1 -> vModel.deleteReview(it1) }
-            vModel.deleteStatus.observe(viewLifecycleOwner){
+            val dialog = AlertDialog.Builder(requireContext())
+            dialog.setMessage("آیا میخواهید این نظر را حذف کنید؟")
+                .setNegativeButton("خیر") { _, _ -> }
+                .setPositiveButton("بله") { _, _ -> deleteReview(productId)
+                }.create().show()
+        }
+    }
 
-                when (it) {
-                    ApiStatus.LOADING -> binding.clLoadingInDetail.visibility=View.VISIBLE
-                    ApiStatus.ERROR -> {
-                        binding.clLoadingInDetail.visibility=View.GONE
-                        Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
-                    }
-                    else -> {
-                        vModel.deletedReview.observe(viewLifecycleOwner){ deleteReview ->
-                            if(deleteReview.deleted){
-                                Toast.makeText(requireContext(),"دیدگاه شما حذف شد", Toast.LENGTH_SHORT).show()
-                                reviewMap.remove(productId)
-                                vModel.saveReviewHashMapInShared(reviewMap)
-                                binding.clLoadingInDetail.visibility=View.GONE
-                                returnFromReviewPage(productId)
-                            }else{
-                                Toast.makeText(requireContext(),"خطایی رخ داده است\n deleted=false", Toast.LENGTH_LONG).show()
-                            }
+    private fun deleteReview(productId: Int) {
+        reviewMap[productId]?.let { it1 -> vModel.deleteReview(it1) }
+        vModel.deleteStatus.observe(viewLifecycleOwner){
+
+            when (it) {
+                ApiStatus.LOADING -> binding.clLoadingInDetail.visibility=View.VISIBLE
+                ApiStatus.ERROR -> {
+                    binding.clLoadingInDetail.visibility=View.GONE
+                    Toast.makeText(requireContext(), vModel.errorMessage, Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    vModel.deletedReview.observe(viewLifecycleOwner){ deleteReview ->
+                        if(deleteReview.deleted){
+                            Toast.makeText(requireContext(),"دیدگاه شما حذف شد", Toast.LENGTH_SHORT).show()
+                            reviewMap.remove(productId)
+                            vModel.saveReviewHashMapInShared(reviewMap)
+                            binding.clLoadingInDetail.visibility=View.GONE
+                            returnFromReviewPage(productId)
+                        }else{
+                            Toast.makeText(requireContext(),"خطایی رخ داده است\n deleted=false", Toast.LENGTH_LONG).show()
                         }
-
                     }
+
                 }
             }
         }
@@ -131,6 +140,8 @@ class DetailFragment : Fragment() {
         vModel.mReview.observe(viewLifecycleOwner){
             reviewMap[productId]=it.id
             vModel.saveReviewHashMapInShared(reviewMap)
+            binding.clLoadingInDetail.visibility=View.GONE
+            returnFromReviewPage(productId)
         }
     }
 
