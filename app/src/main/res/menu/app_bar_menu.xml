@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/theme_menu"
-        android:icon="@drawable/theme_icon_4"
+        android:icon="@drawable/theme_icon_2"
         android:title="انتخاب تم"
         app:showAsAction="always"
         android:alphabeticShortcut="T"/>

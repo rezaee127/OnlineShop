@@ -105,7 +105,14 @@ class ProfileFragment : Fragment() {
         binding.btnLocation.setOnClickListener {
             getLocation()
         }
+
+
         setAddressAdapter()
+
+        val lat=requireArguments().getDouble("lat")
+        val long=requireArguments().getDouble("long")
+        setAddressList(lat,long)
+
     }
 
 
@@ -313,7 +320,7 @@ class ProfileFragment : Fragment() {
         fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
             location?.let{
 
-                setAddressList(it)
+                setAddressList(it.latitude , it.longitude)
                 showLocationOnMap(it.latitude , it.longitude)
             }
         }
@@ -327,26 +334,27 @@ class ProfileFragment : Fragment() {
 //        }
     }
 
-    private fun setAddressList(location : Location){
-        Toast.makeText(requireContext(), "latitude" + location.latitude + " , long=" + location.longitude, Toast.LENGTH_LONG).show()
-        var addressFlag=false
-        val completeAddress=getCompleteAddressString(location.latitude , location.longitude)
+    private fun setAddressList(lat:Double,long:Double){
+        if (lat!=0.0 && long!=0.0){
+            Toast.makeText(requireContext(), "latitude$lat , long=$long", Toast.LENGTH_LONG).show()
+            var addressFlag=false
+            val completeAddress=getCompleteAddressString(lat , long)
 
-        if(completeAddress=="")
-            addressFlag=true
-        for(address in addressList){
-            if (location.latitude==address.lat && location.longitude==address.long )
+            if(completeAddress=="")
                 addressFlag=true
+            for(address in addressList){
+                if (lat==address.lat && long==address.long )
+                    addressFlag=true
+            }
+            if (!addressFlag){
+                addressList.add(Address("آدرس ${addressList.size+1}",
+                    getCompleteAddressString(lat , long),lat , long))
+
+                vModel.saveAddressListInShared(addressList)
+            }
+
+            binding.tfAddress2.editText?.setText(getCompleteAddressString(lat , long))
         }
-        if (!addressFlag){
-            addressList.add(Address("آدرس ${addressList.size+1}",
-                getCompleteAddressString(location.latitude , location.longitude),location.latitude , location.longitude))
-
-            vModel.saveAddressListInShared(addressList)
-        }
-
-        binding.tfAddress2.editText?.setText(getCompleteAddressString(location.latitude , location.longitude))
-
     }
 
     private fun setAddressAdapter() {
