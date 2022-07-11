@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
+import com.example.onlineshop.databinding.FragmentMapBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener
@@ -20,18 +21,19 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
-
+    private lateinit var binding:FragmentMapBinding
     private lateinit var map: GoogleMap
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    var latitude=0.0
+    var longitude=0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = FragmentMapBinding.inflate(inflater, container, false)
+        return binding.root
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false)
+        //return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +42,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        binding.btnSaveAddress.setOnClickListener {
+            saveLocation(latitude,longitude)
+        }
+
     }
 
 
@@ -55,15 +62,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             MarkerOptions()
                 .position(LatLng(lat, long))
                 .title("مکان شما")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker_red))
                 .draggable(true)
                 .zIndex(2.0f)
         )
 
         map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat , long)))
-        var latitude=0.0
-        var longitude=0.0
-        var temp: LatLng? = null
+
+        //var temp: LatLng? = null
         map.setOnMarkerDragListener(object : OnMarkerDragListener {
 
             override fun onMarkerDragStart(marker: Marker) {
@@ -75,7 +81,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                 latitude =  marker.position.latitude
                 longitude  =  marker.position.longitude
-                saveLocation(latitude,longitude)
             }
 
             override fun onMarkerDrag(marker: Marker) {
@@ -84,34 +89,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         })
 
-
-
-
-
-
-
-        var latitude=0.0
-        var longitude=0.0
-        var temp: LatLng? = null
-        map.setOnMarkerDragListener(object : OnMarkerDragListener {
-
-            override fun onMarkerDragStart(marker: Marker) {
-                //temp = marker.position
-            }
-
-            override fun onMarkerDragEnd(marker: Marker) {
-                //marker.position = temp!!
-
-                latitude =  marker.position.latitude
-                longitude  =  marker.position.longitude
-                saveLocation(latitude,longitude)
-            }
-
-            override fun onMarkerDrag(marker: Marker) {
-                //temp = marker.position
-                //marker.position = temp!!
-            }
-        })
 
 
     }

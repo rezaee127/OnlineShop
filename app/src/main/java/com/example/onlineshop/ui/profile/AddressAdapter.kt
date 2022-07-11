@@ -17,7 +17,8 @@ import com.example.onlineshop.model.Address
 
 class AddressAdapter(
     private var setTextOfAddress2: (String) -> Unit,
-    private var showOnMap: (lat:Double,long:Double) -> Unit) :
+    private var showOnMap: (lat:Double,long:Double) -> Unit,
+    private var deleteAddress: (address:Address) -> Unit) :
     ListAdapter<Address, AddressAdapter.ViewHolder>(AddressDiffCallback) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -25,14 +26,17 @@ class AddressAdapter(
         private val tvAddress: TextView = view.findViewById(R.id.tv_address)
         private val btnSetAddress2: Button = view.findViewById(R.id.btn_set_text_of_address)
         private val btnShowOnMap: Button = view.findViewById(R.id.btn_show_on_map)
+        private val btnDeleteAddress: ImageButton = view.findViewById(R.id.ib_delete_address)
 
         @SuppressLint("SetTextI18n")
         fun bind(address:Address, setTextOfAddress2: (String) -> Unit,
-                 showOnMap: (lat:Double,long:Double) -> Unit)
+                 showOnMap: (lat:Double,long:Double) -> Unit,
+                 deleteAddress: (address:Address) -> Unit)
         {
             tvAddress.text=address.description
             btnSetAddress2.setOnClickListener { setTextOfAddress2(address.description) }
             btnShowOnMap.setOnClickListener { showOnMap(address.lat,address.long) }
+            btnDeleteAddress.setOnClickListener { deleteAddress(address) }
         }
     }
 
@@ -47,7 +51,7 @@ class AddressAdapter(
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.bind(getItem(position),setTextOfAddress2, showOnMap)
+        viewHolder.bind(getItem(position),setTextOfAddress2, showOnMap,deleteAddress)
 
     }
 

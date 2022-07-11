@@ -210,8 +210,7 @@ class ProfileFragment : Fragment() {
                 else -> {
                     val dialog = AlertDialog.Builder(requireContext())
                     dialog.setMessage("ثبت نام با موفقیت انجام شد. \nکد کاربری شما : ${mCustomer.id}")
-                        .setPositiveButton("متوجه شدم",
-                         DialogInterface.OnClickListener { _, _ -> }).create().show()
+                        .setPositiveButton("متوجه شدم") { _, _ -> }.create().show()
 
                     binding.pbLoading.visibility=View.GONE
                     if (vModel.getHashMapFromShared().isEmpty()){
@@ -359,11 +358,23 @@ class ProfileFragment : Fragment() {
 
     private fun setAddressAdapter() {
         val addressAdapter=AddressAdapter(
-            {address->binding.tfAddress2.editText?.setText(address)},
-            {lat,long -> showLocationOnMap(lat , long)}
+            {address -> binding.tfAddress2.editText?.setText(address)},
+            {lat,long -> showLocationOnMap(lat , long)},
+            {address -> deleteAddress(address)}
         )
         binding.rvAddress.adapter=addressAdapter
         addressAdapter.submitList(addressList)
+    }
+
+    private fun deleteAddress(address: Address) {
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setMessage("آیا میخواهید این آدرس را حذف کنید؟")
+            .setNegativeButton("خیر") { _, _ -> }
+            .setPositiveButton("بله") { _, _ ->
+                addressList.remove(address)
+                vModel.saveAddressListInShared(addressList)
+                setAddressAdapter()
+            }.create().show()
     }
 
 
