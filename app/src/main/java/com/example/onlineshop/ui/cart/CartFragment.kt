@@ -1,7 +1,6 @@
 package com.example.onlineshop.ui.cart
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
