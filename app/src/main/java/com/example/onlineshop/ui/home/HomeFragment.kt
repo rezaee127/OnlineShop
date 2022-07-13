@@ -7,9 +7,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
@@ -19,7 +19,7 @@ import com.example.onlineshop.ui.MainActivity
 import com.example.onlineshop.ui.home.slider.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator
-
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -66,6 +66,8 @@ class HomeFragment : Fragment() {
             viewPagerAdapter = ViewPagerAdapter(requireContext(), imageList)
             viewPager.adapter = viewPagerAdapter
             viewPager.rotationY = 180F
+            viewPager.currentItem = 0
+            viewPagerAdapter.setTimer(viewPager,7)
             val indicator: CircleIndicator = view.findViewById(R.id.indicator)
             indicator.setViewPager(viewPager)
             //indicator.animatePageSelected(2)
