@@ -66,8 +66,7 @@ class HomeFragment : Fragment() {
             viewPagerAdapter = ViewPagerAdapter(requireContext(), imageList)
             viewPager.adapter = viewPagerAdapter
             viewPager.rotationY = 180F
-            viewPager.currentItem = 0
-            viewPagerAdapter.setTimer(viewPager,7)
+            //swipeTask.run()
             val indicator: CircleIndicator = view.findViewById(R.id.indicator)
             indicator.setViewPager(viewPager)
             //indicator.animatePageSelected(2)
@@ -225,6 +224,50 @@ class HomeFragment : Fragment() {
 
         //binding.llTheme.isVisible=!binding.llTheme.isVisible
     }
+
+
+
+
+
+
+
+
+
+//    var h: Handler = Handler()
+//    var delay = 10000L
+//
+//    var runnable: Runnable? = null
+//    private val pagerIndex = intArrayOf(-1)
+//    private fun startSlider() {
+//        h.postDelayed(object : Runnable {
+//            override fun run() {
+//                pagerIndex[0]++
+//                if (pagerIndex[0] >= viewPagerAdapter.count) {
+//                    pagerIndex[0] = 0
+//                }
+//                viewPager.currentItem = pagerIndex[0]
+//                runnable = this
+//                h.postDelayed(runnable as Runnable, delay)
+//            }
+//        }, delay)
+//    }
+
+
+
+
+//    val delay: Long = 7000L
+//    var handler: Handler = Handler()
+//    private val pagerIndex = intArrayOf(0)
+//    private val swipeTask: Runnable = object : Runnable {
+//        override fun run() {
+//            viewPager.currentItem = pagerIndex[0]
+//            handler.postDelayed(this, delay)
+//            ++pagerIndex[0]
+//            if (pagerIndex[0] >= viewPagerAdapter.count) {
+//                pagerIndex[0] = 0
+//            }
+//        }
+//    }
 
 
 }
