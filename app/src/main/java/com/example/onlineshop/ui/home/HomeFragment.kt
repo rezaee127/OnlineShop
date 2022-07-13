@@ -20,6 +20,7 @@ import com.example.onlineshop.ui.home.slider.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -65,9 +66,11 @@ class HomeFragment : Fragment() {
             }
             viewPagerAdapter = ViewPagerAdapter(requireContext(), imageList)
             viewPager.adapter = viewPagerAdapter
-            viewPager.rotationY = 180F
+
             viewPager.currentItem = 0
             viewPagerAdapter.setTimer(viewPager,7)
+            viewPager.rotationY = 180F
+            //swipeTask.run()
             val indicator: CircleIndicator = view.findViewById(R.id.indicator)
             indicator.setViewPager(viewPager)
             //indicator.animatePageSelected(2)
@@ -225,6 +228,13 @@ class HomeFragment : Fragment() {
 
         //binding.llTheme.isVisible=!binding.llTheme.isVisible
     }
+
+    override fun onStop() {
+        super.onStop()
+        viewPagerAdapter = ViewPagerAdapter(requireContext(), ArrayList())
+        viewPagerAdapter.stopTimer()
+    }
+
 
 
 }
