@@ -18,7 +18,7 @@ fun emptyCart(fileName: String,context:Context){
     prefs.edit().clear().apply()
 }
 
-fun saveArrayToSharedPref(context: Context, list: ArrayList<ProductsItem>?) {
+fun saveArrayOfProductToSharedPref(context: Context, list: ArrayList<ProductsItem>?) {
     val pref = context.getSharedPreferences(CART_PRODUCTS_ARRAY, Context.MODE_PRIVATE)
     val editor = pref.edit()
     val gson = Gson()
@@ -28,7 +28,7 @@ fun saveArrayToSharedPref(context: Context, list: ArrayList<ProductsItem>?) {
 }
 
 
-fun getArrayFromSharedPref(context: Context): ArrayList<ProductsItem> {
+fun getArrayOfProductFromSharedPref(context: Context): ArrayList<ProductsItem> {
     val pref = context.getSharedPreferences(CART_PRODUCTS_ARRAY, Context.MODE_PRIVATE)
     var arrayItems = ArrayList<ProductsItem>()
     val serializedObject = pref.getString("cart", null)
@@ -84,6 +84,14 @@ fun saveCustomerToSharedPref(context: Context, obj: CustomerItem) {
     val json = gson.toJson(obj)
     editor.putString("customer", json)
     editor.apply()
+}
+
+
+fun deleteCustomerFromSharedPref(fileName: String,context:Context){
+    val pref = context.getSharedPreferences("sharedCustomer", Context.MODE_PRIVATE)
+    pref.edit().clear().apply()
+    val pref2 = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
+    pref2.edit().clear().apply()
 }
 
 

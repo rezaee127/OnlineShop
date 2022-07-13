@@ -79,6 +79,8 @@ class ProfileFragment : Fragment() {
         addressList=vModel.getAddressListFromShared()
         checkConnectivity()
 
+        deleteCustomer()
+
         if (couponCode != null)
             order(couponCode)
         else
@@ -113,6 +115,33 @@ class ProfileFragment : Fragment() {
         val long=requireArguments().getDouble("long")
         setAddressList(lat,long)
 
+    }
+
+    private fun deleteCustomer() {
+        binding.ibExit.setOnClickListener {
+            val dialog = AlertDialog.Builder(requireContext())
+            dialog.setMessage("آیا میخواهید حساب کاربری خود را حذف کنید؟")
+                .setNegativeButton("خیر") { _, _ -> }
+                .setPositiveButton("بله") { _, _ ->
+                    vModel.deleteCustomer()
+                    binding.tfFirstName.editText?.setText("")
+                    binding.tfLastName.editText?.setText("")
+                    binding.tfEmail.editText?.setText("")
+                    binding.tfAddress1.editText?.setText("")
+                    binding.tfAddress2.editText?.setText("")
+                    binding.tfFirstName.editText?.isEnabled=true
+                    binding.tfLastName.editText?.isEnabled=true
+                    binding.tfEmail.editText?.isEnabled=true
+                    binding.btnRegister.visibility=View.VISIBLE
+                    binding.btnOrder.visibility=View.GONE
+                    binding.btnLocation.visibility=View.GONE
+                    binding.ibExit.visibility=View.GONE
+                    binding.rvAddress.visibility=View.GONE
+                    register()
+                    addressList=vModel.getAddressListFromShared()
+                    setAddressAdapter()
+                }.create().show()
+        }
     }
 
 
@@ -165,6 +194,7 @@ class ProfileFragment : Fragment() {
         binding.btnRegister.visibility=View.GONE
         binding.btnOrder.visibility=View.VISIBLE
         binding.btnLocation.visibility=View.VISIBLE
+        binding.ibExit.visibility=View.VISIBLE
         binding.rvAddress.visibility=View.VISIBLE
     }
 
@@ -254,7 +284,7 @@ class ProfileFragment : Fragment() {
         fun getLocation(){
             requestPermissions()
            //if( isGooglePlayServicesAvailable(requireContext()))
-    }
+        }
 
     private fun requestPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -335,7 +365,7 @@ class ProfileFragment : Fragment() {
 
     private fun setAddressList(lat:Double,long:Double){
         if (lat!=0.0 && long!=0.0){
-            Toast.makeText(requireContext(), "latitude$lat , long=$long", Toast.LENGTH_LONG).show()
+            //Toast.makeText(requireContext(), "latitude$lat , long=$long", Toast.LENGTH_LONG).show()
             var addressFlag=false
             val completeAddress=getCompleteAddressString(lat , long)
 

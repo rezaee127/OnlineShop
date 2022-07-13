@@ -1,6 +1,7 @@
 package com.example.onlineshop.ui.profile
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.*
 import com.example.onlineshop.data.Repository
 import com.example.onlineshop.data.errorHandling
@@ -69,6 +70,10 @@ class ProfileViewModel @Inject constructor(private val repository: Repository,
 
     fun getCustomerFromShared(): CustomerItem ?{
         return repository.getCustomerFromShared(app.applicationContext)
+    }
+
+    fun deleteCustomer(){
+        repository.deleteCustomer(app.applicationContext)
     }
 
 

@@ -95,6 +95,9 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
 
 
 
+    fun deleteCustomer(context: Context){
+        deleteCustomerFromSharedPref(REVIEW_HASHMAP,context)
+    }
 
     fun saveCustomerInShared(context: Context,customer:CustomerItem){
         saveCustomerToSharedPref(context,customer)
@@ -124,12 +127,12 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
 
 
 
-    fun saveArrayInShared(context: Context,list: ArrayList<ProductsItem>?){
-        saveArrayToSharedPref(context,list)
+    fun saveArrayOfProductInShared(context: Context, list: ArrayList<ProductsItem>?){
+        saveArrayOfProductToSharedPref(context,list)
     }
 
-    fun getArrayFromShared(context: Context): ArrayList<ProductsItem> {
-        return getArrayFromSharedPref(context)
+    fun getArrayOfProductFromShared(context: Context): ArrayList<ProductsItem> {
+        return getArrayOfProductFromSharedPref(context)
     }
 
     fun saveAddressListInShared(context: Context,list: ArrayList<Address>?){
