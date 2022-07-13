@@ -40,7 +40,7 @@
             android:layout_marginEnd="8dp"
             android:lineSpacingMultiplier="1.1"
             android:maxLines="3"
-            android:text="text"
+            android:text=""
             android:textDirection="rtl"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:text="TextView"
+            android:text=""
             app:layout_constraintEnd_toStartOf="@+id/iv_reviewer_image"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,7 +66,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:textSize="10dp"
-            android:text="TextView"
+            android:text=""
             app:layout_constraintEnd_toStartOf="@+id/iv_reviewer_image"
             app:layout_constraintTop_toTopOf="@id/tv_reviewer_name" />
 
@@ -78,7 +78,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="24dp"
             app:iconTint="@color/yellow"
-            android:text="5"
+            android:text="@string/_5"
             app:cornerRadius="500dp"
             app:icon="@drawable/ic_baseline_star_rate_24"
             app:iconGravity="start"

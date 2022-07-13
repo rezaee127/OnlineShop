@@ -1,5 +1,55 @@
 <resources>
     <string name="app_name">OnlineShop</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_5">5</string>
+    <string name="product_name">اسم کالا</string>
+    <string name="categories">دسته بندی ها</string>
+    <string name="color">رنگ</string>
+    <string name="size">اندازه</string>
+    <string name="order_by">مرتب سازی بر اساس :</string>
+    <string name="newest">جدیدترین</string>
+    <string name="most_expensive">گران‌ترین</string>
+    <string name="cheapest">ارزان‌ترین</string>
+    <string name="bestselling">پرفروش‌ترین</string>
+    <string name="search">جستجو</string>
+    <string name="return1">بازگشت</string>
+    <string name="name">نام</string>
+    <string name="last_name">نام خانوادگی</string>
+    <string name="email">ایمیل</string>
+    <string name="address1">آدرس 1</string>
+    <string name="address2">آدرس 2</string>
+    <string name="register">ثبت نام</string>
+    <string name="order">ثبت سفارش</string>
+    <string name="location">گرفتن لوکیشن</string>
+    <string name="save_address">ذخیره آدرس انتخاب شده</string>
+    <string name="theme0">تم‌اولیه</string>
+    <string name="theme1">تم1</string>
+    <string name="theme2">تم2</string>
+    <string name="theme3">تم3</string>
+    <string name="dark_theme">تم‌تیره</string>
+    <string name="select_theme">انتخاب تم</string>
+    <string name="newest_products">جدیدترین محصولات</string>
+    <string name="more">موارد بیشتر</string>
+    <string name="most_visited">پربازدیدترین محصولات</string>
+    <string name="selected_products">محصولات منتخب</string>
+    <string name="error">خطا در برقراری ارتباط با اینترنت</string>
+    <string name="retry1">تلاش مجدد</string>
+    <string name="product_detail">مشخصات کالا</string>
+    <string name="user_reviews">نظرات کاربران</string>
+    <string name="submit_comment">ثبت دیدگاه</string>
+    <string name="review_not_exist">برای این محصول نظری ثبت نشده است</string>
+    <string name="related_products">محصولات مرتبط</string>
+    <string name="add_to_cart">افزودن به سبد خرید</string>
+    <string name="error2">خطا در برقراری ارتباط با اینترنت</string>
+    <string name="your_score">امتیاز شما به این محصول</string>
+    <string name="your_review">نظر شما</string>
+    <string name="edit">ویرایش</string>
+    <string name="create_review">ثبت نظر</string>
+    <string name="register_coupon">ثبت‌کدتخفیف</string>
+    <string name="coupon_code">کدتخفیف</string>
+    <string name="continue_the_purchase_process">ادامه‌فرآیندخرید</string>
+    <string name="_1">1</string>
+    <string name="setting_the_address_2">تنظیم آدرس2</string>
+    <string name="show_on_map">نمایش روی نقشه</string>
 </resources>

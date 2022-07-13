@@ -42,7 +42,7 @@
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="20dp"
                     android:textColorHint="?attr/colorPrimary"
-                    android:hint="اسم کالا"
+                    android:hint="@string/product_name"
                     android:layoutDirection="rtl"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:text="دسته بندی ها "
+                            android:text="@string/categories"
                             android:textStyle="bold" />
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -153,7 +153,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:text="رنگ "
+                            android:text="@string/color"
                             android:textStyle="bold" />
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -211,7 +211,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:text="اندازه "
+                            android:text="@string/size"
                             android:textStyle="bold" />
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -249,7 +249,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="مرتب سازی بر اساس :"
+                    android:text="@string/order_by"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.898"
@@ -275,7 +275,7 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:layoutDirection="rtl"
-                        android:text="جدیدترین" />
+                        android:text="@string/newest" />
 
                     <RadioButton
                         android:id="@+id/rb_most_expensive"
@@ -283,7 +283,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layoutDirection="rtl"
-                        android:text="گران‌ترین" />
+                        android:text="@string/most_expensive" />
 
 
                     <RadioButton
@@ -292,7 +292,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layoutDirection="rtl"
-                        android:text="ارزان‌ترین" />
+                        android:text="@string/cheapest" />
 
                     <RadioButton
                         android:id="@+id/rb_bestselling"
@@ -300,7 +300,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layoutDirection="rtl"
-                        android:text="پرفروش‌ترین" />
+                        android:text="@string/bestselling" />
                 </RadioGroup>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -313,7 +313,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="جستجو"
+            android:text="@string/search"
             app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="@+id/rg"
             app:layout_constraintHorizontal_bias="0.497"
@@ -353,7 +353,7 @@
             android:layout_marginTop="8dp"
             android:visibility="gone"
             android:layout_weight="1"
-            android:text="بازگشت"
+            android:text="@string/return1"
             app:cornerRadius="20dp" />
     </LinearLayout>
     <ProgressBar

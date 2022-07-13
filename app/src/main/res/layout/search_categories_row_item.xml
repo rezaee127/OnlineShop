@@ -28,7 +28,7 @@
             android:gravity="right"
             android:layoutDirection="rtl"
             android:paddingTop="6dp"
-            android:text="checkPatientQ2"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

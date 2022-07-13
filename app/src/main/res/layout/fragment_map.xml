@@ -14,7 +14,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ذخیره آدرس انتخاب شده" />
+        android:text="@string/save_address" />
 
     <fragment
     android:id="@+id/map"
