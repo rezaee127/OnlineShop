@@ -267,7 +267,7 @@ class DetailFragment : Fragment() {
 
 
     private fun addProductToCart(product: ProductsItem?){
-        listOfProducts=vModel.getArrayFromShared()
+        listOfProducts=vModel.getArrayOfProductFromShared()
         productMap= vModel.getCartHashMapFromShared()
         if (productMap.contains(product?.id)){
             Toast.makeText(requireContext(),"این کالا در سبد خرید موجود است", Toast.LENGTH_SHORT).show()
@@ -275,7 +275,7 @@ class DetailFragment : Fragment() {
             productMap[product!!.id]=1
             vModel.saveCartHashMapInShared(productMap)
             listOfProducts.add(product)
-            vModel.saveArrayInShared(listOfProducts)
+            vModel.saveArrayOfProductInShared(listOfProducts)
             Toast.makeText(requireContext(),"این کالا به سبد خرید اضافه شد", Toast.LENGTH_SHORT).show()
             //findNavController().navigate(R.id.action_detailFragment_to_cartFragment)
         }

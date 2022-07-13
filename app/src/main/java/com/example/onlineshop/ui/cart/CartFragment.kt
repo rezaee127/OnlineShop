@@ -48,7 +48,7 @@ class CartFragment : Fragment() {
     private fun initViews() {
         requireActivity().title="سبد خرید"
         productMap= vModel.getCartHashMapFromShared()
-        listOfProducts=vModel.getArrayFromShared()
+        listOfProducts=vModel.getArrayOfProductFromShared()
         setAdapter()
         getPrice()
 
@@ -192,7 +192,7 @@ class CartFragment : Fragment() {
                 setAdapter()
                 productMap.remove(product.id)
                 getPrice()
-                vModel.saveArrayInShared(listOfProducts)
+                vModel.saveArrayOfProductInShared(listOfProducts)
                 vModel.saveCartHashMapInShared(productMap)
             }.create().show()
     }

@@ -25,12 +25,12 @@ class CartViewModel  @Inject constructor(private val repository: Repository,
     var errorMessage=""
 
 
-    fun saveArrayInShared(list: ArrayList<ProductsItem>?){
-        repository.saveArrayInShared(app.applicationContext,list)
+    fun saveArrayOfProductInShared(list: ArrayList<ProductsItem>?){
+        repository.saveArrayOfProductInShared(app.applicationContext,list)
     }
 
-    fun getArrayFromShared(): ArrayList<ProductsItem>{
-        return repository.getArrayFromShared(app.applicationContext)
+    fun getArrayOfProductFromShared(): ArrayList<ProductsItem>{
+        return repository.getArrayOfProductFromShared(app.applicationContext)
     }
 
     fun saveCartHashMapInShared(hashMap: HashMap<Int, Int>){
