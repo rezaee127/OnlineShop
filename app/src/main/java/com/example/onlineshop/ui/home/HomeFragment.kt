@@ -17,6 +17,7 @@ import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import com.example.onlineshop.ui.MainActivity
 import com.example.onlineshop.ui.home.slider.ViewPagerAdapter
+import com.example.onlineshop.ui.home.slider.swipeTimer
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator
 import java.util.*
@@ -68,6 +69,7 @@ class HomeFragment : Fragment() {
             viewPager.adapter = viewPagerAdapter
 
             viewPager.currentItem = 0
+            swipeTimer=Timer()
             viewPagerAdapter.setTimer(viewPager,7)
             viewPager.rotationY = 180F
             //swipeTask.run()
