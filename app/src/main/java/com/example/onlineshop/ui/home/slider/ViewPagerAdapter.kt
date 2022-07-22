@@ -75,7 +75,6 @@ class ViewPagerAdapter(val context: Context, private val imageList: ArrayList<St
                 }
             }
         }
-        swipeTimer=Timer()
         swipeTimer.schedule(object : TimerTask() {
             override fun run() {
                 handler.post(update)
