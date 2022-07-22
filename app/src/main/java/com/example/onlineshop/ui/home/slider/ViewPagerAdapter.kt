@@ -18,7 +18,7 @@ import java.util.*
 //https://www.geeksforgeeks.org/android-image-slider-using-viewpager-in-kotlin/
 //https://stackoverflow.com/questions/23511045/add-timer-and-set-size-to-viewpager
 val handler = Handler()
-lateinit var swipeTimer:Timer
+var swipeTimer=Timer()
 
 
 class ViewPagerAdapter(val context: Context, private val imageList: ArrayList<String>) : PagerAdapter() {
@@ -75,7 +75,6 @@ class ViewPagerAdapter(val context: Context, private val imageList: ArrayList<St
                 }
             }
         }
-        swipeTimer = Timer()
         swipeTimer.schedule(object : TimerTask() {
             override fun run() {
                 handler.post(update)
