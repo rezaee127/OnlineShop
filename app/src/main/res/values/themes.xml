@@ -8,10 +8,10 @@
         <item name="colorPrimary">@color/purple_503</item>
         <item name="colorPrimaryVariant">@color/back3</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/teal_203</item>
-        <item name="colorSecondaryVariant">@color/gray</item>
+        <item name="colorSecondary">@color/teal_503</item>
+        <item name="colorSecondaryVariant">@color/teal_203</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
 
         <!--        <item name="fontFamily">@font/nazanin</item>-->
 
@@ -24,8 +24,9 @@
         <item name="colorPrimaryVariant">@color/back1</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/teal_201</item>
+        <item name="colorSecondaryVariant">@color/teal_201</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
     </style>
 
 
@@ -34,8 +35,9 @@
         <item name="colorPrimaryVariant">@color/back2</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/teal_202</item>
+        <item name="colorSecondaryVariant">@color/teal_202</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
     </style>
 
 
@@ -44,8 +46,9 @@
         <item name="colorPrimaryVariant">@color/back13</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/teal_213</item>
+        <item name="colorSecondaryVariant">@color/teal_213</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
     </style>
 
 
@@ -53,25 +56,25 @@
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
-        <item name="colorSecondary">@color/purple_200</item>
+        <item name="colorSecondary">@color/purple_500</item>
         <item name="colorSecondaryVariant">@color/purple_200</item>
         <item name="colorOnSecondary">@color/purple_201</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:editTextColor">@color/purple_200</item>
         <item name="android:textColorHint">@color/purple_200</item>
         <item name="android:textColorPrimaryDisableOnly">@color/purple_200</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
     </style>
 
 <!--    <style name="Theme4" parent="Theme.MaterialComponents.DayNight.DarkActionBar">-->
 <!--        <item name="colorPrimary">@color/purple_504</item>-->
 <!--        <item name="colorPrimaryVariant">@color/back4</item>-->
 <!--        <item name="colorOnPrimary">@color/white</item>-->
-<!--        <item name="colorSecondary">@color/teal_204</item>-->
+<!--        <item name="colorSecondaryVariant">@color/teal_204</item>-->
 <!--        <item name="colorOnSecondary">@color/white</item>-->
 <!--        <item name="android:windowBackground">@color/back4</item>-->
 <!--        <item name="android:colorBackgroundCacheHint">@color/back4</item>-->
-<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>-->
 <!--    </style>-->
 
 

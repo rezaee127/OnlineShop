@@ -33,13 +33,16 @@
 
     <color name="purple_503">#ef4959</color>
     <color name="back3">#f7f7f7</color>
-    <color name="teal_203">#DD8B92</color>
+    <color name="teal_203">#80FAE8E9</color>
+    <color name="teal_503">#75222A</color>
+<!--    <color name="teal_203">#DD8B92</color>-->
 <!--    <color name="purple_503">#f21d41</color>-->
 <!--    <color name="back3">#f7f7f7</color>-->
 <!--    <color name="teal_203">#FA97A7</color>-->
 
 
     <color name="purple_200">#a8c7fa</color>
+    <color name="purple_500">#364050</color>
     <color name="purple_700">#1f1f1f</color>
     <color name="purple_201">#2d2f33</color>
 
