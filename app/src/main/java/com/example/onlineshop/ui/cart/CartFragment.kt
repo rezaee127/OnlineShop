@@ -67,10 +67,16 @@ class CartFragment : Fragment() {
         }
 
         vModel.listOfCoupons.observe(viewLifecycleOwner){
-            if(it.isNullOrEmpty()){
-                Toast.makeText(requireContext(),"کد تخفیف نامعتبر است", Toast.LENGTH_SHORT).show()
-            }else{
-                discountCalculation(it[0])
+            when {
+                it.isNullOrEmpty() -> {
+                    Toast.makeText(requireContext(),"کد تخفیف نامعتبر است", Toast.LENGTH_SHORT).show()
+                }
+                it.size>1 -> {
+                    Toast.makeText(requireContext(),"خطایی رخ داده است\nدر صورت تداوم مشکل با ما تماس بگیرید", Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    discountCalculation(it[0])
+                }
             }
         }
 
@@ -137,6 +143,7 @@ class CartFragment : Fragment() {
     private fun setViewAfterDiscount(coupon: Coupon){
         binding.btnSumPrice.text="${sumPrice.toLong()} تومان"
         binding.btnCoupon.isEnabled=false
+        binding.etCoupon.isEnabled=false
         binding.etCoupon.setText("")
         couponCode=coupon.code
         productOrder()
@@ -155,7 +162,7 @@ class CartFragment : Fragment() {
         }else {
             binding.svCart.visibility=View.GONE
             binding.clCartBottom.visibility=View.GONE
-            Toast.makeText(requireContext(),"سبد خرید خالی است", Toast.LENGTH_SHORT).show()
+            binding.clEmptyCart.visibility=View.VISIBLE
         }
 
     }

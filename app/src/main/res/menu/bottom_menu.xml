@@ -4,20 +4,20 @@
     <item
         android:id="@+id/cartFragment"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
-        android:title="سبدخرید" />
+        android:title="@string/cart" />
 
     <item
         android:id="@+id/searchFragment"
         android:icon="@drawable/ic_baseline_search_24"
-        android:title="جستجو" />
+        android:title="@string/search" />
 
     <item
         android:id="@+id/categoriesFragment"
         android:icon="@drawable/ic_baseline_category_24"
-        android:title="دسته‌بندی‌ها" />
+        android:title="@string/categories2" />
 
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="خانه" />
+        android:title="@string/home" />
 </menu>
