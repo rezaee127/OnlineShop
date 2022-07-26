@@ -10,13 +10,39 @@
     android:layout_marginBottom="52dp"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:background="?attr/colorPrimary"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent" >
+        <TextView
+            android:id="@+id/title"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginHorizontal="16dp"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
+        <TextView
+            android:id="@+id/btn_theme"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginHorizontal="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_a_theme"
+            android:layout_gravity="left" />
+
+    </androidx.appcompat.widget.Toolbar>
         <LinearLayout
             android:id="@+id/ll_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/theme_menu_shape"
@@ -265,7 +291,7 @@
             android:id="@+id/rv_max_rate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="62dp"
             android:layout_marginEnd="12dp"
             android:layout_marginTop="4dp"
             android:orientation="horizontal"

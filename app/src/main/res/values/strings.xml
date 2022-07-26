@@ -56,5 +56,7 @@
     <string name="categories2">دسته‌بندی‌ها</string>
     <string name="cart">سبدخرید</string>
     <string name="home">خانه</string>
+    <string name="map">نقشه</string>
+    <string name="cart2">سبد خرید</string>
 
 </resources>

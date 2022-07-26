@@ -13,16 +13,38 @@
     app:strokeWidth="1dp"
     tools:context=".ui.search.SearchFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:background="?attr/colorPrimary"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent" >
+        <TextView
+            android:id="@+id/title"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="@string/search"
+            android:textColor="@color/white"
+            android:layout_marginHorizontal="16dp"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </androidx.appcompat.widget.Toolbar>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:id="@+id/ll_search">
+        android:layout_marginBottom="30dp"
+        android:id="@+id/ll_search"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10">
+            android:layout_height="0dp"
+            android:layout_weight="9">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cr_search"
@@ -313,7 +335,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="62dp"
             android:text="@string/search"
             app:cornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="@+id/rg"
@@ -325,13 +347,13 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_search"
@@ -370,7 +392,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

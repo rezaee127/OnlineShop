@@ -46,7 +46,6 @@ class CartFragment : Fragment() {
     }
 
     private fun initViews() {
-        requireActivity().title="سبد خرید"
         productMap= vModel.getCartHashMapFromShared()
         listOfProducts=vModel.getArrayOfProductFromShared()
         setAdapter()

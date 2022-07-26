@@ -38,7 +38,7 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun initViews() {
-        requireActivity().title="دسته بندی ها"
+        binding.title.text="دسته بندی ها"
         checkConnectivity()
         refresh()
         initAdapter()

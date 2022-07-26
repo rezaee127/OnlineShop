@@ -52,7 +52,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().title="جزئیات کالا"
+        binding.title.text="جزئیات کالا"
         if(savedInstanceState == null){
             pagerSnapHelper = PagerSnapHelper()
         }

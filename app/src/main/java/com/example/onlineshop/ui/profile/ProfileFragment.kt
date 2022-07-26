@@ -67,7 +67,7 @@ class ProfileFragment : Fragment() {
             isFineLocationPermissionGranted=permissions[Manifest.permission.ACCESS_FINE_LOCATION]?:isFineLocationPermissionGranted
             isCoarseLocationPermissionGranted=permissions[Manifest.permission.ACCESS_COARSE_LOCATION]?:isCoarseLocationPermissionGranted
         }
-        requireActivity().title="پروفایل"
+        binding.title.text="پروفایل"
         initViews()
 
     }

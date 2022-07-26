@@ -90,13 +90,15 @@ fun saveCustomerToSharedPref(context: Context, obj: CustomerItem) {
 fun deleteCustomerFromSharedPref(fileName: String,context:Context){
     val pref = context.getSharedPreferences("sharedCustomer", Context.MODE_PRIVATE)
     pref.edit().clear().apply()
+//    val pref1 = context.getSharedPreferences("sharedAddress", Context.MODE_PRIVATE)
+//    pref1.edit().clear().apply()
     val pref2 = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
     pref2.edit().clear().apply()
 }
 
 
 fun saveAddressListToSharedPref(context: Context, list: ArrayList<Address>?) {
-    val pref = context.getSharedPreferences("sharedCustomer", Context.MODE_PRIVATE)
+    val pref = context.getSharedPreferences("sharedAddress", Context.MODE_PRIVATE)
     val editor = pref.edit()
     val gson = Gson()
     val json: String = gson.toJson(list)
@@ -106,7 +108,7 @@ fun saveAddressListToSharedPref(context: Context, list: ArrayList<Address>?) {
 
 
 fun getAddressListFromSharedPref(context: Context): ArrayList<Address> {
-    val pref = context.getSharedPreferences("sharedCustomer", Context.MODE_PRIVATE)
+    val pref = context.getSharedPreferences("sharedAddress", Context.MODE_PRIVATE)
     var arrayItems = ArrayList<Address>()
     val serializedObject = pref.getString("address", null)
     if (serializedObject != null) {

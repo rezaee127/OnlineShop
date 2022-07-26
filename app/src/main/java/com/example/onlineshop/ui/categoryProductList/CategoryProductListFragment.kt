@@ -34,7 +34,7 @@ class CategoryProductListFragment : Fragment() {
         //if(savedInstanceState != null){}
         val id=requireArguments().getInt("id")
         val name=requireArguments().getString("name")
-        requireActivity().title=name
+        binding.title.text=name
         checkConnectivity()
         refresh(id)
         initView(id)

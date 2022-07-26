@@ -48,12 +48,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().title="فروشگاه"
+        binding.title.text="فروشگاه"
         setViewPager(view)
         checkConnectivity()
         refresh()
         initViewModelFunctions()
         initAdapters()
+        showThemeButtons()
         changeTheme()
     }
 
@@ -67,12 +68,10 @@ class HomeFragment : Fragment() {
             }
             viewPagerAdapter = ViewPagerAdapter(requireContext(), imageList)
             viewPager.adapter = viewPagerAdapter
-
+            swipeTimer= Timer()
             viewPager.currentItem = 0
-            swipeTimer=Timer()
             viewPagerAdapter.setTimer(viewPager,7)
             viewPager.rotationY = 180F
-            //swipeTask.run()
             val indicator: CircleIndicator = view.findViewById(R.id.indicator)
             indicator.setViewPager(viewPager)
             //indicator.animatePageSelected(2)
@@ -188,19 +187,10 @@ class HomeFragment : Fragment() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.app_bar_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.theme_menu  -> {
-                showThemeRadioBottoms()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+
+    private fun showThemeButtons() {
+        binding.btnTheme.setOnClickListener { showThemeRadioBottoms() }
     }
 
 
@@ -236,7 +226,6 @@ class HomeFragment : Fragment() {
         viewPagerAdapter = ViewPagerAdapter(requireContext(), ArrayList())
         viewPagerAdapter.stopTimer()
     }
-
 
 
 }

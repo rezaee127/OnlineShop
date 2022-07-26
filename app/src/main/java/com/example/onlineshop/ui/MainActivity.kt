@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         changTheme()
-
+        //window.decorView.layoutDirection=View.LAYOUT_DIRECTION_RTL
         //setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             binding.fragmentContainerView.visibility= View.VISIBLE
             binding.splashIcon.visibility= View.GONE
             setBottomNavigationVisibility()
-            supportActionBar?.show()
+            //supportActionBar?.show()
         }
 
     }
