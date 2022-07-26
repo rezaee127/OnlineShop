@@ -3,12 +3,14 @@ package com.example.onlineshop.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -84,10 +86,23 @@ class DetailFragment : Fragment() {
         saveReviewIdInShare(id)
 
         showReviews()
-        binding.ibReturn.setOnClickListener {
-            returnFromReviewPage(id)
-        }
         deleteReviewButtonOnClick(id)
+        onBackPressed(id)
+    }
+
+    private fun onBackPressed(id: Int) {
+        requireActivity().onBackPressedDispatcher
+            .addCallback(requireActivity(), object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                    if(binding.svSubmitComment.isVisible){
+                        returnFromReviewPage(id)
+                    } else if (isEnabled) {
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+                }
+            })
     }
 
     private fun deleteReviewButtonOnClick(productId:Int) {
