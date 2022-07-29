@@ -24,7 +24,6 @@ class ImageAdapter : ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallba
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.error)
                     .fitCenter()
-                    //.circleCrop()
                     .into(ivMovie)
             } catch (e: Exception) {
                 ivMovie.setBackgroundResource(R.drawable.error)
@@ -34,17 +33,13 @@ class ImageAdapter : ListAdapter<Image, ImageAdapter.ViewHolder>(ImageDiffCallba
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.image_row_item, viewGroup, false)
-
         return ViewHolder(view, viewGroup.context)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
         viewHolder.bind(getItem(position))
-
     }
 
 

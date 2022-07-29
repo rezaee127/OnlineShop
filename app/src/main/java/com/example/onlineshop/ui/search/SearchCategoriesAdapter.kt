@@ -36,8 +36,6 @@ class SearchCategoriesAdapter(private var onClickItem: (Boolean, Int) -> Unit) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
         viewHolder.bind(getItem(position),onClickItem)
-
     }
 }

@@ -3,33 +3,27 @@ package com.example.onlineshop.ui.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.onlineshop.R
+import com.example.onlineshop.databinding.ProductRowItemBinding
 import com.example.onlineshop.model.ProductsItem
 
 class ProductsItemAdapter(private var onClickItem: (Int) -> Unit) :
     ListAdapter<ProductsItem, ProductsItemAdapter.ViewHolder>(ProductsItemDiffCallback) {
 
-    class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
-        private val productRow: View = view.findViewById(R.id.product_row_item)
-        private val ivProduct: ImageView = view.findViewById(R.id.iv_product_image)
-        private val tvProductName: TextView = view.findViewById(R.id.tv_product_name)
-        private val tvPrice: TextView = view.findViewById(R.id.tv_price)
-
+    inner class ViewHolder(private val binding:ProductRowItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(productsItem: ProductsItem, onClickItem: (Int) -> Unit) {
+        fun bind(productsItem: ProductsItem, onClickItem: (Int) -> Unit) = binding.apply{
             tvProductName.text = productsItem.name
-            tvPrice.text="${(String.format("%,.2f", productsItem.price.toDouble())).substringBefore(".")} تومان"
+            if(productsItem.price!="")
+                tvPrice.text="${(String.format("%,.2f", productsItem.price.toDouble())).substringBefore(".")} تومان"
 
-            productRow.setOnClickListener {
+            productRowItem.setOnClickListener {
                 onClickItem(productsItem.id)
             }
 
@@ -39,28 +33,23 @@ class ProductsItemAdapter(private var onClickItem: (Int) -> Unit) :
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.error)
                     .fitCenter()
-                    //.circleCrop()
-                    .into(ivProduct)
+                    .into(ivProductImage)
             } catch (e: Exception) {
-                ivProduct.setBackgroundResource(R.drawable.error)
+                ivProductImage.setBackgroundResource(R.drawable.error)
             }
-
         }
     }
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        val binding: ProductRowItemBinding = ProductRowItemBinding.inflate(
+            LayoutInflater.from(viewGroup.context), viewGroup, false)
 
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.product_row_item, viewGroup, false)
-
-        return ViewHolder(view, viewGroup.context)
+        return ViewHolder(binding, viewGroup.context)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
         viewHolder.bind(getItem(position), onClickItem)
-
     }
 
 

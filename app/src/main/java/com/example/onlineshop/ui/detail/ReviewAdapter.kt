@@ -2,35 +2,25 @@ package com.example.onlineshop.ui.detail
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.onlineshop.R
+import com.example.onlineshop.databinding.ReviewsRowItemBinding
 import com.example.onlineshop.model.ReviewsItem
 
 
 class ReviewAdapter :
     ListAdapter <ReviewsItem, ReviewAdapter.ViewHolder>(ReviewsItemDiffCallback) {
 
-    class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(private val binding:ReviewsRowItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
 
-        private val ivReviewer: ImageView = view.findViewById(R.id.iv_reviewer_image)
-        private val tvReviewerName: TextView = view.findViewById(R.id.tv_reviewer_name)
-        private val tvDate: TextView = view.findViewById(R.id.tv_date)
-        private val tvReview: TextView = view.findViewById(R.id.tv_review)
-        private val btnRating: Button = view.findViewById(R.id.btn_review_rating)
-
-
-        fun bind(reviewsItem: ReviewsItem) {
+        fun bind(reviewsItem: ReviewsItem) = binding.apply{
             tvReviewerName.text=reviewsItem.reviewer
             tvReview.text=reviewsItem.review
-            btnRating.text= reviewsItem.rating.toString()
+            btnReviewRating.text= reviewsItem.rating.toString()
 
             //حذف ساعت از زمان نظر دادن
             val strDate=reviewsItem.dateCreated
@@ -46,35 +36,28 @@ class ReviewAdapter :
             tvReview.text=str
 
 
-
             try {
                 Glide.with(context)
                     .load(reviewsItem.reviewerAvatarUrls.x24)
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.error)
                     .fitCenter()
-                    //.circleCrop()
-                    .into(ivReviewer)
+                    .into(ivReviewerImage)
             } catch (e: Exception) {
-                ivReviewer.setBackgroundResource(R.drawable.error)
+                ivReviewerImage.setBackgroundResource(R.drawable.error)
             }
-
         }
     }
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.reviews_row_item, viewGroup, false)
-
-        return ViewHolder(view, viewGroup.context)
+        val binding = ReviewsRowItemBinding.inflate(LayoutInflater.from(viewGroup.context)
+            , viewGroup, false)
+        return ViewHolder(binding, viewGroup.context)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
         viewHolder.bind(getItem(position))
-
     }
 
 

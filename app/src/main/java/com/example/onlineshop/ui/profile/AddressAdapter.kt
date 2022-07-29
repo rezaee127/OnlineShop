@@ -2,15 +2,11 @@ package com.example.onlineshop.ui.profile
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.onlineshop.R
+import com.example.onlineshop.databinding.AddressLayoutBinding
 import com.example.onlineshop.model.Address
 
 
@@ -21,32 +17,27 @@ class AddressAdapter(
     private var deleteAddress: (address:Address) -> Unit) :
     ListAdapter<Address, AddressAdapter.ViewHolder>(AddressDiffCallback) {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-        private val tvAddress: TextView = view.findViewById(R.id.tv_address)
-        private val btnSetAddress2: Button = view.findViewById(R.id.btn_set_text_of_address)
-        private val btnShowOnMap: Button = view.findViewById(R.id.btn_show_on_map)
-        private val btnDeleteAddress: ImageButton = view.findViewById(R.id.ib_delete_address)
+    class ViewHolder(private val binding:AddressLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
         fun bind(address:Address, setTextOfAddress2: (String) -> Unit,
                  showOnMap: (lat:Double,long:Double) -> Unit,
-                 deleteAddress: (address:Address) -> Unit)
-        {
-            tvAddress.text=address.description
-            btnSetAddress2.setOnClickListener { setTextOfAddress2(address.description) }
-            btnShowOnMap.setOnClickListener { showOnMap(address.lat,address.long) }
-            btnDeleteAddress.setOnClickListener { deleteAddress(address) }
+                 deleteAddress: (address:Address) -> Unit) =
+            binding.apply{
+                tvAddress.text=address.description
+                btnSetTextOfAddress.setOnClickListener { setTextOfAddress2(address.description) }
+                btnShowOnMap.setOnClickListener { showOnMap(address.lat,address.long) }
+                ibDeleteAddress.setOnClickListener { deleteAddress(address) }
         }
     }
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
 
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.address_layout, viewGroup, false)
+        val binding = AddressLayoutBinding.inflate(LayoutInflater.from(viewGroup.context)
+        ,viewGroup, false)
 
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {

@@ -29,7 +29,6 @@ class SearchFilterAdapter(private var onClickItem: (Boolean, Int) -> Unit) :
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.search_filter_row_item, viewGroup, false)
 
@@ -41,7 +40,6 @@ class SearchFilterAdapter(private var onClickItem: (Boolean, Int) -> Unit) :
         viewHolder.bind(getItem(position),onClickItem)
 
     }
-
 
     object SearchFilterDiffCallback : DiffUtil.ItemCallback<AttributeTerm>() {
         override fun areItemsTheSame(oldItem: AttributeTerm, newItem: AttributeTerm): Boolean {
