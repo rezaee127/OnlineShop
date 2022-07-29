@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.onlineshop.data.Repository
 import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.data.repositories.ProductRepository
 import com.example.onlineshop.model.ProductsItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ import javax.inject.Inject
 enum class ApiStatus { LOADING, DONE, ERROR }
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repository: Repository): ViewModel() {
+class HomeViewModel @Inject constructor(private val productRepository: ProductRepository): ViewModel() {
     var listOfProductsOrderByDate= MutableLiveData<List<ProductsItem>>()
     var listOfProductsOrderByPopularity= MutableLiveData<List<ProductsItem>>()
     var listOfProductsOrderByRating= MutableLiveData<List<ProductsItem>>()
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository): Vie
         viewModelScope.launch {
             status.value=ApiStatus.LOADING
             try{
-                listOfProductsOrderByDate.value=repository.getProductsOrderByDate()
+                listOfProductsOrderByDate.value=productRepository.getProductsOrderByDate()
                 status.value = ApiStatus.DONE
             }
             catch(e:Exception){
@@ -51,7 +51,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository): Vie
     fun getProductsOrderByPopularity(): LiveData<List<ProductsItem>> {
         viewModelScope.launch {
             try{
-                listOfProductsOrderByPopularity.value=repository.getProductsOrderByPopularity()
+                listOfProductsOrderByPopularity.value=productRepository.getProductsOrderByPopularity()
             }
             catch(e:Exception){
             }
@@ -62,7 +62,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository): Vie
     fun getProductsOrderByRating(): LiveData<List<ProductsItem>> {
         viewModelScope.launch {
             try{
-                listOfProductsOrderByRating.value=repository.getProductsOrderByRating()
+                listOfProductsOrderByRating.value=productRepository.getProductsOrderByRating()
             }
             catch(e:Exception){
             }
@@ -75,7 +75,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository): Vie
     fun getSpecialProduct(): LiveData<ProductsItem> {
         viewModelScope.launch {
             try {
-                specialProducts.value = repository.getProductById(608)
+                specialProducts.value = productRepository.getProductById(608)
             }
             catch(e:Exception){
             }

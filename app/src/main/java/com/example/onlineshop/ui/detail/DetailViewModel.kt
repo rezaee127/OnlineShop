@@ -3,20 +3,23 @@ package com.example.onlineshop.ui.detail
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.onlineshop.data.Repository
 import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.data.repositories.CustomerRepository
+import com.example.onlineshop.data.repositories.ProductRepository
+import com.example.onlineshop.data.repositories.ReviewRepository
 import com.example.onlineshop.model.CustomerItem
 import com.example.onlineshop.model.DeleteReview
 import com.example.onlineshop.model.ProductsItem
 import com.example.onlineshop.model.ReviewsItem
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val repository: Repository,
+class DetailViewModel @Inject constructor(private val reviewRepository: ReviewRepository,
+                                          private val customerRepository: CustomerRepository,
+                                          private val productRepository: ProductRepository,
                                           private val app: Application): AndroidViewModel(app) {
 
     var detailStatus = MutableLiveData<ApiStatus>()
@@ -34,7 +37,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
         viewModelScope.launch {
             detailStatus.value = ApiStatus.LOADING
             try {
-                product.value = repository.getProductById(id)
+                product.value = productRepository.getProductById(id)
                 detailStatus.value = ApiStatus.DONE
             }
             catch(e: Exception){
@@ -48,7 +51,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
     fun getReviews(productId: Int): LiveData<List<ReviewsItem>> {
         viewModelScope.launch {
             try {
-                reviewsList.value = repository.getReviews(productId)
+                reviewsList.value = reviewRepository.getReviews(productId)
             } catch (e: Exception) {
             }
         }
@@ -58,7 +61,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
     fun getReviewById(reviewId:Int,productId: Int): LiveData<ReviewsItem> {
         viewModelScope.launch {
             try {
-                receivedReview.value = repository.getReviewById(reviewId,productId)
+                receivedReview.value = reviewRepository.getReviewById(reviewId,productId)
             } catch (e: Exception) {
             }
         }
@@ -69,7 +72,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
         viewModelScope.launch {
             deleteStatus.value=ApiStatus.LOADING
             try {
-                deletedReview.value = repository.deleteReview(reviewId)
+                deletedReview.value = reviewRepository.deleteReview(reviewId)
                 deleteStatus.value=ApiStatus.DONE
             }
             catch(e: Exception){
@@ -83,7 +86,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
         viewModelScope.launch {
             reviewStatus.value=ApiStatus.LOADING
             try {
-                mReview.value=repository.editReview(reviewId,reviewText,rating)
+                mReview.value=reviewRepository.editReview(reviewId,reviewText,rating)
                 reviewStatus.value=ApiStatus.DONE
             }
             catch(e: Exception){
@@ -98,7 +101,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
         viewModelScope.launch {
             reviewStatus.value=ApiStatus.LOADING
             try {
-                mReview.value=repository.createReview(review)
+                mReview.value=reviewRepository.createReview(review)
                 reviewStatus.value=ApiStatus.DONE
             }
             catch(e: Exception){
@@ -110,9 +113,9 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
     }
 
     fun getRelatedProducts(str: String) {
-        viewModelScope.async {
+        viewModelScope.launch {
             try {
-                relatedProducts.value = repository.getRelatedProducts(str)
+                relatedProducts.value = productRepository.getRelatedProducts(str)
             } catch (e: Exception) {
             }
         }
@@ -121,32 +124,32 @@ class DetailViewModel @Inject constructor(private val repository: Repository,
 
 
     fun saveArrayOfProductInShared(list: ArrayList<ProductsItem>?){
-        repository.saveArrayOfProductInShared(app.applicationContext,list)
+        customerRepository.saveArrayOfProductInShared(app.applicationContext,list)
     }
 
     fun getArrayOfProductFromShared(): ArrayList<ProductsItem>{
-        return repository.getArrayOfProductFromShared(app.applicationContext)
+        return customerRepository.getArrayOfProductFromShared(app.applicationContext)
     }
 
     fun saveCartHashMapInShared(hashMap: HashMap<Int, Int>){
-        repository.saveCartHashMapInShared(app.applicationContext,hashMap)
+        customerRepository.saveCartHashMapInShared(app.applicationContext,hashMap)
     }
 
     fun getCartHashMapFromShared():HashMap<Int, Int>{
-        return repository.getCartHashMapFromShared(app.applicationContext)
+        return customerRepository.getCartHashMapFromShared(app.applicationContext)
     }
 
     fun saveReviewHashMapInShared(hashMap: HashMap<Int, Int>){
-        repository.saveReviewHashMapInShared(app.applicationContext,hashMap)
+        reviewRepository.saveReviewHashMapInShared(app.applicationContext,hashMap)
     }
 
     fun getReviewHashMapFromShared():HashMap<Int, Int>{
-        return repository.getReviewHashMapFromShared(app.applicationContext)
+        return reviewRepository.getReviewHashMapFromShared(app.applicationContext)
     }
 
 
     fun getCustomerFromShared(): CustomerItem?{
-        return repository.getCustomerFromShared(app.applicationContext)
+        return customerRepository.getCustomerFromShared(app.applicationContext)
     }
 
 }

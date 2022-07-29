@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.onlineshop.data.Repository
 import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.data.repositories.ProductRepository
 import com.example.onlineshop.model.CategoriesItem
 import com.example.onlineshop.ui.home.ApiStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class CategoriesViewModel @Inject constructor(private val repository: Repository): ViewModel() {
+class CategoriesViewModel @Inject constructor(private val productRepository: ProductRepository): ViewModel() {
     var status=MutableLiveData<ApiStatus>()
     var listOfCategories=MutableLiveData<List<CategoriesItem>>()
     var errorMessage=""
@@ -30,7 +30,7 @@ class CategoriesViewModel @Inject constructor(private val repository: Repository
         viewModelScope.launch {
             status.value=ApiStatus.LOADING
             try {
-                listOfCategories.value=repository.getCategories()
+                listOfCategories.value=productRepository.getCategories()
                 status.value = ApiStatus.DONE
             }
             catch(e: Exception){
