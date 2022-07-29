@@ -17,10 +17,8 @@ import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import com.example.onlineshop.ui.MainActivity
 import com.example.onlineshop.ui.home.slider.ViewPagerAdapter
-import com.example.onlineshop.ui.home.slider.swipeTimer
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -68,13 +66,12 @@ class HomeFragment : Fragment() {
             }
             viewPagerAdapter = ViewPagerAdapter(requireContext(), imageList)
             viewPager.adapter = viewPagerAdapter
-            swipeTimer= Timer()
-            viewPager.currentItem = 0
-            viewPagerAdapter.setTimer(viewPager,7)
+//            swipeTimer= Timer()
+//            viewPager.currentItem = 0
+//            viewPagerAdapter.setTimer(viewPager,7)
             viewPager.rotationY = 180F
             val indicator: CircleIndicator = view.findViewById(R.id.indicator)
             indicator.setViewPager(viewPager)
-            //indicator.animatePageSelected(2)
         }
     }
 
@@ -221,11 +218,12 @@ class HomeFragment : Fragment() {
         //binding.llTheme.isVisible=!binding.llTheme.isVisible
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewPagerAdapter = ViewPagerAdapter(requireContext(), ArrayList())
-        viewPagerAdapter.stopTimer()
-    }
+
+//    override fun onStop() {
+//        super.onStop()
+//        viewPagerAdapter = ViewPagerAdapter(requireContext(), ArrayList())
+//        viewPagerAdapter.stopTimer()
+//    }
 
 
 }
