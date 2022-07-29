@@ -263,7 +263,8 @@ class DetailFragment : Fragment() {
         binding.tvTitle.text=product.name
         binding.btnAverageRating.text=product.averageRating
         binding.btnRatingCount.text=product.ratingCount.toString()
-        binding.btnPrice.text="${product.price}تومان"
+        if(product.price!="")
+            binding.btnPrice.text="${(String.format("%,.2f", product.price.toDouble())).substringBefore(".")}تومان"
 
         //حذف کارکترهای اضافی توضیحات محصول
         binding.tvDescription.text= removeExtraCharacters(product.description)

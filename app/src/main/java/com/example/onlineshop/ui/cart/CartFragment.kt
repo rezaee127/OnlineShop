@@ -140,7 +140,7 @@ class CartFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setViewAfterDiscount(coupon: Coupon){
-        binding.btnSumPrice.text="${sumPrice.toLong()} تومان"
+        binding.btnSumPrice.text="${(String.format("%,.2f", sumPrice)).substringBefore(".")} تومان"
         binding.btnCoupon.isEnabled=false
         binding.etCoupon.isEnabled=false
         binding.etCoupon.setText("")
@@ -157,7 +157,7 @@ class CartFragment : Fragment() {
                     sumPrice += product.price.toDouble() * productMap[product.id]!!
                 }
             }
-            binding.btnSumPrice.text= "${sumPrice.toLong()} تومان"
+            binding.btnSumPrice.text= "${(String.format("%,.2f", sumPrice)).substringBefore(".")} تومان"
         }else {
             binding.svCart.visibility=View.GONE
             binding.clCartBottom.visibility=View.GONE
@@ -184,7 +184,7 @@ class CartFragment : Fragment() {
                 else-> sumPrice-(product.price.toDouble())
             }
         }
-        binding.btnSumPrice.text= "${sumPrice.toLong()} تومان"
+        binding.btnSumPrice.text= "${(String.format("%,.2f", sumPrice)).substringBefore(".")} تومان"
         productMap[product.id]= count
         vModel.saveCartHashMapInShared(productMap)
     }

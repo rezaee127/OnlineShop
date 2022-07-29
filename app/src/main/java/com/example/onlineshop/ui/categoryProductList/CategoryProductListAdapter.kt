@@ -29,7 +29,8 @@ class CategoryProductListAdapter(private var onClickItem: (Int) -> Unit) :
         @SuppressLint("SetTextI18n")
         fun bind(productsItem: ProductsItem, onClickItem: (Int) -> Unit) {
             tvProductsItemName.text = productsItem.name
-            tvProductsPrice.text = "${productsItem.price} تومان"
+            if(productsItem.price!="")
+                tvProductsPrice.text = "${(String.format("%,.2f", productsItem.price.toDouble())).substringBefore(".")} تومان"
             productsItemRow.setOnClickListener {
                 onClickItem(productsItem.id)
             }

@@ -41,7 +41,8 @@ class CartAdapter(
             var count= productMap[productsItem.id]!!
             tvCount.text= productMap[productsItem.id].toString()
             tvProductName.text = productsItem.name
-            tvPrice.text="${productsItem.price} تومان"
+            if(productsItem.price!="")
+                tvPrice.text="${(String.format("%,.2f", productsItem.price.toDouble())).substringBefore(".")} تومان"
 
             var str=productsItem.shortDescription
             str=str.replace("</p>","")

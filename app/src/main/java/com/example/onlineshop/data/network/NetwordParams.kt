@@ -1,5 +1,6 @@
 package com.example.onlineshop.data.network
 
+
 class NetworkParams {
 
     companion object{
@@ -19,6 +20,7 @@ class NetworkParams {
             val optionsHashMap=HashMap<String,String>()
             optionsHashMap["consumer_key"]=CONSUMER_KEY
             optionsHashMap["consumer_secret"]=CONSUMER_SECRET
+            optionsHashMap["min_price"]="1"
             return optionsHashMap
         }
     }
