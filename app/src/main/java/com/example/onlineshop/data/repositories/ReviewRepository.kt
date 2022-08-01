@@ -10,25 +10,21 @@ import javax.inject.Inject
 
 class ReviewRepository @Inject constructor(private val remoteDataSource: RemoteDataSource){
 
-    suspend fun getReviews(productId: Int): List<ReviewsItem> {
-        return remoteDataSource.getReviews(productId)
-    }
+    suspend fun getReviews(productId: Int)= remoteDataSource.getReviews(productId)
 
-    suspend fun getReviewById(reviewId:Int,productId: Int): ReviewsItem {
-        return remoteDataSource.getReviewById(reviewId,productId)
-    }
+    suspend fun getReviewById(reviewId:Int,productId: Int)
+    = remoteDataSource.getReviewById(reviewId,productId)
 
-    suspend fun deleteReview(reviewId:Int): DeleteReview {
-        return remoteDataSource.deleteReview(reviewId)
-    }
 
-    suspend fun createReview(review: ReviewsItem): ReviewsItem {
-        return remoteDataSource.createReview(review)
-    }
+    suspend fun deleteReview(reviewId:Int) = remoteDataSource.deleteReview(reviewId)
 
-    suspend fun editReview(reviewId:Int,reviewText:String,rating:Int): ReviewsItem {
-        return remoteDataSource.editReview(reviewId,reviewText,rating)
-    }
+
+    suspend fun createReview(review: ReviewsItem) = remoteDataSource.createReview(review)
+
+
+    suspend fun editReview(reviewId:Int,reviewText:String,rating:Int)
+    = remoteDataSource.editReview(reviewId,reviewText,rating)
+
 
     fun saveReviewHashMapInShared(context: Context, hashMap: HashMap<Int, Int>){
         saveHashMapToSharedPref(REVIEW_HASHMAP,context,hashMap)

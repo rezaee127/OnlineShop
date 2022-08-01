@@ -2,7 +2,7 @@ package com.example.onlineshop.ui.profile
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.data.network.utils.setErrorMessage
 import com.example.onlineshop.data.repositories.CustomerRepository
 import com.example.onlineshop.model.Address
 import com.example.onlineshop.model.CustomerItem
@@ -29,11 +29,17 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
         viewModelScope.launch {
             customerRequestStatus.value = ApiStatus.LOADING
             try {
-                customer.value = customerRepository.createCustomer(customerItem)
-                customerRequestStatus.value = ApiStatus.DONE
+                val response=customerRepository.createCustomer(customerItem)
+                if(response.isSuccessful){
+                    customer.value=response.body()
+                    customerRequestStatus.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    customerRequestStatus.value = ApiStatus.ERROR
+                }
             }
             catch (e: Exception) {
-                errorMessage= errorHandling(e,"profile")
+                errorMessage= setErrorMessage(e,0,null,"profile")
                 customerRequestStatus.value = ApiStatus.ERROR
             }
         }
@@ -47,11 +53,17 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
         viewModelScope.launch {
             orderRequestStatus.value = ApiStatus.LOADING
             try {
-                order.value = customerRepository.createOrder(orderItem)
-                orderRequestStatus.value = ApiStatus.DONE
+                val response=customerRepository.createOrder(orderItem)
+                if(response.isSuccessful){
+                    order.value=response.body()
+                    orderRequestStatus.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    orderRequestStatus.value = ApiStatus.ERROR
+                }
             }
             catch (e: Exception) {
-                errorMessage= errorHandling(e)
+                errorMessage= setErrorMessage(e)
                 orderRequestStatus.value = ApiStatus.ERROR
             }
         }

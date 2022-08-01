@@ -3,6 +3,7 @@ package com.example.onlineshop.data.repositories
 import android.content.Context
 import com.example.onlineshop.data.*
 import com.example.onlineshop.model.*
+import retrofit2.Response
 import javax.inject.Inject
 
 const val CART_HASHMAP="cartHashMap"
@@ -10,9 +11,9 @@ const val REVIEW_HASHMAP="reviewHashMap"
 
 class CustomerRepository @Inject constructor(private val remoteDataSource: RemoteDataSource) {
 
-    suspend fun createCustomer(customerItem: CustomerItem): CustomerItem {
-        return remoteDataSource.createCustomer(customerItem)
-    }
+    suspend fun createCustomer(customerItem: CustomerItem)
+    = remoteDataSource.createCustomer(customerItem)
+
 
     fun deleteCustomer(context: Context){
         deleteCustomerFromSharedPref(REVIEW_HASHMAP,context)
@@ -34,9 +35,8 @@ class CustomerRepository @Inject constructor(private val remoteDataSource: Remot
         return getAddressListFromSharedPref(context)
     }
 
-    suspend fun createOrder(orderItem: OrderItem): OrderItem {
-        return remoteDataSource.createOrder(orderItem)
-    }
+    suspend fun createOrder(orderItem: OrderItem) = remoteDataSource.createOrder(orderItem)
+
 
 
     fun saveCartHashMapInShared(context: Context, hashMap: HashMap<Int, Int>){
@@ -52,7 +52,7 @@ class CustomerRepository @Inject constructor(private val remoteDataSource: Remot
         emptyCart(CART_HASHMAP,context)
     }
 
-    suspend fun getCoupons(code:String): List<Coupon>{
+    suspend fun getCoupons(code:String): Response<List<Coupon>> {
         return remoteDataSource.getCoupons(code)
     }
 

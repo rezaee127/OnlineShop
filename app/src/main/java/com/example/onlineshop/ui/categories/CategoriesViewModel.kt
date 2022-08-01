@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.data.network.utils.setErrorMessage
 import com.example.onlineshop.data.repositories.ProductRepository
 import com.example.onlineshop.model.CategoriesItem
 import com.example.onlineshop.ui.home.ApiStatus
@@ -30,11 +30,17 @@ class CategoriesViewModel @Inject constructor(private val productRepository: Pro
         viewModelScope.launch {
             status.value=ApiStatus.LOADING
             try {
-                listOfCategories.value=productRepository.getCategories()
-                status.value = ApiStatus.DONE
+                val response=productRepository.getCategories()
+                if(response.isSuccessful){
+                    listOfCategories.value=response.body()
+                    status.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    status.value = ApiStatus.ERROR
+                }
             }
             catch(e: Exception){
-                errorMessage= errorHandling(e)
+                errorMessage= setErrorMessage(e)
                 status.value = ApiStatus.ERROR
             }
         }

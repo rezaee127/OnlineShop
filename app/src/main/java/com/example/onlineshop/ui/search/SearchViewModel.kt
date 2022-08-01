@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.data.network.utils.setErrorMessage
 import com.example.onlineshop.data.repositories.ProductRepository
 import com.example.onlineshop.model.AttributeTerm
 import com.example.onlineshop.model.ProductsItem
@@ -33,11 +33,17 @@ class SearchViewModel  @Inject constructor(private val productRepository: Produc
         viewModelScope.launch {
             status.value=ApiStatus.LOADING
             try {
-                listOfColors.value=productRepository.getColorList()
-                status.value=ApiStatus.DONE
+                val response=productRepository.getColorList()
+                if(response.isSuccessful){
+                    listOfColors.value=response.body()
+                    status.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    status.value = ApiStatus.ERROR
+                }
             }
             catch(e:Exception){
-                errorMessage=errorHandling(e)
+                errorMessage=setErrorMessage(e)
                 status.value = ApiStatus.ERROR
             }
         }
@@ -49,11 +55,17 @@ class SearchViewModel  @Inject constructor(private val productRepository: Produc
         viewModelScope.launch {
             status.value=ApiStatus.LOADING
             try {
-                listOfSizes.value=productRepository.getSizeList()
-                status.value=ApiStatus.DONE
+                val response=productRepository.getSizeList()
+                if(response.isSuccessful){
+                    listOfSizes.value=response.body()
+                    status.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    status.value = ApiStatus.ERROR
+                }
             }
             catch(e:Exception){
-                errorMessage= errorHandling(e)
+                errorMessage= setErrorMessage(e)
                 status.value = ApiStatus.ERROR
             }
         }
@@ -67,13 +79,19 @@ class SearchViewModel  @Inject constructor(private val productRepository: Produc
         viewModelScope.launch {
             searchStatus.value=ApiStatus.LOADING
             try {
-                listOfSearchedProduct.value=productRepository.searchProducts(searchKey,orderBy,order,
-                    category,attribute,attributeTerm)
+                val response=productRepository.searchProducts(searchKey,orderBy,order,
+                                                              category,attribute,attributeTerm)
 
-                searchStatus.value=ApiStatus.DONE
+                if(response.isSuccessful){
+                    listOfSearchedProduct.value=response.body()
+                    searchStatus.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    searchStatus.value = ApiStatus.ERROR
+                }
             }
             catch(e:Exception){
-                errorMessage=errorHandling(e)
+                errorMessage=setErrorMessage(e)
                 searchStatus.value = ApiStatus.ERROR
             }
         }
