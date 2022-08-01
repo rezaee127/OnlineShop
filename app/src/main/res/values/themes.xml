@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="ThemeOnlineShop" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="ThemeOnlineShop" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <!--        <item name="colorPrimary">@color/purple_500</item>-->
         <!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
@@ -19,7 +19,7 @@
 
 
 
-    <style name="Theme1" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/purple_501</item>
         <item name="colorPrimaryVariant">@color/back1</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -30,7 +30,7 @@
     </style>
 
 
-    <style name="Theme2" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/purple_502</item>
         <item name="colorPrimaryVariant">@color/back2</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -41,7 +41,7 @@
     </style>
 
 
-    <style name="Theme3" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme3" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/purple_513</item>
         <item name="colorPrimaryVariant">@color/back13</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -52,7 +52,7 @@
     </style>
 
 
-    <style name="Theme4" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme4" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
@@ -66,7 +66,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
     </style>
 
-<!--    <style name="Theme4" parent="Theme.MaterialComponents.DayNight.DarkActionBar">-->
+<!--    <style name="Theme4" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
 <!--        <item name="colorPrimary">@color/purple_504</item>-->
 <!--        <item name="colorPrimaryVariant">@color/back4</item>-->
 <!--        <item name="colorOnPrimary">@color/white</item>-->
