@@ -58,5 +58,6 @@
     <string name="home">خانه</string>
     <string name="map">نقشه</string>
     <string name="cart2">سبد خرید</string>
+    <string name="coupon">تخفیف</string>
 
 </resources>

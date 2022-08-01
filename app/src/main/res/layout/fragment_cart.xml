@@ -31,7 +31,62 @@
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ib_show_coupon_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            style="?attr/borderlessButtonStyle"
+            android:text="@string/coupon"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_gravity="left"
+            app:icon="@drawable/ic_baseline_discount_24"
+            app:iconTint="@color/white"/>
+
     </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/ll_coupon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/theme_menu_shape"
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:text="@string/register_coupon"
+            android:textColor="@color/white"
+            app:cornerRadius="20dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/et_coupon"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/white"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="@string/coupon_code"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+
 
     <ScrollView
         android:id="@+id/sv_cart"
@@ -114,30 +169,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sv_detail">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_coupon"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/register_coupon"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/et_coupon"
-            app:layout_constraintEnd_toStartOf="@+id/et_coupon"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/et_coupon" />
 
-        <EditText
-            android:id="@+id/et_coupon"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/coupon_code"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_coupon"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sum_price"
@@ -148,7 +180,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btn_order"
-            app:layout_constraintTop_toBottomOf="@id/et_coupon" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_order"
@@ -160,7 +192,7 @@
             app:layout_constraintEnd_toStartOf="@+id/btn_sum_price"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_coupon" />
+            app:layout_constraintTop_toTopOf="@+id/btn_sum_price" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
