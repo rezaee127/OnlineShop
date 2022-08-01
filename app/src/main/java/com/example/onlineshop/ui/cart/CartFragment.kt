@@ -1,5 +1,7 @@
 package com.example.onlineshop.ui.cart
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -50,10 +53,45 @@ class CartFragment : Fragment() {
         listOfProducts=vModel.getArrayOfProductFromShared()
         setAdapter()
         getPrice()
-
+        btnShowCouponEditTextClicked()
         getCoupon()
         productOrder()
     }
+
+    private fun btnShowCouponEditTextClicked() {
+        binding.ibShowCouponEditText.setOnClickListener {
+            showCouponEditText()
+        }
+    }
+
+
+    private fun showCouponEditText() {
+
+        if (binding.llCoupon.isVisible){
+            binding.llCoupon.animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        binding.llCoupon.visibility = View.GONE
+                    }
+                })
+        }else {
+            binding.llCoupon.animate()
+                .alpha(1f)
+                .setDuration(100)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        binding.llCoupon.visibility = View.VISIBLE
+                    }
+                })
+
+        }
+
+        //binding.llCoupon.isVisible=!binding.llTheme.isVisible
+    }
+
+
 
     private fun getCoupon() {
         binding.btnCoupon.setOnClickListener {
@@ -110,11 +148,12 @@ class CartFragment : Fragment() {
             }
             coupon.discountType=="percent" -> {
                 val discount=((sumPrice * coupon.amount.toDouble())/100)
-                if(coupon.maximumAmount.toDouble()!=0.00 && discount>coupon.maximumAmount.toDouble()){
-                    sumPrice -=coupon.maximumAmount.toDouble()
-                }else{
+                if (coupon.maximumAmount!="")
+                    if(coupon.maximumAmount.toDouble()!=0.00 && discount>coupon.maximumAmount.toDouble())
+                        sumPrice -=coupon.maximumAmount.toDouble()
+                    else
                     sumPrice -= discount
-                }
+
                 setViewAfterDiscount(coupon)
 
             }
@@ -162,6 +201,7 @@ class CartFragment : Fragment() {
             binding.svCart.visibility=View.GONE
             binding.clCartBottom.visibility=View.GONE
             binding.clEmptyCart.visibility=View.VISIBLE
+            binding.ibShowCouponEditText.isEnabled=false
         }
 
     }
