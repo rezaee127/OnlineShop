@@ -152,7 +152,7 @@ class CartFragment : Fragment() {
                     if(coupon.maximumAmount.toDouble()!=0.00 && discount>coupon.maximumAmount.toDouble())
                         sumPrice -=coupon.maximumAmount.toDouble()
                     else
-                    sumPrice -= discount
+                        sumPrice -= discount
 
                 setViewAfterDiscount(coupon)
 
@@ -166,10 +166,11 @@ class CartFragment : Fragment() {
                     setViewAfterDiscount(coupon)
                 }
                 else if(coupon.code=="s9pbkvt9"){
-                    if(coupon.maximumAmount.toDouble()!=0.00 && sumPrice>coupon.maximumAmount.toDouble()){
-                        sumPrice -=coupon.maximumAmount.toDouble()
-                    }else
-                        sumPrice =0.00
+                    if (coupon.maximumAmount!="")
+                        if(coupon.maximumAmount.toDouble()!=0.00 && sumPrice>coupon.maximumAmount.toDouble())
+                            sumPrice -=coupon.maximumAmount.toDouble()
+                        else
+                            sumPrice =0.00
                     setViewAfterDiscount(coupon)
                 }
             }
