@@ -1,4 +1,4 @@
-package com.example.onlineshop.data.network
+package com.example.onlineshop.data.network.utils
 
 
 class NetworkParams {
@@ -18,8 +18,8 @@ class NetworkParams {
 
         fun getBaseOptionsWithOutPerPage():Map<String,String>{
             val optionsHashMap=HashMap<String,String>()
-            optionsHashMap["consumer_key"]=CONSUMER_KEY
-            optionsHashMap["consumer_secret"]=CONSUMER_SECRET
+            optionsHashMap["consumer_key"]= CONSUMER_KEY
+            optionsHashMap["consumer_secret"]= CONSUMER_SECRET
             optionsHashMap["min_price"]="1"
             return optionsHashMap
         }

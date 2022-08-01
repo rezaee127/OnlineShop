@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.data.network.utils.setErrorMessage
 import com.example.onlineshop.data.repositories.CustomerRepository
 import com.example.onlineshop.model.Coupon
 import com.example.onlineshop.model.ProductsItem
@@ -45,11 +45,17 @@ class CartViewModel  @Inject constructor(private val customerRepository: Custome
         viewModelScope.launch {
             status.value=ApiStatus.LOADING
             try {
-                listOfCoupons.value=customerRepository.getCoupons(code)
-                status.value = ApiStatus.DONE
+                val response=customerRepository.getCoupons(code)
+                if(response.isSuccessful){
+                    listOfCoupons.value=response.body()
+                    status.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    status.value = ApiStatus.ERROR
+                }
             }
             catch(e: Exception){
-                errorMessage= errorHandling(e)
+                errorMessage= setErrorMessage(e)
                 status.value = ApiStatus.ERROR
             }
         }

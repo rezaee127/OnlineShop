@@ -2,88 +2,78 @@ package com.example.onlineshop.data
 
 import com.example.onlineshop.data.network.ApiService
 import com.example.onlineshop.model.*
+import retrofit2.Response
 import javax.inject.Inject
 
 
 class RemoteDataSource @Inject constructor(private val apiService: ApiService){
 
-    suspend fun getProductsOrderByDate(): List<ProductsItem>{
-        return apiService.getProductsOrderByDate()
-    }
+    suspend fun getProductsOrderByDate()= apiService.getProductsOrderByDate()
 
-    suspend fun getProductsOrderByPopularity(): List<ProductsItem>{
+
+    suspend fun getProductsOrderByPopularity(): Response<List<ProductsItem>>{
         return apiService.getProductsOrderByPopularity()
     }
 
-    suspend fun getProductsOrderByRating(): List<ProductsItem>{
+    suspend fun getProductsOrderByRating(): Response<List<ProductsItem>>{
         return apiService.getProductsOrderByRating()
     }
 
 
-    suspend fun getProductById(id:Int): ProductsItem{
+    suspend fun getProductById(id:Int): Response<ProductsItem>{
         return apiService.getProductById(id)
     }
 
-    suspend fun getCategories(): List<CategoriesItem>{
+    suspend fun getCategories(): Response<List<CategoriesItem>>{
         return  apiService.getCategories()
     }
 
-    suspend fun getProductsListInEachCategory(category:Int): List<ProductsItem>{
-        return apiService.getProductsListInEachCategory(category)
-    }
+    suspend fun getProductsListInEachCategory(category:Int)
+    = apiService.getProductsListInEachCategory(category)
 
-    suspend fun getCoupons(code:String): List<Coupon>{
+    suspend fun getCoupons(code:String): Response<List<Coupon>> {
         return apiService.getCoupons(code)
     }
 
-    suspend fun getReviews(productId: Int): List<ReviewsItem> {
-        return apiService.getReviews(productId)
-    }
-
-    suspend fun getReviewById(reviewId:Int,productId: Int): ReviewsItem {
-        return apiService.getReviewById(reviewId,productId)
-    }
-
-    suspend fun deleteReview(reviewId:Int): DeleteReview {
-        return apiService.deleteReview(reviewId)
-    }
+    suspend fun getReviews(productId: Int) = apiService.getReviews(productId)
 
 
-    suspend fun createReview(review: ReviewsItem): ReviewsItem{
-        return apiService.createReview(review)
-    }
+    suspend fun getReviewById(reviewId:Int,productId: Int)
+    = apiService.getReviewById(reviewId,productId)
 
-    suspend fun editReview(reviewId:Int,reviewText:String,rating:Int): ReviewsItem{
-        return apiService.editReview(reviewId,reviewText,rating)
-    }
+    suspend fun deleteReview(reviewId:Int)= apiService.deleteReview(reviewId)
 
 
 
-    suspend fun getRelatedProducts(str:String): List<ProductsItem>{
-        return apiService.getRelatedProducts(str)
-    }
+    suspend fun createReview(review: ReviewsItem) =  apiService.createReview(review)
 
 
-    suspend fun getColorList(): List<AttributeTerm>{
-        return apiService.getColorList()
-    }
+    suspend fun editReview(reviewId:Int,reviewText:String,rating:Int)
+    = apiService.editReview(reviewId,reviewText,rating)
 
-    suspend fun getSizeList(): List<AttributeTerm>{
-        return apiService.getSizeList()
-    }
+
+
+
+    suspend fun getRelatedProducts(str:String) =  apiService.getRelatedProducts(str)
+
+
+
+    suspend fun getColorList() = apiService.getColorList()
+
+
+    suspend fun getSizeList() = apiService.getSizeList()
+
 
 
     suspend fun searchProducts(searchKey:String,orderBy: String,order: String,
-                               category: String,attribute: String,attributeTerm: String):List<ProductsItem>{
-
+                               category: String,attribute: String,attributeTerm: String)
+    :Response<List<ProductsItem>>{
         return apiService.searchProducts(searchKey,orderBy,order,category,attribute,attributeTerm)
     }
 
-    suspend fun createCustomer(customerItem: CustomerItem): CustomerItem{
-        return apiService.createCustomer(customerItem)
-    }
+    suspend fun createCustomer(customerItem: CustomerItem)= apiService.createCustomer(customerItem)
 
-    suspend fun createOrder(orderItem: OrderItem): OrderItem{
-        return apiService.createOrder(orderItem)
-    }
+
+    suspend fun createOrder(orderItem: OrderItem) = apiService.createOrder(orderItem)
+
 }

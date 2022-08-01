@@ -3,7 +3,7 @@ package com.example.onlineshop.ui.detail
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.onlineshop.data.errorHandling
+import com.example.onlineshop.data.network.utils.setErrorMessage
 import com.example.onlineshop.data.repositories.CustomerRepository
 import com.example.onlineshop.data.repositories.ProductRepository
 import com.example.onlineshop.data.repositories.ReviewRepository
@@ -37,11 +37,17 @@ class DetailViewModel @Inject constructor(private val reviewRepository: ReviewRe
         viewModelScope.launch {
             detailStatus.value = ApiStatus.LOADING
             try {
-                product.value = productRepository.getProductById(id)
-                detailStatus.value = ApiStatus.DONE
+                val response=productRepository.getProductById(id)
+                if(response.isSuccessful){
+                    product.value=response.body()
+                    detailStatus.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    detailStatus.value = ApiStatus.ERROR
+                }
             }
             catch(e: Exception){
-                errorMessage= errorHandling(e)
+                errorMessage= setErrorMessage(e)
                 detailStatus.value = ApiStatus.ERROR
             }
         }
@@ -51,7 +57,7 @@ class DetailViewModel @Inject constructor(private val reviewRepository: ReviewRe
     fun getReviews(productId: Int): LiveData<List<ReviewsItem>> {
         viewModelScope.launch {
             try {
-                reviewsList.value = reviewRepository.getReviews(productId)
+                reviewsList.value = reviewRepository.getReviews(productId).body()
             } catch (e: Exception) {
             }
         }
@@ -61,7 +67,7 @@ class DetailViewModel @Inject constructor(private val reviewRepository: ReviewRe
     fun getReviewById(reviewId:Int,productId: Int): LiveData<ReviewsItem> {
         viewModelScope.launch {
             try {
-                receivedReview.value = reviewRepository.getReviewById(reviewId,productId)
+                receivedReview.value = reviewRepository.getReviewById(reviewId,productId).body()
             } catch (e: Exception) {
             }
         }
@@ -72,11 +78,17 @@ class DetailViewModel @Inject constructor(private val reviewRepository: ReviewRe
         viewModelScope.launch {
             deleteStatus.value=ApiStatus.LOADING
             try {
-                deletedReview.value = reviewRepository.deleteReview(reviewId)
-                deleteStatus.value=ApiStatus.DONE
+                val response=reviewRepository.deleteReview(reviewId)
+                if(response.isSuccessful){
+                    deletedReview.value=response.body()
+                    deleteStatus.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    deleteStatus.value = ApiStatus.ERROR
+                }
             }
             catch(e: Exception){
-                errorMessage=errorHandling(e,"detail")
+                errorMessage=setErrorMessage(e,0,null,"detail")
                 deleteStatus.value = ApiStatus.ERROR
             }
         }
@@ -86,11 +98,17 @@ class DetailViewModel @Inject constructor(private val reviewRepository: ReviewRe
         viewModelScope.launch {
             reviewStatus.value=ApiStatus.LOADING
             try {
-                mReview.value=reviewRepository.editReview(reviewId,reviewText,rating)
-                reviewStatus.value=ApiStatus.DONE
+                val response=reviewRepository.editReview(reviewId,reviewText,rating)
+                if(response.isSuccessful){
+                    mReview.value=response.body()
+                    reviewStatus.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    reviewStatus.value = ApiStatus.ERROR
+                }
             }
             catch(e: Exception){
-                errorMessage=errorHandling(e)
+                errorMessage=setErrorMessage(e)
                 reviewStatus.value = ApiStatus.ERROR
             }
         }
@@ -101,11 +119,17 @@ class DetailViewModel @Inject constructor(private val reviewRepository: ReviewRe
         viewModelScope.launch {
             reviewStatus.value=ApiStatus.LOADING
             try {
-                mReview.value=reviewRepository.createReview(review)
-                reviewStatus.value=ApiStatus.DONE
+                val response=reviewRepository.createReview(review)
+                if(response.isSuccessful){
+                    mReview.value=response.body()
+                    reviewStatus.value = ApiStatus.DONE
+                }else{
+                    errorMessage= setErrorMessage(null,response.code(),response.errorBody())
+                    reviewStatus.value = ApiStatus.ERROR
+                }
             }
             catch(e: Exception){
-                errorMessage=errorHandling(e)
+                errorMessage=setErrorMessage(e)
                 reviewStatus.value = ApiStatus.ERROR
             }
         }
@@ -115,7 +139,7 @@ class DetailViewModel @Inject constructor(private val reviewRepository: ReviewRe
     fun getRelatedProducts(str: String) {
         viewModelScope.launch {
             try {
-                relatedProducts.value = productRepository.getRelatedProducts(str)
+                relatedProducts.value = productRepository.getRelatedProducts(str).body()
             } catch (e: Exception) {
             }
         }
