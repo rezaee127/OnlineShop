@@ -148,11 +148,12 @@ class CartFragment : Fragment() {
             }
             coupon.discountType=="percent" -> {
                 val discount=((sumPrice * coupon.amount.toDouble())/100)
-                if(coupon.maximumAmount.toDouble()!=0.00 && discount>coupon.maximumAmount.toDouble()){
-                    sumPrice -=coupon.maximumAmount.toDouble()
-                }else{
-                    sumPrice -= discount
-                }
+                if (coupon.maximumAmount!="")
+                    if(coupon.maximumAmount.toDouble()!=0.00 && discount>coupon.maximumAmount.toDouble())
+                        sumPrice -=coupon.maximumAmount.toDouble()
+                    else
+                        sumPrice -= discount
+
                 setViewAfterDiscount(coupon)
 
             }
@@ -165,10 +166,11 @@ class CartFragment : Fragment() {
                     setViewAfterDiscount(coupon)
                 }
                 else if(coupon.code=="s9pbkvt9"){
-                    if(coupon.maximumAmount.toDouble()!=0.00 && sumPrice>coupon.maximumAmount.toDouble()){
-                        sumPrice -=coupon.maximumAmount.toDouble()
-                    }else
-                        sumPrice =0.00
+                    if (coupon.maximumAmount!="")
+                        if(coupon.maximumAmount.toDouble()!=0.00 && sumPrice>coupon.maximumAmount.toDouble())
+                            sumPrice -=coupon.maximumAmount.toDouble()
+                        else
+                            sumPrice =0.00
                     setViewAfterDiscount(coupon)
                 }
             }
@@ -200,6 +202,7 @@ class CartFragment : Fragment() {
             binding.svCart.visibility=View.GONE
             binding.clCartBottom.visibility=View.GONE
             binding.clEmptyCart.visibility=View.VISIBLE
+            binding.ibShowCouponEditText.isEnabled=false
         }
 
     }
