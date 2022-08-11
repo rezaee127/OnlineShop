@@ -1,5 +1,8 @@
 # OnlineShop
 
+### An online store similar to DigiKala
+
+
 
 <br>
 
@@ -24,7 +27,7 @@
 <br>
 
  - MVVM Architecture
- - Using LiveData, KotlinCoroutines and GitFlow
+ - Using LiveData, KotlinCoroutines , RecyclerView and GitFlow
  <br>
 
 
