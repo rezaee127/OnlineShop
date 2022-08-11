@@ -3,28 +3,28 @@
 
 <br>
 
-| Splash Screen | Main | Product details |
+| Splash Screen | Main | Cart |
 |--|--|--|
-| <img src="https://user-images.githubusercontent.com/99007231/184045050-4403a717-5d97-46db-9ac4-66fb72d7a6a3.png" width=230px> | <img src="https://user-images.githubusercontent.com/99007231/184045573-7bf78847-3a55-4eb2-9c29-a90e351cec47.png" width=220px> <img src="https://user-images.githubusercontent.com/99007231/184045128-fb87f631-0efc-43a0-bbc0-c21e7e8ddc51.png" width=220px> | <img src="https://user-images.githubusercontent.com/99007231/184048693-7db33f32-6a10-4c7c-b1fe-c48d532e3013.png" width=230px> |
+| <img src="https://user-images.githubusercontent.com/99007231/184045050-4403a717-5d97-46db-9ac4-66fb72d7a6a3.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184045573-7bf78847-3a55-4eb2-9c29-a90e351cec47.png" width=170px> <img src="https://user-images.githubusercontent.com/99007231/184045128-fb87f631-0efc-43a0-bbc0-c21e7e8ddc51.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184050159-27a576ef-998c-45a7-a563-f7bb69a66293.png" width=170px> |
 <br>
 <br>
 
-| Coming Soon  | Search | Search |
+| Categories  | Product details | Submit Comment |
 |--|--|--|
-| <img src="https://user-images.githubusercontent.com/99007231/184048693-7db33f32-6a10-4c7c-b1fe-c48d532e3013.png" width=250px> | <img src="https://user-images.githubusercontent.com/99007231/184022794-27373295-8892-46fd-9717-550e76a905c0.png" width=250px> | <img src="https://user-images.githubusercontent.com/99007231/184022827-bce8eecd-f4ff-4626-a93c-d59c823a12d3.png" width=250px> |
+| <img src="https://user-images.githubusercontent.com/99007231/184043401-1cff6810-cedc-4a50-a818-74eaa2d2a49e.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184048701-b1132216-21cb-4ce9-9176-29104453062c.png" width=170px> <img src="https://user-images.githubusercontent.com/99007231/184056209-3046cd0c-83d9-45d9-b2ea-451224f4e2fb.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184057143-e9a8b4f1-c205-48fe-8c9c-d72e74d72a40.png" width=170px> |
 <br>
 <br>
 
 
-| Show Video | Movie details  | Show Video | 
+| Category Items |Search  | Map | 
 |--|--|--|
-|  <img src="https://user-images.githubusercontent.com/99007231/184024486-4cc2fb1f-3ecd-4f72-8e80-2e19d8f3dc73.png" width=250px> | <img src="https://user-images.githubusercontent.com/99007231/184024504-da1c58b4-d8c7-4f69-a314-34621e1dd028.png" width=250px> | <img src="https://user-images.githubusercontent.com/99007231/184028047-cd3908c9-22b0-40b9-9dd3-aa4ffc53fa90.png" width=250px> |
+| <img src="https://user-images.githubusercontent.com/99007231/184043424-1afed87d-7bdc-4b61-97e8-da960fe1177c.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184049581-e6542a64-6a37-4312-aac0-12a090370553.png" width=170px> <img src="https://user-images.githubusercontent.com/99007231/184049456-4c684297-f59d-4de9-bde6-b23370189dca.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184058552-bdae6be7-e3bb-4da5-bdc5-12c2bf1bb405.png" width=170px> |
 
 
 <br>
 
  - MVVM Architecture
- - Using LiveData , DataBinding , WebView and GitFlow
+ - Using LiveData, KotlinCoroutines and GitFlow
  <br>
 
 
@@ -32,26 +32,22 @@
 
 
  ## Features & Components
- - Custom Dialog
  - Dependency Injection
- - ViewPager & indicator
+ - ViewPager & Indicator
  - Interceptor
- - Error handling
+ - Error Handling
  - Map
- - Light & Dark Mode
+ - Set Theme
  - Bottom Navigation
- - selector
- - SwipeRefresh
  - connectivity check
  
  ## External Libraries
  - Material
  - Retrofit
  - Moshi
- - Lottie Animation
- - Shimmer Layout
- - Kotlin Parcelize
- - Hilt
  - Interceptor
- - Glide
  - Google Maps
+ - Hilt
+ - Shared Preferences
+ - Glide
+ 
