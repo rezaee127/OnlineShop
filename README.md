@@ -5,7 +5,7 @@
 
 | Splash Screen | Main | Cart |
 |--|--|--|
-| <img src="https://user-images.githubusercontent.com/99007231/184045050-4403a717-5d97-46db-9ac4-66fb72d7a6a3.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184045573-7bf78847-3a55-4eb2-9c29-a90e351cec47.png" width=170px> <img src="https://user-images.githubusercontent.com/99007231/184045128-fb87f631-0efc-43a0-bbc0-c21e7e8ddc51.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184050159-27a576ef-998c-45a7-a563-f7bb69a66293.png" width=170px> |
+| <img src="https://user-images.githubusercontent.com/99007231/184059832-826c6f17-3351-49f0-abe3-a34dfabe0ec3.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184045573-7bf78847-3a55-4eb2-9c29-a90e351cec47.png" width=170px> <img src="https://user-images.githubusercontent.com/99007231/184045128-fb87f631-0efc-43a0-bbc0-c21e7e8ddc51.png" width=170px> | <img src="https://user-images.githubusercontent.com/99007231/184050159-27a576ef-998c-45a7-a563-f7bb69a66293.png" width=170px> |
 <br>
 <br>
 
